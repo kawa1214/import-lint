@@ -9,6 +9,10 @@ The Import Lint package defines import lint rules and report on lints found in D
 1. Add import_lint as a dev_dependencies in pubspec.yamls.
 
 ```
+flutter pub add --dev import_lint
+
+or
+
 dart pub add --dev import_lint
 ```
 
