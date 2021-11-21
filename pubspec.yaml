@@ -1,6 +1,6 @@
 name: import_lint
 description: The Import Lint package defines import lint rules and report on lints found in Dart code.
-version: 0.2.0
+version: 0.2.1
 homepage: https://kawa.dev
 repository: https://github.com/kawa1214/import-lint
 
