@@ -29,8 +29,13 @@ import_lint:
             search_file_path_reg_exp: ".*repository.dart$"
             not_allow_import_reg_exps: [".*repository.dart", ".*use_case.dart"]
             exclude_import_reg_exps: []
+        # add custom rules...
 
 ```
+
+By adding import_lint plugin to get the warnings directly in your IDE by configuring.
+
+![vscode](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/vscode.png)
 
 1. Add import_lint as a dev_dependencies in pubspec.yamls.
 
@@ -38,7 +43,7 @@ import_lint:
 dart pub add --dev import_lint
 ```
 
-3. run import_lint
+3. run import_lint(CLI Support)
 
 ```
 flutter pub run import_lint
