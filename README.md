@@ -6,7 +6,13 @@ The Import Lint package defines import lint rules and report on lints found in D
 
 ## 😻 Usage
 
-1. You have lints configured in an `analysis_options.yaml` file at the root of your project.
+1. Add import_lint as a dev_dependencies in pubspec.yamls.
+
+```
+dart pub add --dev import_lint
+```
+
+2. You have lints configured in an `analysis_options.yaml` file at the root of your project.
 
 - search_file_path_reg_exp: Specify a file paths to analyze.(RegExp)
 - not_allow_import_reg_exps: Specify import rules not to allow.(List of RegExp)
@@ -36,12 +42,6 @@ import_lint:
 By adding import_lint plugin to get the warnings directly in your IDE by configuring.
 
 ![vscode](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/vscode.png)
-
-1. Add import_lint as a dev_dependencies in pubspec.yamls.
-
-```
-dart pub add --dev import_lint
-```
 
 3. run import_lint(CLI Support)
 
