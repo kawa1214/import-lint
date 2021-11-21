@@ -1,0 +1,14 @@
+analyzer:
+  plugins:
+    - import_lint
+
+import_lint:
+  rules:
+    use_case_rule:
+      search_file_path_reg_exp: ".*use_case.dart$"
+      not_allow_import_reg_exps: [".*use_case.dart"]
+      exclude_import_reg_exps: [".*base_use_case.dart"]
+    repository_rule:
+      search_file_path_reg_exp: ".*repository.dart$"
+      not_allow_import_reg_exps: [".*repository.dart", ".*use_case.dart"]
+      exclude_import_reg_exps: []
