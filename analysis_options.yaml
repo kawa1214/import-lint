@@ -1,2 +1,16 @@
 analyzer:
   exclude: [example/**, tools/**]
+linter:
+  rules:
+    - prefer_asserts_in_initializer_lists
+    - prefer_constructors_over_static_methods
+    - prefer_final_in_for_each
+    - prefer_final_locals
+    - prefer_foreach
+    - prefer_int_literals
+    - prefer_interpolation_to_compose_strings
+    - prefer_single_quotes
+    - sort_child_properties_last
+    - sort_constructors_first
+    - sort_pub_dependencies
+    - sort_unnamed_constructors_first

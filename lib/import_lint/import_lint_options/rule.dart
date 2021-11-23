@@ -1,21 +1,20 @@
 import 'dart:convert' as convert;
-
 import 'dart:io' as io;
-import 'package:yaml/yaml.dart' as yaml;
+
 import 'package:glob/glob.dart';
+import 'package:yaml/yaml.dart' as yaml;
 
 class Rules {
   const Rules(this.value);
-  final List<Rule> value;
   factory Rules.fromOptionsFile(String? path) {
     if (path == null) {
       throw Exception(
-        'Not Found: import_analysis_options.yaml file at the root of your project.',
+        'Not Found: import_analysis_options.yaml file'
+        'at the root of your project.',
       );
     }
 
-    final file = io.File(path);
-    final value = file.readAsStringSync();
+    final value = io.File(path).readAsStringSync();
     final loadedYaml = yaml.loadYaml(value);
     final encoded = convert.jsonEncode(loadedYaml['import_lint']['rules']);
     final rulesMap = convert.jsonDecode(encoded) as Map<String, dynamic>;
@@ -31,6 +30,7 @@ class Rules {
     }
     return Rules(result);
   }
+  final List<Rule> value;
 }
 
 class Rule {
@@ -40,11 +40,6 @@ class Rule {
     required this.notAllowImports,
     required this.excludeImports,
   });
-
-  final String name;
-  final Glob searchFilePath;
-  final List<Glob> notAllowImports;
-  final List<Glob> excludeImports;
 
   factory Rule.ofMap({
     required Map<String, dynamic> ruleMap,
@@ -66,4 +61,8 @@ class Rule {
       excludeImports: excludeImports,
     );
   }
+  final String name;
+  final Glob searchFilePath;
+  final List<Glob> notAllowImports;
+  final List<Glob> excludeImports;
 }

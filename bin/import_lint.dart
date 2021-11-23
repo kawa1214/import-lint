@@ -1,22 +1,20 @@
-import 'package:import_lint/constants/package_name.dart';
-import 'package:import_lint/import_lint/issue.dart';
-
 import 'dart:io' as io;
+
+import 'package:import_lint/import_lint/import_lint_options.dart';
+import 'package:import_lint/import_lint/issue.dart';
 
 void main(List<String> arguments) {
   try {
-    final directoryPath = io.Directory.current.path;
-    final issues = Issues.ofInitCli(directoryPath: directoryPath);
+    final rootDirectoryPath = io.Directory.current.path;
+    final options = ImportLintOptions.init(directoryPath: rootDirectoryPath);
 
-    io.stdout.writeln(
-      issues.output(
-        directoryPath: directoryPath,
-        packageName: packageNameFromPath(directoryPath),
-      ),
-    );
+    final issues = Issues.ofInitCli(options: options);
+
+    io.stdout.writeln(issues.output);
     io.exit(0);
-  } catch (e) {
-    io.stdout.writeln('😿' + e.toString().replaceAll('Exception: ', ''));
+  } catch (e, s) {
+    io.stdout.writeln('${e.toString()}\n');
+    io.stdout.writeln(s);
     io.exit(1);
   }
 }

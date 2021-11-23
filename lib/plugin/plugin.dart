@@ -1,27 +1,25 @@
 import 'dart:async';
-import 'dart:io' as io;
-import 'package:analyzer/source/line_info.dart';
-import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
-import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer_plugin/plugin/plugin.dart';
+
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-// ignore: implementation_imports
+import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/source/line_info.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
-// ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
+import 'package:analyzer_plugin/plugin/plugin.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
+import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:import_lint/import_lint/import_lint_options.dart';
 import 'package:import_lint/import_lint/issue.dart';
-import 'package:import_lint/import_lint/issue/line.dart';
-import 'package:import_lint/import_lint/issue/path.dart';
-import 'package:import_lint/import_lint/rule.dart';
+import 'package:import_lint/import_lint/import_lint_options/rule.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
   late Rules rules;
   late String rootDirectoryPath;
+  late ImportLintOptions options;
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
@@ -64,9 +62,9 @@ class ImportLintPlugin extends ServerPlugin {
     final context = analysisContext as DriverBasedAnalysisContext;
     final dartDriver = context.driver;
 
-    rootDirectoryPath = context.contextRoot.root.path;
-
     try {
+      rootDirectoryPath = context.contextRoot.root.path;
+      options = ImportLintOptions.init(directoryPath: rootDirectoryPath);
       rules = Rules.fromOptionsFile(context.contextRoot.optionsFile?.path);
     } catch (e, s) {
       channel.sendNotification(
@@ -171,33 +169,13 @@ class ImportLintPlugin extends ServerPlugin {
     required Rules rules,
     List<String>? contentLines,
   }) {
-    final file = io.File(path);
-
-    final lines = contentLines ?? file.readAsLinesSync();
-    final issues = <Issue>[];
-
-    for (var i = 0; i < lines.length; i++) {
-      final line = lines[i];
-      final startOffset = lineInfo.getOffsetOfLine(i);
-      final issue = Issue(
-        filePath: Path(path),
-        line: Line(line),
-        lineIndex: i,
-        startOffset: startOffset,
-      );
-
-      issues.add(issue);
-    }
-
-    final errors = issues
-        .where((e) => e.isError(
-              rules: rules,
-              directoryPath: rootDirectoryPath,
-            ))
-        .map((e) => e.pluginError)
-        .toList();
+    final issues = Issues.ofInitPlugin(
+      options: options,
+      filePath: path,
+      lineInfo: lineInfo,
+      rules: rules,
+    );
+    final errors = issues.value.map((e) => e.pluginError).toList();
     return errors;
-
-    return [];
   }
 }

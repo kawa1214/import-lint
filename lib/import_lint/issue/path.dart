@@ -4,7 +4,6 @@ import 'package:glob/glob.dart';
 
 class Paths {
   const Paths(this.value);
-  final List<Path> value;
 
   factory Paths.ofDartFile({required String directoryPath}) {
     final dartFileRegExp = Glob('$directoryPath/lib/**/*.dart');
@@ -18,6 +17,8 @@ class Paths {
     }
     return Paths(result);
   }
+
+  final List<Path> value;
 }
 
 class Path {

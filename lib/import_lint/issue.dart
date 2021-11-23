@@ -1,21 +1,21 @@
+import 'dart:io' as io;
+
+import 'package:analyzer/source/line_info.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
-import 'package:import_lint/constants/options_file_path.dart';
-import 'package:import_lint/constants/package_name.dart';
+import 'package:import_lint/import_lint/import_lint_options.dart';
 import 'package:import_lint/import_lint/issue/line.dart';
 import 'package:import_lint/import_lint/issue/path.dart';
 
-import 'dart:io' as io;
-import 'rule.dart';
+import 'import_lint_options/rule.dart';
 
+/// In CLI, it is created in execution units, and in Plugin, it is created in file units.
 class Issues {
-  const Issues(this.value);
-  final List<Issue> value;
+  const Issues(this.value, this.options);
 
-  /// Used Only in CLI
-  factory Issues.ofInitCli({required String directoryPath}) {
-    final paths = Paths.ofDartFile(directoryPath: directoryPath);
-    final rules =
-        Rules.fromOptionsFile(optionsFilePath(directoryPath: directoryPath));
+  factory Issues.ofInitCli({
+    required ImportLintOptions options,
+  }) {
+    final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
 
     final issues = <Issue>[];
     for (final path in paths.value) {
@@ -33,17 +33,49 @@ class Issues {
     }
     final errorIssues = issues
         .where((e) => e.isError(
-              rules: rules,
-              directoryPath: directoryPath,
+              rules: options.rules,
+              options: options,
             ))
         .toList();
-    return Issues(errorIssues);
+    return Issues(errorIssues, options);
   }
 
-  String output({
-    required String packageName,
-    required String directoryPath,
+  factory Issues.ofInitPlugin({
+    required ImportLintOptions options,
+    required String filePath,
+    required plugin.LineInfo lineInfo,
+    required Rules rules,
+    List<String>? contentLines,
   }) {
+    final lines = contentLines ?? io.File(filePath).readAsLinesSync();
+    final issues = <Issue>[];
+
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      final startOffset = lineInfo.getOffsetOfLine(i);
+      final issue = Issue(
+        filePath: Path(filePath),
+        line: Line(line),
+        lineIndex: i,
+        startOffset: startOffset,
+      );
+
+      issues.add(issue);
+    }
+
+    final errorIssues = issues
+        .where((e) => e.isError(
+              rules: rules,
+              options: options,
+            ))
+        .toList();
+    return Issues(errorIssues, options);
+  }
+
+  final List<Issue> value;
+  final ImportLintOptions options;
+
+  String get output {
     if (value.isEmpty) {
       return 'No issues found! 🎉';
     }
@@ -58,7 +90,9 @@ class Issues {
           .replaceAll('lib/', '');
       final modLineContent = issue.line.value.replaceAll(';', '');
       buffer.write(
-        '   ${issue.rule?.name} • package:${packageName}$modFilePath:${issue.lineIndex} • $modLineContent \n',
+        '   ${issue.rule?.name} '
+        '• package:${options.packageName}$modFilePath:${issue.lineIndex + 1} '
+        '• $modLineContent \n',
       );
     }
 
@@ -94,19 +128,19 @@ class Issue {
 
   plugin.AnalysisError get pluginError {
     return plugin.AnalysisError(
-      plugin.AnalysisErrorSeverity('INFO'),
+      plugin.AnalysisErrorSeverity('WARNING'),
       plugin.AnalysisErrorType.LINT,
       location,
       'Found Import Lint Error: ${rule?.name}',
       'import_lint',
       correction: 'Try removing the import.',
-      hasFix: true,
+      hasFix: false,
     );
   }
 
   bool isError({
     required Rules rules,
-    required String directoryPath,
+    required ImportLintOptions options,
   }) {
     for (final ruleValue in rules.value) {
       if (!ruleValue.searchFilePath.matches(filePath.value)) {
@@ -120,14 +154,14 @@ class Issue {
 
         if (notAllowImportRule.matches(line.convertLibPath(
           filePath: filePath,
-          packageName: packageNameFromPath(directoryPath),
-          directoryPath: directoryPath,
+          packageName: options.packageName,
+          directoryPath: options.directoryPath,
         ))) {
           final isIgnore = ruleValue.excludeImports
               .map((e) => e.matches(line.convertLibPath(
                     filePath: filePath,
-                    packageName: packageNameFromPath(directoryPath),
-                    directoryPath: directoryPath,
+                    packageName: options.packageName,
+                    directoryPath: options.directoryPath,
                   )))
               .contains(true);
           if (isIgnore) {

@@ -1,8 +1,5 @@
-import 'package:import_lint/constants/package_name.dart';
 import 'package:import_lint/import_lint/issue/path.dart';
 import 'package:path/path.dart' as p;
-
-import 'dart:io' as io;
 
 class Line {
   const Line(this.value);
@@ -25,12 +22,12 @@ class Line {
         .replaceAll('package:$packageName', '');
 
     if (p.isAbsolute(importPath)) {
-      return '/lib' + importPath;
+      return '/lib$importPath';
     }
 
     final dir = p.dirname(filePath.value);
 
-    final relativeToAbsolutePath = p.normalize(dir + '/' + importPath + '/');
+    final relativeToAbsolutePath = p.normalize('$dir/$importPath/');
     final converted = relativeToAbsolutePath.replaceAll(directoryPath, '');
 
     return converted;

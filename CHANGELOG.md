@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Glob Support
+- Relative Import Support
+
 ## 0.2.2
 
 - Update README.md
