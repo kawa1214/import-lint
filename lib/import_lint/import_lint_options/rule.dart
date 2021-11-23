@@ -36,7 +36,7 @@ class Rules {
 class Rule {
   const Rule({
     required this.name,
-    required this.searchFilePath,
+    required this.targetFilePath,
     required this.notAllowImports,
     required this.excludeImports,
   });
@@ -45,7 +45,7 @@ class Rule {
     required Map<String, dynamic> ruleMap,
     required String name,
   }) {
-    final searchFilePath = Glob(ruleMap['search_file_path']);
+    final targetFilePath = Glob(ruleMap['target_file_path']);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
         .map((e) => Glob(e.toString()))
@@ -56,13 +56,13 @@ class Rule {
 
     return Rule(
       name: name,
-      searchFilePath: searchFilePath,
+      targetFilePath: targetFilePath,
       notAllowImports: notAllowImports,
       excludeImports: excludeImports,
     );
   }
   final String name;
-  final Glob searchFilePath;
+  final Glob targetFilePath;
   final List<Glob> notAllowImports;
   final List<Glob> excludeImports;
 }

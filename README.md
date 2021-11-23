@@ -18,7 +18,7 @@ dart pub add --dev import_lint
 
 2. You have lints configured in an `analysis_options.yaml` file at the root of your project.
 
-- search_file_path: Specify a file paths to analyze.
+- target_file_path: Specify a file paths to analyze.
 - not_allow_imports: Specify import rules not to allow.
 - exclude_imports: Specify exclude import rules.
 
@@ -32,11 +32,11 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            search_file_path: "/**/use_case/*_use_case.dart"
+            target_file_path: "/**/use_case/*_use_case.dart"
             not_allow_imports: ["/**/use_case/*_use_case.dart"]
             exclude_imports: ["/lib/use_case/base_use_case.dart"]
         repository_rule:
-            search_file_path: "/**/repository/*_repository.dart"
+            target_file_path: "/**/repository/*_repository.dart"
             not_allow_imports:
                 ["/**/use_case/*_repository.dart", "/**/use_case/*_use_case.dart"]
             exclude_imports: []
@@ -79,11 +79,11 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            search_file_path: "/**/use_case/*_use_case.dart"
+            target_file_path: "/**/use_case/*_use_case.dart"
             not_allow_imports: ["/**/use_case/*_use_case.dart"]
             exclude_imports: ["/lib/use_case/base_use_case.dart"]
         repository_rule:
-            search_file_path: "/**/repository/*_repository.dart"
+            target_file_path: "/**/repository/*_repository.dart"
             not_allow_imports:
                 ["/**/use_case/*_repository.dart", "/**/use_case/*_use_case.dart"]
             exclude_imports: []

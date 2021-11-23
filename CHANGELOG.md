@@ -1,3 +1,6 @@
+## 0.3.1
+
+- search_file_path to target_file_path
 ## 0.3.0
 
 - Glob Support

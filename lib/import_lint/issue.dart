@@ -143,7 +143,7 @@ class Issue {
     required ImportLintOptions options,
   }) {
     for (final ruleValue in rules.value) {
-      if (!ruleValue.searchFilePath.matches(filePath.value)) {
+      if (!ruleValue.targetFilePath.matches(filePath.value)) {
         continue;
       }
 
