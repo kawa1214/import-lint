@@ -1,0 +1,471 @@
+/Users/ryo/Documents/project/import-lint/example
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test/test_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/foo_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/bin/example.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_one_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test/test_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/foo_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/bin/example.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_one_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test/test_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/foo_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/bin/example.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_one_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test/test_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/foo_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/bin/example.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_one_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart
+/Users/ryo/Documents/project/import-lint/example
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test/test_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/foo_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/repository/test_one_repository.dart';
+replaceImportPath: /repository/test_one_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/use_case/base_use_case.dart';
+replaceImportPath: /use_case/base_use_case.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import 'package:example/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+lineValue: import '/use_case/test_two_use_case.dart';
+replaceImportPath: /use_case/test_two_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/bin/example.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_one_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import 'package:example/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '../use_case/base_use_case.dart';
+replaceImportPath: ../use_case/base_use_case.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+lineValue: import '/repository/test_two_repository.dart';
+replaceImportPath: /repository/test_two_repository.dart
+/Users/ryo/Documents/project/import-lint/example/lib/repository/test_two_repository.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+lineValue: import 'package:example/use_case/test_one_use_case.dart';
+replaceImportPath: /use_case/test_one_use_case.dart
+/Users/ryo/Documents/project/import-lint/example/lib/use_case/base_use_case.dart

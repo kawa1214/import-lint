@@ -5,10 +5,11 @@ analyzer:
 import_lint:
   rules:
     use_case_rule:
-      search_file_path_reg_exp: ".*use_case.dart$"
-      not_allow_import_reg_exps: [".*use_case.dart"]
-      exclude_import_reg_exps: [".*base_use_case.dart"]
+      search_file_path: "/**/use_case/*_use_case.dart"
+      not_allow_imports: ["/**/use_case/*_use_case.dart"]
+      exclude_imports: ["/lib/use_case/base_use_case.dart"]
     repository_rule:
-      search_file_path_reg_exp: ".*repository.dart$"
-      not_allow_import_reg_exps: [".*repository.dart", ".*use_case.dart"]
-      exclude_import_reg_exps: []
+      search_file_path: "/**/repository/*_repository.dart"
+      not_allow_imports:
+        ["/**/use_case/*_repository.dart", "/**/use_case/*_use_case.dart"]
+      exclude_imports: []

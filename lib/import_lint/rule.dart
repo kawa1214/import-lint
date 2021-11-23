@@ -2,16 +2,18 @@ import 'dart:convert' as convert;
 
 import 'dart:io' as io;
 import 'package:yaml/yaml.dart' as yaml;
+import 'package:glob/glob.dart';
 
 class Rules {
   const Rules(this.value);
   final List<Rule> value;
-  factory Rules.fromParsedYaml(String? path) {
+  factory Rules.fromOptionsFile(String? path) {
     if (path == null) {
       throw Exception(
         'Not Found: import_analysis_options.yaml file at the root of your project.',
       );
     }
+
     final file = io.File(path);
     final value = file.readAsStringSync();
     final loadedYaml = yaml.loadYaml(value);
@@ -22,28 +24,10 @@ class Rules {
 
     final result = <Rule>[];
     for (final name in ruleNames) {
-      final rule = rulesMap[name];
+      final ruleMap = rulesMap[name];
+      final rule = Rule.ofMap(ruleMap: ruleMap, name: name);
 
-      final searchFilePathRegExp = RegExp(rule['search_file_path_reg_exp']);
-
-      final notAllowImportRegExps =
-          (rule['not_allow_import_reg_exps'] as List<dynamic>)
-              .map((e) => RegExp(e.toString()))
-              .toList();
-
-      final excludeImportRegExps =
-          (rule['exclude_import_reg_exps'] as List<dynamic>)
-              .map((e) => RegExp(e.toString()))
-              .toList();
-
-      result.add(
-        Rule(
-          name: name,
-          searchFilePathRegExp: searchFilePathRegExp,
-          notAllowImportRegExps: notAllowImportRegExps,
-          excludeImportRegExps: excludeImportRegExps,
-        ),
-      );
+      result.add(rule);
     }
     return Rules(result);
   }
@@ -52,13 +36,34 @@ class Rules {
 class Rule {
   const Rule({
     required this.name,
-    required this.searchFilePathRegExp,
-    required this.notAllowImportRegExps,
-    required this.excludeImportRegExps,
+    required this.searchFilePath,
+    required this.notAllowImports,
+    required this.excludeImports,
   });
 
   final String name;
-  final RegExp searchFilePathRegExp;
-  final List<RegExp> notAllowImportRegExps;
-  final List<RegExp> excludeImportRegExps;
+  final Glob searchFilePath;
+  final List<Glob> notAllowImports;
+  final List<Glob> excludeImports;
+
+  factory Rule.ofMap({
+    required Map<String, dynamic> ruleMap,
+    required String name,
+  }) {
+    final searchFilePath = Glob(ruleMap['search_file_path']);
+
+    final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
+        .map((e) => Glob(e.toString()))
+        .toList();
+    final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
+        .map((e) => Glob(e.toString()))
+        .toList();
+
+    return Rule(
+      name: name,
+      searchFilePath: searchFilePath,
+      notAllowImports: notAllowImports,
+      excludeImports: excludeImports,
+    );
+  }
 }

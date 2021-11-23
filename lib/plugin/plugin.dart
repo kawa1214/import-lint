@@ -13,16 +13,19 @@ import 'package:analyzer/src/dart/analysis/driver.dart';
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:import_lint/import_lint/issue.dart';
+import 'package:import_lint/import_lint/issue/line.dart';
+import 'package:import_lint/import_lint/issue/path.dart';
 import 'package:import_lint/import_lint/rule.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
   late Rules rules;
+  late String rootDirectoryPath;
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
+  List<String> get fileGlobsToAnalyze => <String>['/lib/**/*.dart'];
 
   @override
   String get name => 'Import Lint';
@@ -61,8 +64,10 @@ class ImportLintPlugin extends ServerPlugin {
     final context = analysisContext as DriverBasedAnalysisContext;
     final dartDriver = context.driver;
 
+    rootDirectoryPath = context.contextRoot.root.path;
+
     try {
-      rules = Rules.fromParsedYaml(context.contextRoot.optionsFile?.path);
+      rules = Rules.fromOptionsFile(context.contextRoot.optionsFile?.path);
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -79,6 +84,7 @@ class ImportLintPlugin extends ServerPlugin {
           if (analysisResult is ResolvedUnitResult) {
             final path = analysisResult.path;
             final contentLines = analysisResult.content.split('\n');
+
             final errors = _checkFile(
               path: path,
               lineInfo: analysisResult.lineInfo,
@@ -93,16 +99,10 @@ class ImportLintPlugin extends ServerPlugin {
               ).toNotification(),
             );
           } else if (analysisResult is ErrorsResult) {
-            final path = analysisResult.path;
-            final errors = _checkFile(
-              path: path,
-              lineInfo: analysisResult.lineInfo,
-              rules: rules,
-            );
-
-            channel.sendNotification(plugin.AnalysisErrorsParams(
-              path,
-              errors,
+            channel.sendNotification(plugin.PluginErrorParams(
+              false,
+              'ErrorResult ${analysisResult}',
+              '',
             ).toNotification());
           }
         });
@@ -172,24 +172,32 @@ class ImportLintPlugin extends ServerPlugin {
     List<String>? contentLines,
   }) {
     final file = io.File(path);
+
     final lines = contentLines ?? file.readAsLinesSync();
     final issues = <Issue>[];
+
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
       final startOffset = lineInfo.getOffsetOfLine(i);
       final issue = Issue(
-        filePath: path,
-        lineContent: line,
+        filePath: Path(path),
+        line: Line(line),
         lineIndex: i,
         startOffset: startOffset,
       );
 
       issues.add(issue);
     }
+
     final errors = issues
-        .where((e) => e.isError(rules: rules))
-        .map((e) => e.toPluginError)
+        .where((e) => e.isError(
+              rules: rules,
+              directoryPath: rootDirectoryPath,
+            ))
+        .map((e) => e.pluginError)
         .toList();
     return errors;
+
+    return [];
   }
 }
