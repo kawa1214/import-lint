@@ -1,5 +1,7 @@
 ![cover](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/cover.png)
 
+[![codecov](https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP)](https://codecov.io/gh/kawa1214/import-lint)
+
 # Why import lint?
 
 The Import Lint package defines import lint rules and report on lints found in Dart code.
@@ -135,5 +137,4 @@ repository_rule • package:import_analyzer_test/repository/test_one_repository.
 - [x] Analyzer Plugin Support
 - [x] CLI Support
 - [x] Ignore Import Line
-- [ ] Directory Support
-- [ ] Add Test
+- [x] Add Test
