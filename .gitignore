@@ -7,4 +7,4 @@ build/
 coverage/
 
 # Files and directories created by test.
-test/helper/generated_project/
+test/helper/generated_project/**
