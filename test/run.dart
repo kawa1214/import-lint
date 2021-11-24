@@ -1,3 +1,6 @@
+@Tags(['presubmit-only'])
+import 'package:test/test.dart';
+
 import 'import_lint/import_lint_options.dart';
 import 'import_lint/issue.dart';
 

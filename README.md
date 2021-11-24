@@ -48,7 +48,7 @@ By adding import_lint plugin to get the warnings directly in your IDE by configu
 
 ![vscode](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/vscode.png)
 
-1. run import_lint(CLI Support)
+3. run import_lint(CLI Support)
 
 ```
 flutter pub run import_lint

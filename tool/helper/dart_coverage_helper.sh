@@ -13,4 +13,4 @@ echo "/// Helper to test coverage for all project files" >> "$outputFile"
 
 echo "// ignore_for_file: unused_import" >> "$outputFile"
 
-find lib -name '*.dart' | grep -v '.g.dart' | grep -v 'generated_plugin_registrant' | awk -v package=$packageName '{gsub("^lib", "", $1); printf("import '\''package:%s%s'\'';\n", package, $1);}' >> "$outputFile"
+find lib -name '*.dart' | grep -v '/plugin/' | grep -v '.g.dart' | grep -v 'generated_plugin_registrant' | awk -v package=$packageName '{gsub("^lib", "", $1); printf("import '\''package:%s%s'\'';\n", package, $1);}' >> "$outputFile"

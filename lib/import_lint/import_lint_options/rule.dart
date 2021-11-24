@@ -6,16 +6,18 @@ import 'package:yaml/yaml.dart' as yaml;
 
 class Rules {
   const Rules(this.value);
-  factory Rules.fromOptionsFile(String? path) {
-    if (path == null) {
+  factory Rules.fromOptionsFile(String path) {
+    late String readValue;
+    try {
+      readValue = io.File(path).readAsStringSync();
+    } on Exception catch (e) {
       throw Exception(
-        'Not Found: import_analysis_options.yaml file'
-        'at the root of your project.',
+        'Not found import_analysis_options.yaml file'
+        'at the root of your project.'
+        '\n $e',
       );
     }
-
-    final value = io.File(path).readAsStringSync();
-    final loadedYaml = yaml.loadYaml(value);
+    final loadedYaml = yaml.loadYaml(readValue);
     final encoded = convert.jsonEncode(loadedYaml['import_lint']['rules']);
     final rulesMap = convert.jsonDecode(encoded) as Map<String, dynamic>;
 

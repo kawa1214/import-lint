@@ -27,9 +27,17 @@ class ImportLintOptions {
 
   static String _packageName(String directoryPath) {
     final pubspecFile = io.File('$directoryPath/$_pubspecFileName');
-    final value = pubspecFile.readAsStringSync();
+    late String value;
+    try {
+      value = pubspecFile.readAsStringSync();
+    } on Exception catch (e) {
+      throw Exception(
+        'Not found pubspec.yaml file'
+        'at the root of your project.'
+        '\n$e',
+      );
+    }
     final loadYaml = yaml.loadYaml(value);
-
     return loadYaml['name'];
   }
 

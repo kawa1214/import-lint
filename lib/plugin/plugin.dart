@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/context_builder.dart';
@@ -12,12 +14,10 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:import_lint/import_lint/import_lint_options.dart';
 import 'package:import_lint/import_lint/issue.dart';
-import 'package:import_lint/import_lint/import_lint_options/rule.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
-  late Rules rules;
   late String rootDirectoryPath;
   late ImportLintOptions options;
   var _filesFromSetPriorityFilesRequest = <String>[];
@@ -65,7 +65,6 @@ class ImportLintPlugin extends ServerPlugin {
     try {
       rootDirectoryPath = context.contextRoot.root.path;
       options = ImportLintOptions.init(directoryPath: rootDirectoryPath);
-      rules = Rules.fromOptionsFile(context.contextRoot.optionsFile?.path);
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -86,7 +85,6 @@ class ImportLintPlugin extends ServerPlugin {
             final errors = _checkFile(
               path: path,
               lineInfo: analysisResult.lineInfo,
-              rules: rules,
               contentLines: contentLines,
             );
 
@@ -166,14 +164,13 @@ class ImportLintPlugin extends ServerPlugin {
   List<plugin.AnalysisError> _checkFile({
     required String path,
     required LineInfo lineInfo,
-    required Rules rules,
-    List<String>? contentLines,
+    required List<String> contentLines,
   }) {
     final issues = Issues.ofInitPlugin(
       options: options,
       filePath: path,
       lineInfo: lineInfo,
-      rules: rules,
+      contentLines: contentLines,
     );
     final errors = issues.value.map((e) => e.pluginError).toList();
     return errors;

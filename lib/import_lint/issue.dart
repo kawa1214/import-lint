@@ -33,7 +33,6 @@ class Issues {
     }
     final errorIssues = issues
         .where((e) => e.isError(
-              rules: options.rules,
               options: options,
             ))
         .toList();
@@ -44,14 +43,12 @@ class Issues {
     required ImportLintOptions options,
     required String filePath,
     required plugin.LineInfo lineInfo,
-    required Rules rules,
-    List<String>? contentLines,
+    required List<String> contentLines,
   }) {
-    final lines = contentLines ?? io.File(filePath).readAsLinesSync();
     final issues = <Issue>[];
 
-    for (var i = 0; i < lines.length; i++) {
-      final line = lines[i];
+    for (var i = 0; i < contentLines.length; i++) {
+      final line = contentLines[i];
       final startOffset = lineInfo.getOffsetOfLine(i);
       final issue = Issue(
         filePath: Path(filePath),
@@ -65,7 +62,6 @@ class Issues {
 
     final errorIssues = issues
         .where((e) => e.isError(
-              rules: rules,
               options: options,
             ))
         .toList();
@@ -139,10 +135,9 @@ class Issue {
   }
 
   bool isError({
-    required Rules rules,
     required ImportLintOptions options,
   }) {
-    for (final ruleValue in rules.value) {
+    for (final ruleValue in options.rules.value) {
       if (!ruleValue.targetFilePath.matches(filePath.value)) {
         continue;
       }

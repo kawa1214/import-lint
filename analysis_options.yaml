@@ -1,5 +1,5 @@
 analyzer:
-  exclude: [example/**, tools/**]
+  exclude: [example/**, tools/**, test/helper/generated_project/**]
 linter:
   rules:
     - prefer_asserts_in_initializer_lists
