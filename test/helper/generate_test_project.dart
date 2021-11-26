@@ -54,6 +54,26 @@ class GenerateTestProject {
     return project;
   }
 
+  factory GenerateTestProject.ofLibraryPrefixIImportDartFiles() {
+    final project = GenerateTestProject();
+    project.files.addAll([
+      GenerateFile.ofAnalysisOptions(),
+      GenerateFile.ofPubspecYaml(),
+      GenerateFile.ofLibraryPrefixImportDartFiles(),
+    ]);
+    return project;
+  }
+
+  factory GenerateTestProject.ofSpacePathImportDartFiles() {
+    final project = GenerateTestProject();
+    project.files.addAll([
+      GenerateFile.ofAnalysisOptions(),
+      GenerateFile.ofPubspecYaml(),
+      GenerateFile.ofSpacePathImportDartFiles(),
+    ]);
+    return project;
+  }
+
   void generate() {
     reset();
     for (final file in files) {
@@ -111,7 +131,7 @@ import_lint:
   rules:
     custom_rule:
       target_file_path: "/**/custom/*_target.dart"
-      not_allow_imports: ["/**/custom/*_not_allow.dart", "/**/second_custom/*_not_allow.dart"]
+      not_allow_imports: ["/**/custom/*_not_allow.dart", "/**/second_custom/*_not_allow.dart", "/**/space custom/*not_allow.dart"]
       exclude_imports: ["/lib/custom/exclude.dart"]
 ''';
     return GenerateFile(path: '/analysis_options.yaml', content: content);
@@ -127,7 +147,7 @@ import 'package:${GenerateTestProject.packageName}/custom/second_not_allow.dart'
 import 'package:${GenerateTestProject.packageName}/custom/exclude.dart';
 ''';
     return GenerateFile(
-      path: '/lib/custom/first_target.dart',
+      path: '/lib/custom/example_target.dart',
       content: content,
       notAllowImportCount: 2,
     );
@@ -144,7 +164,7 @@ import 'second_not_allow.dart';
 import 'exclude.dart';
 ''';
     return GenerateFile(
-      path: '/lib/custom/second_target.dart',
+      path: '/lib/custom/example_target.dart',
       content: content,
       notAllowImportCount: 2,
     );
@@ -161,7 +181,36 @@ import '../second_custom/second_not_allow.dart';
 import 'exclude.dart';
 ''';
     return GenerateFile(
-      path: '/lib/custom/third_target.dart',
+      path: '/lib/custom/example_target.dart',
+      content: content,
+      notAllowImportCount: 2,
+    );
+  }
+
+  factory GenerateFile.ofLibraryPrefixImportDartFiles() {
+    final content = '''
+import 'package:${GenerateTestProject.packageName}/custom/first_target.dart';
+import 'package:${GenerateTestProject.packageName}/custom/first_target.dart' as example;
+import 'package:${GenerateTestProject.packageName}/custom/first_not_allow.dart' as example;
+import 'first_not_allow.dart' as example;
+import '../second_custom/first_not_allow.dart' as example;
+import 'exclude.dart';
+''';
+    return GenerateFile(
+      path: '/lib/custom/example_target.dart',
+      content: content,
+      notAllowImportCount: 3,
+    );
+  }
+
+  factory GenerateFile.ofSpacePathImportDartFiles() {
+    final content = '''
+import 'package:${GenerateTestProject.packageName}/space custom/first not_allow.dart' as example;
+import '../space custom/first not_allow.dart' as example;
+import 'exclude.dart';
+''';
+    return GenerateFile(
+      path: '/lib/custom/example_target.dart',
       content: content,
       notAllowImportCount: 2,
     );

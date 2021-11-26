@@ -24,7 +24,11 @@ class Issues {
         final line = lines[i];
         final issue = Issue(
           filePath: path,
-          line: Line(line),
+          line: Line.ofFromLine(
+            lineContent: line,
+            options: options,
+            filePath: path,
+          ),
           lineIndex: i,
           startOffset: null,
         );
@@ -52,7 +56,11 @@ class Issues {
       final startOffset = lineInfo.getOffsetOfLine(i);
       final issue = Issue(
         filePath: Path(filePath),
-        line: Line(line),
+        line: Line.ofFromLine(
+          lineContent: line,
+          options: options,
+          filePath: Path(filePath),
+        ),
         lineIndex: i,
         startOffset: startOffset,
       );
@@ -84,11 +92,11 @@ class Issues {
       final modFilePath = issue.filePath.value
           .replaceAll(currentDic.path, '')
           .replaceAll('lib/', '');
-      final modLineContent = issue.line.value.replaceAll(';', '');
+
       buffer.write(
         '   ${issue.rule?.name} '
         '• package:${options.packageName}$modFilePath:${issue.lineIndex + 1} '
-        '• $modLineContent \n',
+        '• ${issue.line.value} \n',
       );
     }
 
@@ -147,17 +155,9 @@ class Issue {
           return false;
         }
 
-        if (notAllowImportRule.matches(line.convertLibPath(
-          filePath: filePath,
-          packageName: options.packageName,
-          directoryPath: options.directoryPath,
-        ))) {
+        if (notAllowImportRule.matches(line.convertedLibPath)) {
           final isIgnore = ruleValue.excludeImports
-              .map((e) => e.matches(line.convertLibPath(
-                    filePath: filePath,
-                    packageName: options.packageName,
-                    directoryPath: options.directoryPath,
-                  )))
+              .map((e) => e.matches(line.convertedLibPath))
               .contains(true);
           if (isIgnore) {
             continue;

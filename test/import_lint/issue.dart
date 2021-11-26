@@ -17,7 +17,6 @@ void runIssueTest() {
       final issues = Issues.ofInitCli(options: options);
 
       expect(issues.value.length, 0);
-      expect(issues.output, 'No issues found! 🎉');
     });
     test('packge imports', () {
       final project = GenerateTestProject.ofPackageImportDartFiles();
@@ -49,6 +48,36 @@ void runIssueTest() {
 
       expect(issues.value.length, project.notAllowImportCount);
     });
+    test('library prefix imports', () {
+      final project = GenerateTestProject.ofLibraryPrefixIImportDartFiles();
+      project.generate();
+
+      final options =
+          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final issues = Issues.ofInitCli(options: options);
+
+      expect(issues.value.length, project.notAllowImportCount);
+    });
+    test('no issues output', () {
+      final project = GenerateTestProject.ofImportLintOptions();
+      project.generate();
+
+      final options =
+          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final issues = Issues.ofInitCli(options: options);
+
+      expect(issues.output, 'No issues found! 🎉');
+    });
+    test('space custom imports', () {
+      final project = GenerateTestProject.ofSpacePathImportDartFiles();
+      project.generate();
+
+      final options =
+          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final issues = Issues.ofInitCli(options: options);
+
+      expect(issues.value.length, project.notAllowImportCount);
+    });
     test('no issues output', () {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
@@ -69,8 +98,8 @@ void runIssueTest() {
 
       expect(
         issues.output,
-        '   custom_rule • package:example/test/helper/generated_project/custom/first_target.dart:4 • import \'package:example/custom/first_not_allow.dart\' \n'
-        '   custom_rule • package:example/test/helper/generated_project/custom/first_target.dart:5 • import \'package:example/custom/second_not_allow.dart\' \n'
+        '   custom_rule • package:example/test/helper/generated_project/custom/example_target.dart:4 • import \'package:example/custom/first_not_allow.dart\'; \n'
+        '   custom_rule • package:example/test/helper/generated_project/custom/example_target.dart:5 • import \'package:example/custom/second_not_allow.dart\'; \n'
         '\n'
         ' 2 issues found.',
       );
