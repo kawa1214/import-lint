@@ -7,6 +7,6 @@ import 'import_lint/issue.dart';
 export 'helper/coverage_test.dart';
 
 void main() {
-  runImportLintOptionsTest();
+  //runImportLintOptionsTest();
   runIssueTest();
 }
