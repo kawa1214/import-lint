@@ -8,5 +8,5 @@ export 'helper/coverage_test.dart';
 
 void main() {
   runImportLintOptionsTest();
-  //::runIssueTest();
+  runIssueTest();
 }
