@@ -1,0 +1,18 @@
+name: dart test
+
+on: [pull_request]
+
+jobs:
+  build:
+    name: Dart Test
+    runs-on: ubuntu-latest
+    container:
+      image: google/dart:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: at-wat/setup-gh-pr-comment@v0
+      - name: Install dependencies
+        run: dart pub get
+      - name: analyze and format
+        run: bash tool/test.sh
