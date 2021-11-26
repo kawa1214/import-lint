@@ -84,7 +84,10 @@ class GenerateTestProject {
   }
 
   void reset() {
-    Directory(directoryPath).deleteSync(recursive: true);
+    final directory = Directory(directoryPath);
+    if (directory.existsSync()) {
+      Directory(directoryPath).deleteSync(recursive: true);
+    }
   }
 
   int get notAllowImportCount => files
