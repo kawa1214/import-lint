@@ -54,7 +54,7 @@ class GenerateTestProject {
     return project;
   }
 
-  factory GenerateTestProject.ofLibraryPrefixIImportDartFiles() {
+  factory GenerateTestProject.ofLibraryPrefixImportDartFiles() {
     final project = GenerateTestProject();
     project.files.addAll([
       GenerateFile.ofAnalysisOptions(),
@@ -180,7 +180,7 @@ import '../second_custom/second_target.dart';
 import '../second_custom/first_allow.dart';
 import '../second_custom/second_allow.dart';
 import '../second_custom/first_not_allow.dart';
-import '../second_custom/second_not_allow.dart';
+import '/second_custom/second_not_allow.dart';
 import 'exclude.dart';
 ''';
     return GenerateFile(
