@@ -15,10 +15,8 @@ class Issues {
   }) {
     final issues = <Issue>[];
     final directives = unit.directives;
-    if (directives.isEmpty) {
-      return Issues(issues);
-    }
-    for (final directive in unit.directives) {
+
+    for (final directive in directives) {
       final importPathEntity = directive.childEntities.toList()[1];
       final importPathValue =
           importPathEntity.toString().substring(1, importPathEntity.length - 1);
@@ -67,7 +65,8 @@ class Issues {
 
       return normalized;
     }
-    throw Exception('convert import');
+
+    return '';
   }
 
   static Rule? _ruleCheck({

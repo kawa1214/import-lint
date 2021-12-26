@@ -1,4 +1,4 @@
-import 'package:import_lint/import_lint/import_lint_options.dart';
+import 'package:import_lint/src/import_lint_options.dart';
 import 'package:test/expect.dart';
 import 'package:test/test.dart';
 
