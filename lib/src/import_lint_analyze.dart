@@ -24,10 +24,7 @@ class ImportLintAnalyze {
     for (final context in collection.contexts) {
       final filePaths = context.contextRoot.analyzedFiles();
       for (final filePath in filePaths) {
-        //print(filePath);
-
         final result = await context.currentSession.getResolvedUnit(filePath);
-        //print(result);
         if (result is ResolvedUnitResult) {
           final issues = Issues.ofFile(
             file: io.File(filePath),
@@ -35,10 +32,36 @@ class ImportLintAnalyze {
             options: options,
           );
           resultIssues.addAll(issues.value);
-          //print('issues: $issues');
         }
       }
     }
     return ImportLintAnalyze(resultIssues);
+  }
+
+  String get output {
+    if (issues.isEmpty) {
+      return 'No issues found! 🎉';
+    }
+
+    final currentDic = io.Directory.current;
+
+    final buffer = StringBuffer();
+
+    for (final issue in issues) {
+      final modFilePath =
+          issue.location.file.replaceAll('${currentDic.path}/', '');
+
+      buffer.write(
+        '   warning'
+        ' • $modFilePath:${issue.lineNumber}:${'import '.length + 1}'
+        ' • ${issue.source}'
+        ' • ${issue.rule.name}'
+        '\n',
+      );
+    }
+
+    buffer.write('\n ${issues.length} issues found.');
+
+    return buffer.toString();
   }
 }

@@ -4,13 +4,10 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/import_lint_options/rule.dart';
 import 'package:path/path.dart' as p;
-import 'package:analyzer/source/line_info.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 
 class Issues {
   const Issues(this.value);
-
-  final List<Issue> value;
 
   factory Issues.ofFile({
     required io.File file,
@@ -37,6 +34,7 @@ class Issues {
         final location = unit.lineInfo?.getLocation(directive.offset);
 
         issues.add(Issue(
+          source: directive.toSource(),
           file: file,
           lineNumber: location?.lineNumber ?? 0,
           startOffset: importPathEntity.offset,
@@ -47,6 +45,8 @@ class Issues {
     }
     return Issues(issues);
   }
+
+  final List<Issue> value;
 
   static String _toLibPath({
     required String path,
@@ -100,12 +100,14 @@ class Issues {
 
 class Issue {
   Issue({
+    required this.source,
     required this.file,
     required this.lineNumber,
     required this.startOffset,
     required this.length,
     required this.rule,
   });
+  final String source;
   final io.File file;
   final int lineNumber;
   final int startOffset;

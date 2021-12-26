@@ -7,12 +7,10 @@ import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/source/line_info.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
-import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 
 import 'dart:io' as io;
@@ -170,15 +168,5 @@ class ImportLintPlugin extends ServerPlugin {
   }) {
     final issues = Issues.ofFile(file: path, unit: unit, options: options);
     return issues.value.map((e) => e.pluginError).toList();
-    /*
-    final issues = Issues.ofInitPlugin(
-      options: options,
-      filePath: path,
-      lineInfo: lineInfo,
-      contentLines: contentLines,
-    );
-    final errors = issues.value.map((e) => e.pluginError).toList();
-    return errors;
-    */
   }
 }
