@@ -53,11 +53,11 @@ By adding import_lint plugin to get the warnings directly in your IDE by configu
 3. run import_lint(CLI Support)
 
 ```
-flutter pub run import_lint
+flutter run import_lint
 ```
 or
 ```
-dart pub run import_lint
+dart run import_lint
 ```
 
 ## Result

@@ -1,6 +1,9 @@
 analyzer:
   plugins:
     - import_lint
+  errors:
+    unused_import: ignore
+    undefined_shown_name: ignore
 
 import_lint:
   rules:

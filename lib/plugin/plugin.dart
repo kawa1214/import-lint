@@ -5,15 +5,20 @@ import 'dart:async';
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
-import 'package:import_lint/import_lint/import_lint_options.dart';
-import 'package:import_lint/import_lint/issue.dart';
+
+import 'dart:io' as io;
+
+import 'package:import_lint/src/import_lint_options.dart';
+import 'package:import_lint/src/issue.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
@@ -80,12 +85,10 @@ class ImportLintPlugin extends ServerPlugin {
         dartDriver.results.listen((analysisResult) {
           if (analysisResult is ResolvedUnitResult) {
             final path = analysisResult.path;
-            final contentLines = analysisResult.content.split('\n');
 
             final errors = _checkFile(
-              path: path,
-              lineInfo: analysisResult.lineInfo,
-              contentLines: contentLines,
+              path: io.File(path),
+              unit: analysisResult.unit,
             );
 
             channel.sendNotification(
@@ -162,10 +165,12 @@ class ImportLintPlugin extends ServerPlugin {
   }
 
   List<plugin.AnalysisError> _checkFile({
-    required String path,
-    required LineInfo lineInfo,
-    required List<String> contentLines,
+    required io.File path,
+    required CompilationUnit unit,
   }) {
+    final issues = Issues.ofFile(file: path, unit: unit, options: options);
+    return issues.value.map((e) => e.pluginError).toList();
+    /*
     final issues = Issues.ofInitPlugin(
       options: options,
       filePath: path,
@@ -174,5 +179,6 @@ class ImportLintPlugin extends ServerPlugin {
     );
     final errors = issues.value.map((e) => e.pluginError).toList();
     return errors;
+    */
   }
 }

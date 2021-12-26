@@ -1,12 +1,11 @@
 name: import_lint_loader
 description: bootstrap package of import_lint
-version: 0.4.1
+version: 0.4.2
 publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  import_lint: ^0.4.1
-# path: /Users/ryo/Documents/project/import-lint
-
+  import_lint:
+    path: /Users/ryo/Documents/project/import-lint

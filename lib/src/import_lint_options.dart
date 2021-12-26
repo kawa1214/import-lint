@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:import_lint/import_lint/import_lint_options/rule.dart';
+import 'package:import_lint/src/import_lint_options/rule.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 class ImportLintOptions {
