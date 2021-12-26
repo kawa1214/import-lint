@@ -12,11 +12,9 @@ import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:import_lint/import_lint.dart';
 
 import 'dart:io' as io;
-
-import 'package:import_lint/src/import_lint_options.dart';
-import 'package:import_lint/src/issue.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
@@ -166,7 +164,8 @@ class ImportLintPlugin extends ServerPlugin {
     required io.File path,
     required CompilationUnit unit,
   }) {
-    final issues = Issues.ofFile(file: path, unit: unit, options: options);
-    return issues.value.map((e) => e.pluginError).toList();
+    final analyzed =
+        ImportLintAnalyze.ofFile(file: path, unit: unit, options: options);
+    return analyzed.issues.map((e) => e.pluginError).toList();
   }
 }
