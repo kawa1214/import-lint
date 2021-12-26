@@ -8,20 +8,15 @@ class Paths {
   factory Paths.ofDartFile({required String directoryPath}) {
     final dartFileRegExp = Glob('$directoryPath/lib/**/*.dart');
     final directory = io.Directory(directoryPath);
-    final result = <Path>[];
+    final result = <String>[];
     for (final entry
         in directory.listSync(recursive: true, followLinks: false)) {
       if (dartFileRegExp.matches(entry.path)) {
-        result.add(Path(entry.path));
+        result.add(entry.path);
       }
     }
     return Paths(result);
   }
 
-  final List<Path> value;
-}
-
-class Path {
-  const Path(this.value);
-  final String value;
+  final List<String> value;
 }

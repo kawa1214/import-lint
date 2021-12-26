@@ -19,8 +19,10 @@ class ImportLintAnalyze {
     final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
     final collection = AnalysisContextCollection(
-        resourceProvider: resourceProvider,
-        includedPaths: paths.value.map((e) => e.value).toList());
+      resourceProvider: resourceProvider,
+      includedPaths: paths.value,
+    );
+
     for (final context in collection.contexts) {
       final filePaths = context.contextRoot.analyzedFiles();
       for (final filePath in filePaths) {
