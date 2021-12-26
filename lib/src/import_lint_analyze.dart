@@ -7,7 +7,6 @@ import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
 
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:import_lint/src/import_lint_options.dart';
 import 'package:path/path.dart' as p;
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 
