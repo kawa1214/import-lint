@@ -34,14 +34,15 @@ class ImportLintPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    final rootPath = contextRoot.root;
+    final optionsFile = contextRoot.optionsFile;
+
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
-      includedPaths: [rootPath],
+      includedPaths: [contextRoot.root],
       excludedPaths: [
         ...contextRoot.exclude,
       ],
-      optionsFile: contextRoot.optionsFile,
+      optionsFile: optionsFile,
     );
 
     if (locator.isEmpty) {
@@ -65,7 +66,10 @@ class ImportLintPlugin extends ServerPlugin {
 
     try {
       rootDirectoryPath = context.contextRoot.root.path;
-      options = ImportLintOptions.init(directoryPath: rootDirectoryPath);
+      options = ImportLintOptions.init(
+        directoryPath: rootDirectoryPath,
+        optionsFilePath: optionsFile!,
+      );
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
