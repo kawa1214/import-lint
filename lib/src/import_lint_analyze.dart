@@ -77,10 +77,11 @@ class ImportLintAnalyze {
     return buffer.toString();
   }
 
-  static Future<ImportLintAnalyze> ofInitCli(
-      {required ImportLintOptions options}) async {
+  static Future<ImportLintAnalyze> ofInitCli({
+    required String rootDirectoryPath,
+  }) async {
     final resultIssues = <Issue>[];
-    final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
+    final paths = Paths.ofDartFile(directoryPath: rootDirectoryPath);
     final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
     final collection = AnalysisContextCollection(
@@ -88,7 +89,14 @@ class ImportLintAnalyze {
       includedPaths: paths.value,
     );
 
+    late ImportLintOptions options;
+
     for (final context in collection.contexts) {
+      options = ImportLintOptions.init(
+        directoryPath: rootDirectoryPath,
+        optionsFilePath: context.contextRoot.optionsFile!.path,
+      );
+
       final filePaths = context.contextRoot.analyzedFiles();
       for (final filePath in filePaths) {
         final result = await context.currentSession.getResolvedUnit(filePath);
