@@ -1,3 +1,7 @@
+## 0.6.0
+
+- Fix failed to load analysis_options.yml in parent directory
+
 ## 0.5.0
 
 - Fix AST

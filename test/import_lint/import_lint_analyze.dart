@@ -1,5 +1,4 @@
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/import_lint_options.dart';
 import 'package:test/expect.dart';
 import 'package:test/test.dart';
 
@@ -11,9 +10,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -21,9 +20,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofPackageImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -32,9 +31,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofRelativeImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -42,9 +41,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofAbsoluteImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -52,9 +51,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofLibraryPrefixImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -62,9 +61,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofSpacePathImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
     });
@@ -72,9 +71,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
       expect(analyzed.output, 'No issues found! 🎉');
@@ -83,9 +82,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofPackageImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
       expect(
@@ -100,10 +99,9 @@ void runImportLintAnalyzeTest() {
       final project = GenerateTestProject.ofPackageImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
-
-      final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+      final analyzed = await ImportLintAnalyze.ofInitCli(
+        rootDirectoryPath: project.directoryPath,
+      );
 
       expect(analyzed.issues.length, project.notAllowImportCount);
 

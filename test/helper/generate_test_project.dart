@@ -96,6 +96,9 @@ class GenerateTestProject {
 
   final directoryPath =
       '${Directory.current.path}/test/helper/generated_project';
+  static const _optionsFileName = 'analysis_options.yaml';
+
+  late final optionsPath = '$directoryPath/$_optionsFileName';
   final List<GenerateFile> files = [];
   static const packageName = 'example';
   static const rulesLength = 1;

@@ -9,9 +9,9 @@ void main(List<String> arguments) async {
     final progress = logger.progress('Analyzing');
 
     final rootDirectoryPath = io.Directory.current.path;
-    final options = ImportLintOptions.init(directoryPath: rootDirectoryPath);
 
-    final analyzed = await ImportLintAnalyze.ofInitCli(options: options);
+    final analyzed =
+        await ImportLintAnalyze.ofInitCli(rootDirectoryPath: rootDirectoryPath);
 
     progress.finish(showTiming: true);
 

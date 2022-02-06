@@ -11,8 +11,12 @@ class ImportLintOptions {
     required this.packageName,
   });
 
-  factory ImportLintOptions.init({required String directoryPath}) {
-    final rules = Rules.fromOptionsFile(_optionsFilePath(directoryPath));
+  factory ImportLintOptions.init({
+    required String directoryPath,
+    required String optionsFilePath,
+  }) {
+    final rules = Rules.fromOptionsFile(optionsFilePath);
+
     return ImportLintOptions(
       rules: rules,
       directoryPath: directoryPath,
@@ -41,11 +45,6 @@ class ImportLintOptions {
     final loadYaml = yaml.loadYaml(value);
     return loadYaml['name'];
   }
-
-  static const _optionsFileName = 'analysis_options.yaml';
-
-  static String _optionsFilePath(String directoryPath) =>
-      '${directoryPath}/$_optionsFileName';
 }
 
 class Rules {
@@ -56,7 +55,7 @@ class Rules {
       readValue = io.File(path).readAsStringSync();
     } on Exception catch (e) {
       throw Exception(
-        'Not found import_analysis_options.yaml file'
+        'Not found analysis_options.yaml file '
         'at the root of your project.'
         '\n $e',
       );

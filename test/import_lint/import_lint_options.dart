@@ -10,8 +10,11 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofHasNotAnalysisOptionsYaml();
       project.generate();
 
-      final options =
-          () => ImportLintOptions.init(directoryPath: project.directoryPath);
+      final options = () => ImportLintOptions.init(
+            directoryPath: project.directoryPath,
+            optionsFilePath: project.optionsPath,
+          );
+      ;
 
       expect(
         options,
@@ -22,8 +25,11 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofHasNotPubspecYaml();
       project.generate();
 
-      final options =
-          () => ImportLintOptions.init(directoryPath: project.directoryPath);
+      final options = () => ImportLintOptions.init(
+            directoryPath: project.directoryPath,
+            optionsFilePath: project.optionsPath,
+          );
+      ;
 
       expect(
         options,
@@ -34,8 +40,10 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final options = ImportLintOptions.init(
+        directoryPath: project.directoryPath,
+        optionsFilePath: project.optionsPath,
+      );
 
       expect(options.packageName, GenerateTestProject.packageName);
       expect(options.directoryPath, project.directoryPath);
