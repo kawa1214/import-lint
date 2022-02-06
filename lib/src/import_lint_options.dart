@@ -45,11 +45,6 @@ class ImportLintOptions {
     final loadYaml = yaml.loadYaml(value);
     return loadYaml['name'];
   }
-
-  static const _optionsFileName = 'analysis_options.yaml';
-
-  static String _optionsFilePath(String directoryPath) =>
-      '${directoryPath}/$_optionsFileName';
 }
 
 class Rules {

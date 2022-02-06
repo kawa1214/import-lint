@@ -11,8 +11,11 @@ void runPathsTest() {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final options = ImportLintOptions.init(
+        directoryPath: project.directoryPath,
+        optionsFilePath: project.optionsPath,
+      );
+
       final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
 
       expect(paths.value.length, 0);
@@ -21,8 +24,11 @@ void runPathsTest() {
       final project = GenerateTestProject.ofPackageImportDartFiles();
       project.generate();
 
-      final options =
-          ImportLintOptions.init(directoryPath: project.directoryPath);
+      final options = ImportLintOptions.init(
+        directoryPath: project.directoryPath,
+        optionsFilePath: project.optionsPath,
+      );
+
       final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
 
       expect(paths.value.length, 1);
