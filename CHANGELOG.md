@@ -1,3 +1,7 @@
+## 0.7.0
+
+- Fix packages dependency
+
 ## 0.6.0
 
 - Fix failed to load analysis_options.yml in parent directory

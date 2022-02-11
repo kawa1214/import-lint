@@ -1,5 +1,3 @@
-// coverage:ignore-file
-
 import 'dart:isolate';
 
 import 'package:analyzer/file_system/physical_file_system.dart';
