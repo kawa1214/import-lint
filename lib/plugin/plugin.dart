@@ -1,5 +1,3 @@
-// coverage:ignore-file
-
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/context_builder.dart';
