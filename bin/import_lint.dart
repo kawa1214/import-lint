@@ -5,7 +5,7 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:cli_util/cli_logging.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 void main(List<String> arguments) async {
   try {
@@ -16,7 +16,7 @@ void main(List<String> arguments) async {
 
     final collection = AnalysisContextCollectionImpl(
       resourceProvider: resourceProvider,
-      includedPaths: [path.normalize(path.absolute('./'))],
+      includedPaths: [p.normalize(p.absolute('./'))],
     );
 
     final errors = <ImportLintError>[];
@@ -58,7 +58,7 @@ void main(List<String> arguments) async {
     progress.finish(showTiming: true);
 
     logger.stdout('');
-    //logger.stdout(Output(errors).output);
+    logger.stdout(Output(errors).output);
 
     io.exit(0);
   } catch (e, s) {

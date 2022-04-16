@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'dart:io' as io;
 
 import 'package:glob/glob.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart' as yaml;
 
 class ImportLintOptions {
@@ -104,10 +105,10 @@ class Rule {
     final targetFilePath = Glob(ruleMap['target_file_path']);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString()))
+        .map((e) => Glob(p.canonicalize(e.toString())))
         .toList();
     final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString()))
+        .map((e) => Glob(p.canonicalize(e.toString())))
         .toList();
 
     return Rule(
