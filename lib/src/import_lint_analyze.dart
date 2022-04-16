@@ -59,33 +59,6 @@ class ImportLintAnalyze {
 
   final List<ImportLintError> issues;
 
-  String get output {
-    if (issues.isEmpty) {
-      return 'No issues found! 🎉';
-    }
-
-    final currentDic = io.Directory.current;
-
-    final buffer = StringBuffer();
-
-    for (final issue in issues) {
-      final modFilePath =
-          issue.location.file.replaceAll('${currentDic.path}/', '');
-
-      buffer.write(
-        '   warning'
-        ' • $modFilePath:${issue.lineNumber}:${'import '.length + 1}'
-        ' • ${issue.source}'
-        ' • ${issue.rule.name}'
-        '\n',
-      );
-    }
-
-    buffer.write('\n ${issues.length} issues found.');
-
-    return buffer.toString();
-  }
-
   static Future<ImportLintAnalyze> ofInitCli({
     required String rootDirectoryPath,
   }) async {
@@ -170,6 +143,38 @@ class ImportLintAnalyze {
     }
 
     return null;
+  }
+}
+
+class Output {
+  const Output(this.errors);
+  final List<ImportLintError> errors;
+
+  String get output {
+    if (errors.isEmpty) {
+      return 'No issues found! 🎉';
+    }
+
+    final currentDic = io.Directory.current;
+
+    final buffer = StringBuffer();
+
+    for (final issue in errors) {
+      final modFilePath =
+          issue.location.file.replaceAll('${currentDic.path}/', '');
+
+      buffer.write(
+        '   warning'
+        ' • $modFilePath:${issue.lineNumber}:${'import '.length + 1}'
+        ' • ${issue.source}'
+        ' • ${issue.rule.name}'
+        '\n',
+      );
+    }
+
+    buffer.write('\n ${errors.length} issues found.');
+
+    return buffer.toString();
   }
 }
 

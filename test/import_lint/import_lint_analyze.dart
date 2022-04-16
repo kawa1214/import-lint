@@ -74,8 +74,10 @@ void runImportLintAnalyzeTest() {
         rootDirectoryPath: project.directoryPath,
       );
 
+      final output = Output(analyzed.issues);
+
       expect(analyzed.issues.length, project.notAllowImportCount);
-      expect(analyzed.output, 'No issues found! 🎉');
+      expect(output.output, 'No issues found! 🎉');
     });
     test('has issues output', () async {
       final project = GenerateTestProject.ofPackageImportDartFiles();
@@ -84,10 +86,11 @@ void runImportLintAnalyzeTest() {
       final analyzed = await ImportLintAnalyze.ofInitCli(
         rootDirectoryPath: project.directoryPath,
       );
+      final output = Output(analyzed.issues);
 
       expect(analyzed.issues.length, project.notAllowImportCount);
       expect(
-        analyzed.output,
+        output.output,
         '   warning • test/helper/generated_project/lib/custom/example_target.dart:4:8 • import \'package:example/custom/first_not_allow.dart\'; • custom_rule\n'
         '   warning • test/helper/generated_project/lib/custom/example_target.dart:5:8 • import \'package:example/custom/second_not_allow.dart\'; • custom_rule\n'
         '\n'

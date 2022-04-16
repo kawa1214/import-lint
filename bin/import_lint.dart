@@ -21,6 +21,7 @@ void main(List<String> arguments) async {
       includedPaths: [path.normalize(path.absolute('./'))],
     );
 
+    final errors = <ImportLintError>[];
     for (final context in collection.contexts) {
       final options = ImportLintOptions.init(
         directoryPath: rootDirectoryPath,
@@ -28,12 +29,18 @@ void main(List<String> arguments) async {
       );
       final filePaths =
           context.contextRoot.analyzedFiles().where((e) => e.endsWith('.dart'));
-      print(filePaths);
+      //print(filePaths);
       //print(context.contextRoot.analyzedFiles());
       for (final filePath in filePaths) {
         final result = await context.currentSession.getResolvedUnit(filePath);
-        print(result);
-        if (result is ResolvedUnitResult) {}
+        if (result is ResolvedUnitResult) {
+          final analyzed = ImportLintAnalyze.ofFile(
+            file: io.File(filePath),
+            unit: result.unit,
+            options: options,
+          );
+          errors.addAll(analyzed.issues);
+        }
       }
     }
 
@@ -52,7 +59,7 @@ void main(List<String> arguments) async {
     progress.finish(showTiming: true);
 
     logger.stdout('');
-    //logger.stdout(analyzed.output);
+    logger.stdout(Output(errors).output);
 
     io.exit(0);
   } catch (e, s) {
