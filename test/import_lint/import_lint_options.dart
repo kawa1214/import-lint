@@ -44,8 +44,8 @@ void runImportLintOptionsTest() {
         optionsFilePath: project.optionsPath,
       );
 
-      expect(options.packageName, GenerateTestProject.packageName);
-      expect(options.directoryPath, project.directoryPath);
+      expect(options.common.packageName, GenerateTestProject.packageName);
+      expect(options.common.directoryPath, project.directoryPath);
       expect(options.rules.value.length, GenerateTestProject.rulesLength);
     });
   });

@@ -1,34 +1,43 @@
-import 'dart:io' as io;
 import 'dart:convert' as convert;
+import 'dart:io' as io;
 
 import 'package:glob/glob.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 class ImportLintOptions {
-  const ImportLintOptions({
-    required this.rules,
-    required this.directoryPath,
-    required this.packageName,
-  });
+  const ImportLintOptions({required this.rules, required this.common});
 
   factory ImportLintOptions.init({
     required String directoryPath,
     required String optionsFilePath,
   }) {
-    final rules = Rules.fromOptionsFile(optionsFilePath);
-
+    final rules = RulesOption.fromOptionsFile(optionsFilePath);
+    final common = CommonOption.fromYaml(directoryPath);
     return ImportLintOptions(
       rules: rules,
+      common: common,
+    );
+  }
+
+  final RulesOption rules;
+  final CommonOption common;
+}
+
+class CommonOption {
+  const CommonOption({
+    required this.directoryPath,
+    required this.packageName,
+  });
+
+  factory CommonOption.fromYaml(String directoryPath) {
+    return CommonOption(
       directoryPath: directoryPath,
       packageName: _packageName(directoryPath),
     );
   }
 
-  final Rules rules;
   final String directoryPath;
   final String packageName;
-
-  static const _pubspecFileName = 'pubspec.yaml';
 
   static String _packageName(String directoryPath) {
     final pubspecFile = io.File('$directoryPath/$_pubspecFileName');
@@ -45,11 +54,13 @@ class ImportLintOptions {
     final loadYaml = yaml.loadYaml(value);
     return loadYaml['name'];
   }
+
+  static const _pubspecFileName = 'pubspec.yaml';
 }
 
-class Rules {
-  const Rules(this.value);
-  factory Rules.fromOptionsFile(String path) {
+class RulesOption {
+  const RulesOption(this.value);
+  factory RulesOption.fromOptionsFile(String path) {
     late String readValue;
     try {
       readValue = io.File(path).readAsStringSync();
@@ -73,7 +84,7 @@ class Rules {
 
       result.add(rule);
     }
-    return Rules(result);
+    return RulesOption(result);
   }
   final List<Rule> value;
 }

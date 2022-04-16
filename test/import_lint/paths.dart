@@ -15,7 +15,8 @@ void runPathsTest() {
         optionsFilePath: project.optionsPath,
       );
 
-      final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
+      final paths =
+          Paths.ofDartFile(directoryPath: options.common.directoryPath);
 
       expect(paths.value.length, 0);
     });
@@ -28,7 +29,8 @@ void runPathsTest() {
         optionsFilePath: project.optionsPath,
       );
 
-      final paths = Paths.ofDartFile(directoryPath: options.directoryPath);
+      final paths =
+          Paths.ofDartFile(directoryPath: options.common.directoryPath);
 
       expect(paths.value.length, 1);
     });

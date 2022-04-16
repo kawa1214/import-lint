@@ -136,7 +136,7 @@ class ImportLintAnalyze {
 
       final normalized = p
           .normalize('${file.parent.path}/$path')
-          .replaceFirst('${options.directoryPath}/', '');
+          .replaceFirst('${options.common.directoryPath}/', '');
 
       return normalized;
     }
