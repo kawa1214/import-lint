@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
@@ -12,8 +13,6 @@ import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:import_lint/import_lint.dart';
 
-import 'dart:io' as io;
-
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
@@ -22,7 +21,7 @@ class ImportLintPlugin extends ServerPlugin {
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  List<String> get fileGlobsToAnalyze => <String>['/lib/**/*.dart'];
+  List<String> get fileGlobsToAnalyze => <String>['/**/*.dart'];
 
   @override
   String get name => 'Import Lint';

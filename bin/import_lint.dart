@@ -33,8 +33,13 @@ void main(List<String> arguments) async {
       for (final filePath in filePaths) {
         final result = await context.currentSession.getResolvedUnit(filePath);
         if (result is ResolvedUnitResult) {
+          final path = result.path;
+          print(path);
+          print(result.uri);
+          final libFilePath = _toLibPath(path: filePath, options: options);
+          print(['libFilePath', libFilePath]);
           final analyzed = ImportLintAnalyze.ofFile(
-            file: io.File(filePath),
+            file: io.File(libFilePath),
             unit: result.unit,
             options: options,
           );
@@ -58,7 +63,7 @@ void main(List<String> arguments) async {
     progress.finish(showTiming: true);
 
     logger.stdout('');
-    logger.stdout(Output(errors).output);
+    //logger.stdout(Output(errors).output);
 
     io.exit(0);
   } catch (e, s) {
@@ -66,4 +71,19 @@ void main(List<String> arguments) async {
     io.stdout.writeln(s);
     io.exit(1);
   }
+}
+
+String _toLibPath({
+  required String path,
+  required ImportLintOptions options,
+}) {
+  final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
+
+  if (fixedPath.startsWith('/')) {
+    return fixedPath.replaceFirst('/', '');
+  }
+  if (fixedPath.startsWith(r'\')) {
+    return fixedPath.replaceFirst(r'\', '');
+  }
+  return fixedPath;
 }

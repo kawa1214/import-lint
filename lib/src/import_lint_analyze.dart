@@ -28,10 +28,6 @@ class ImportLintAnalyze {
       }
 
       final importDirective = directive;
-      print([
-        'importDirective info',
-        importDirective.selectedSource,
-      ]);
 
       if (importDirective.selectedSource == null) {
         continue;
@@ -56,7 +52,7 @@ class ImportLintAnalyze {
         path: pathSource,
         options: options,
       );
-      print(['libPath', libPath]);
+      //print(['libPath', libPath]);
 
       final rule = _ruleCheck(file: file, libValue: libPath, options: options);
 
@@ -134,6 +130,8 @@ class ImportLintAnalyze {
     required ImportLintOptions options,
   }) {
     for (final ruleValue in options.rules.value) {
+      //print([ruleValue.targetFilePath, file.path, p.canonicalize(file.path)]);
+
       if (!ruleValue.targetFilePath.matches(p.canonicalize(file.path))) {
         continue;
       }
