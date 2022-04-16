@@ -54,7 +54,6 @@ class ImportLintAnalyze {
       final libPath = _toLibPath(
         path: pathSource,
         options: options,
-        file: file,
       );
       print(['libPath', libPath]);
 
@@ -116,10 +115,16 @@ class ImportLintAnalyze {
 
   static String _toLibPath({
     required String path,
-    required io.File file,
     required ImportLintOptions options,
   }) {
-    return path.replaceFirst('${options.common.directoryPath}/', '');
+    final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
+    if (fixedPath.startsWith('/')) {
+      return fixedPath.replaceFirst('/', '');
+    }
+    if (fixedPath.startsWith(r'\')) {
+      return fixedPath.replaceFirst(r'\', '');
+    }
+    return fixedPath;
   }
 
   static Rule? _ruleCheck({
