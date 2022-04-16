@@ -30,7 +30,7 @@ void main(List<String> arguments) async {
       final filePaths =
           context.contextRoot.analyzedFiles().where((e) => e.endsWith('.dart'));
       //print(filePaths);
-      print(context.contextRoot.analyzedFiles());
+
       for (final filePath in filePaths) {
         final result = await context.currentSession.getResolvedUnit(filePath);
         if (result is ResolvedUnitResult) {

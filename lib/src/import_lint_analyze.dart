@@ -4,6 +4,7 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:analyzer/src/dart/ast/token.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
@@ -21,21 +22,37 @@ class ImportLintAnalyze {
     final directives = unit.directives;
 
     for (final directive in directives) {
-      final importPathEntity = directive.childEntities.toList()[1];
-      /*
-			print('test1');
-      for (final test in directive.childEntities) {
-        print(test);
-        print([test, 'runtime', test.runtimeType]);
-      }
-			*/
+      //print(directive);
+      final childEntities = directive.childEntities.toList();
 
-      //print(importPathEntity);
-      final importPathValue =
-          importPathEntity.toString().substring(1, importPathEntity.length - 1);
+      if (childEntities.length < 3) {
+        continue;
+      }
+
+      final importEntity = childEntities[0];
+      final pathEntity = childEntities[1];
+      final endEntity = childEntities.last;
+
+      if (importEntity is! KeywordToken ||
+          importEntity.toString() != 'import') {
+        continue;
+      }
+
+      if (pathEntity is! StringLiteral || pathEntity.toSource().length < 2) {
+        continue;
+      }
+
+      if (endEntity is! SimpleToken || endEntity.toString() != ';') {
+        continue;
+      }
+
+      print([importEntity, pathEntity, endEntity]);
+      final pathSource = pathEntity.toSource();
+      final fixedPathSource = pathSource.substring(1, pathSource.length - 1);
+
       //print(importPathValue);
       final libPath = _toLibPath(
-        path: importPathValue,
+        path: fixedPathSource,
         options: options,
         file: file,
       );
@@ -48,8 +65,8 @@ class ImportLintAnalyze {
           source: directive.toSource(),
           file: file,
           lineNumber: location?.lineNumber ?? 0,
-          startOffset: importPathEntity.offset,
-          length: importPathEntity.length,
+          startOffset: pathEntity.offset,
+          length: pathEntity.length,
           rule: rule,
         ));
       }
