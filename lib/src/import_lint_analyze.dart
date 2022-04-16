@@ -8,7 +8,6 @@ import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
-import 'package:path/path.dart' as p;
 
 class ImportLintAnalyze {
   const ImportLintAnalyze(this.issues);
@@ -130,14 +129,14 @@ class ImportLintAnalyze {
     required ImportLintOptions options,
   }) {
     for (final ruleValue in options.rules.value) {
-      //print([ruleValue.targetFilePath, file.path, p.canonicalize(file.path)]);
+      print([ruleValue.targetFilePath, file.path]);
 
-      if (!ruleValue.targetFilePath.matches(p.canonicalize(file.path))) {
+      if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
       }
 
       for (final notAllowImportRule in ruleValue.notAllowImports) {
-        if (notAllowImportRule.matches(p.canonicalize(libValue))) {
+        if (notAllowImportRule.matches(libValue)) {
           final isIgnore = ruleValue.excludeImports
               .map((e) => e.matches(libValue))
               .contains(true);

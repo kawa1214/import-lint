@@ -101,14 +101,13 @@ class Rule {
     required Map<String, dynamic> ruleMap,
     required String name,
   }) {
-    final targetFilePath = Glob(_globCanonicalize(ruleMap['target_file_path']));
-    print(['rule target', _globCanonicalize(ruleMap['target_file_path'])]);
+    final targetFilePath = Glob(ruleMap['target_file_path']);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => Glob(_globCanonicalize(e.toString())))
+        .map((e) => Glob(e.toString()))
         .toList();
     final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => Glob(_globCanonicalize(e.toString())))
+        .map((e) => Glob(e.toString()))
         .toList();
 
     return Rule(
@@ -117,13 +116,6 @@ class Rule {
       notAllowImports: notAllowImports,
       excludeImports: excludeImports,
     );
-  }
-
-  static String _globCanonicalize(String value) {
-    if (io.Platform.isWindows) {
-      return value.replaceAll('/', r'\');
-    }
-    return value.replaceAll(r'\', '/');
   }
 
   final String name;
