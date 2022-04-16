@@ -4,11 +4,10 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:analyzer/src/dart/ast/token.dart';
+import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
-import 'package:path/path.dart' as p;
 
 class ImportLintAnalyze {
   const ImportLintAnalyze(this.issues);
@@ -23,39 +22,42 @@ class ImportLintAnalyze {
 
     for (final directive in directives) {
       //print(directive);
-      final childEntities = directive.childEntities.toList();
+      if (directive is! ImportDirectiveImpl) {
+        continue;
+      }
 
+      final importDirective = directive;
+      print([
+        'importDirective info',
+        importDirective.selectedSource,
+      ]);
+
+      if (importDirective.selectedSource == null) {
+        continue;
+      }
+
+      if (!importDirective.selectedSource!.exists()) {
+        continue;
+      }
+
+      final childEntities = directive.childEntities.toList();
       if (childEntities.length < 3) {
         continue;
       }
 
-      final importEntity = childEntities[0];
       final pathEntity = childEntities[1];
-      final endEntity = childEntities.last;
 
-      if (importEntity is! KeywordToken ||
-          importEntity.toString() != 'import') {
-        continue;
-      }
-
-      if (pathEntity is! StringLiteral || pathEntity.toSource().length < 2) {
-        continue;
-      }
-
-      if (endEntity is! SimpleToken || endEntity.toString() != ';') {
-        continue;
-      }
-
-      print([importEntity, pathEntity, endEntity]);
-      final pathSource = pathEntity.toSource();
-      final fixedPathSource = pathSource.substring(1, pathSource.length - 1);
+      //print([importEntity, pathEntity, endEntity]);
+      final pathSource = importDirective.selectedSource!.fullName;
 
       //print(importPathValue);
       final libPath = _toLibPath(
-        path: fixedPathSource,
+        path: pathSource,
         options: options,
         file: file,
       );
+      print(['libPath', libPath]);
+
       final rule = _ruleCheck(file: file, libValue: libPath, options: options);
 
       if (rule != null) {
@@ -117,23 +119,7 @@ class ImportLintAnalyze {
     required io.File file,
     required ImportLintOptions options,
   }) {
-    if (p.isAbsolute(path)) {
-      return 'lib$path';
-    }
-
-    if (p.isRelative(path)) {
-      if (path.startsWith('package:')) {
-        return 'lib/${path.replaceFirst(RegExp('package.*?\/'), '')}';
-      }
-
-      final normalized = p
-          .normalize('${file.parent.path}/$path')
-          .replaceFirst('${options.common.directoryPath}/', '');
-
-      return normalized;
-    }
-
-    return '';
+    return path.replaceFirst('${options.common.directoryPath}/', '');
   }
 
   static Rule? _ruleCheck({

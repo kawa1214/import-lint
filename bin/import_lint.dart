@@ -12,8 +12,6 @@ void main(List<String> arguments) async {
     final logger = Logger.standard();
     final progress = logger.progress('Analyzing');
 
-    final rootDirectoryPath = io.Directory.current.path;
-
     final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
     final collection = AnalysisContextCollectionImpl(
@@ -23,6 +21,7 @@ void main(List<String> arguments) async {
 
     final errors = <ImportLintError>[];
     for (final context in collection.contexts) {
+      final rootDirectoryPath = context.contextRoot.root.path;
       final options = ImportLintOptions.init(
         directoryPath: rootDirectoryPath,
         optionsFilePath: context.contextRoot.optionsFile?.path ?? '',
