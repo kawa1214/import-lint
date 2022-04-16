@@ -114,7 +114,12 @@ class ImportLintAnalyze {
     required ImportLintOptions options,
   }) {
     final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
-
+    if (fixedPath.startsWith('/')) {
+      return fixedPath.replaceFirst('/', '');
+    }
+    if (fixedPath.startsWith(r'\')) {
+      return fixedPath.replaceFirst(r'\', '');
+    }
     return fixedPath;
   }
 
