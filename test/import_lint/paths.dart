@@ -1,6 +1,5 @@
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
-import 'package:test/expect.dart';
 import 'package:test/test.dart';
 
 import '../helper/generate_test_project.dart';

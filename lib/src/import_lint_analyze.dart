@@ -2,13 +2,12 @@ import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:import_lint/src/import_lint_options.dart';
 import 'package:import_lint/src/paths.dart';
-
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:path/path.dart' as p;
-import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 
 class ImportLintAnalyze {
   const ImportLintAnalyze(this.issues);
@@ -23,8 +22,16 @@ class ImportLintAnalyze {
 
     for (final directive in directives) {
       final importPathEntity = directive.childEntities.toList()[1];
+      print('test1');
+      for (final test in directive.childEntities) {
+        print(test);
+        print([test, 'runtime', test.runtimeType]);
+      }
+
+      //print(importPathEntity);
       final importPathValue =
           importPathEntity.toString().substring(1, importPathEntity.length - 1);
+      //print(importPathValue);
       final libPath = _toLibPath(
         path: importPathValue,
         options: options,
