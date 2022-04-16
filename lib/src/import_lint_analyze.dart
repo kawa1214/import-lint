@@ -17,16 +17,18 @@ class ImportLintAnalyze {
     required CompilationUnit unit,
     required ImportLintOptions options,
   }) {
-    final issues = <Issue>[];
+    final issues = <ImportLintError>[];
     final directives = unit.directives;
 
     for (final directive in directives) {
       final importPathEntity = directive.childEntities.toList()[1];
-      print('test1');
+      /*
+			print('test1');
       for (final test in directive.childEntities) {
         print(test);
         print([test, 'runtime', test.runtimeType]);
       }
+			*/
 
       //print(importPathEntity);
       final importPathValue =
@@ -42,7 +44,7 @@ class ImportLintAnalyze {
       if (rule != null) {
         final location = unit.lineInfo?.getLocation(directive.offset);
 
-        issues.add(Issue(
+        issues.add(ImportLintError(
           source: directive.toSource(),
           file: file,
           lineNumber: location?.lineNumber ?? 0,
@@ -55,7 +57,7 @@ class ImportLintAnalyze {
     return ImportLintAnalyze(issues);
   }
 
-  final List<Issue> issues;
+  final List<ImportLintError> issues;
 
   String get output {
     if (issues.isEmpty) {
@@ -87,7 +89,7 @@ class ImportLintAnalyze {
   static Future<ImportLintAnalyze> ofInitCli({
     required String rootDirectoryPath,
   }) async {
-    final resultIssues = <Issue>[];
+    final resultIssues = <ImportLintError>[];
     final paths = Paths.ofDartFile(directoryPath: rootDirectoryPath);
     final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
@@ -171,8 +173,8 @@ class ImportLintAnalyze {
   }
 }
 
-class Issue {
-  Issue({
+class ImportLintError {
+  ImportLintError({
     required this.source,
     required this.file,
     required this.lineNumber,
