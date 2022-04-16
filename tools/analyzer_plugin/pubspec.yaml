@@ -7,6 +7,6 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  #import_lint:
-  #  path: /Users/ryo/Documents/project/import-lint
-  import_lint: ^0.7.0
+  import_lint:
+    path: /Users/ryo/Documents/packages/import_lint_test/import-lint
+  # import_lint: ^0.7.0

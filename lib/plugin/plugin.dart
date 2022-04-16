@@ -4,7 +4,6 @@ import 'dart:io' as io;
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
@@ -12,6 +11,7 @@ import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:import_lint/import_lint.dart';
+import 'package:import_lint/src/utils.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
@@ -27,7 +27,7 @@ class ImportLintPlugin extends ServerPlugin {
   String get name => 'Import Lint';
 
   @override
-  String get version => '1.0.0';
+  String get version => '1.0.0-alpha.0';
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
@@ -81,6 +81,54 @@ class ImportLintPlugin extends ServerPlugin {
       () {
         dartDriver.results.listen((analysisResult) {
           if (analysisResult is ResolvedUnitResult) {
+            final libFilePath =
+                toProjectPath(path: analysisResult.path, options: options);
+            final analyzed = ImportLintAnalyze.ofFile(
+              filePath: analysisResult.path,
+              file: io.File(libFilePath),
+              unit: analysisResult.unit,
+              options: options,
+            );
+            debuglog(['test2']);
+
+            final errors = analyzed.issues.map((e) => e.pluginError).toList();
+            channel.sendNotification(
+              plugin.AnalysisErrorsParams(
+                analysisResult.path,
+                [
+                  plugin.AnalysisError(
+                    plugin.AnalysisErrorSeverity('WARNING'),
+                    plugin.AnalysisErrorType.LINT,
+                    plugin.Location(
+                      analysisResult.path,
+                      0,
+                      0,
+                      0,
+                      0,
+                    ),
+                    'Found Import Lint Error:}',
+                    'import_lint',
+                    correction: 'Try removing the import.',
+                    hasFix: false,
+                  )
+                ],
+              ).toNotification(),
+            );
+
+            channel.sendNotification(
+              plugin.AnalysisErrorsParams(
+                analysisResult.path,
+                errors,
+              ).toNotification(),
+            );
+            debuglog('sended ↓');
+
+            debuglog([analysisResult.path, libFilePath, errors.length]);
+            if (errors.isNotEmpty) {
+              final error = analyzed.issues.first;
+              debuglog([error.location]);
+            }
+            /*
             final path = analysisResult.path;
 
             final errors = _checkFile(
@@ -94,6 +142,7 @@ class ImportLintPlugin extends ServerPlugin {
                 errors,
               ).toNotification(),
             );
+						*/
           } else if (analysisResult is ErrorsResult) {
             channel.sendNotification(plugin.PluginErrorParams(
               false,
@@ -160,13 +209,11 @@ class ImportLintPlugin extends ServerPlugin {
       driver.priorityFiles = files;
     });
   }
+}
 
-  List<plugin.AnalysisError> _checkFile({
-    required io.File path,
-    required CompilationUnit unit,
-  }) {
-    final analyzed =
-        ImportLintAnalyze.ofFile(file: path, unit: unit, options: options);
-    return analyzed.issues.map((e) => e.pluginError).toList();
-  }
+void debuglog(Object value) {
+  final file = io.File(
+          '/Users/ryo/Documents/packages/import_lint_test/import-lint/log.txt')
+      .openSync(mode: io.FileMode.append);
+  file.writeStringSync('$value\n');
 }

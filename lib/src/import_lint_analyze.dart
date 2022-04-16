@@ -1,18 +1,16 @@
 import 'dart:io' as io;
 
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/ast/ast.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:import_lint/src/import_lint_options.dart';
-import 'package:import_lint/src/paths.dart';
+import 'package:import_lint/src/utils.dart';
 
 class ImportLintAnalyze {
   const ImportLintAnalyze(this.issues);
 
   factory ImportLintAnalyze.ofFile({
+    required String filePath,
     required io.File file,
     required CompilationUnit unit,
     required ImportLintOptions options,
@@ -47,7 +45,7 @@ class ImportLintAnalyze {
       final pathSource = importDirective.selectedSource!.fullName;
 
       //print(importPathValue);
-      final libPath = _toLibPath(
+      final libPath = toProjectPath(
         path: pathSource,
         options: options,
       );
@@ -60,7 +58,7 @@ class ImportLintAnalyze {
 
         issues.add(ImportLintError(
           source: directive.toSource(),
-          file: file,
+          file: io.File(filePath),
           lineNumber: location?.lineNumber ?? 0,
           startOffset: pathEntity.offset,
           length: pathEntity.length,
@@ -72,56 +70,6 @@ class ImportLintAnalyze {
   }
 
   final List<ImportLintError> issues;
-
-  static Future<ImportLintAnalyze> ofInitCli({
-    required String rootDirectoryPath,
-  }) async {
-    final resultIssues = <ImportLintError>[];
-    final paths = Paths.ofDartFile(directoryPath: rootDirectoryPath);
-    final resourceProvider = PhysicalResourceProvider.INSTANCE;
-
-    final collection = AnalysisContextCollection(
-      resourceProvider: resourceProvider,
-      includedPaths: paths.value,
-    );
-
-    late ImportLintOptions options;
-
-    for (final context in collection.contexts) {
-      options = ImportLintOptions.init(
-        directoryPath: rootDirectoryPath,
-        optionsFilePath: context.contextRoot.optionsFile!.path,
-      );
-
-      final filePaths = context.contextRoot.analyzedFiles();
-      for (final filePath in filePaths) {
-        final result = await context.currentSession.getResolvedUnit(filePath);
-        if (result is ResolvedUnitResult) {
-          final analyzed = ImportLintAnalyze.ofFile(
-            file: io.File(filePath),
-            unit: result.unit,
-            options: options,
-          );
-          resultIssues.addAll(analyzed.issues);
-        }
-      }
-    }
-    return ImportLintAnalyze(resultIssues);
-  }
-
-  static String _toLibPath({
-    required String path,
-    required ImportLintOptions options,
-  }) {
-    final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
-    if (fixedPath.startsWith('/')) {
-      return fixedPath.replaceFirst('/', '');
-    }
-    if (fixedPath.startsWith(r'\')) {
-      return fixedPath.replaceFirst(r'\', '');
-    }
-    return fixedPath;
-  }
 
   static Rule? _ruleCheck({
     required io.File file,

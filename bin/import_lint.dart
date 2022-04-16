@@ -5,6 +5,7 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:cli_util/cli_logging.dart';
 import 'package:import_lint/import_lint.dart';
+import 'package:import_lint/src/utils.dart';
 import 'package:path/path.dart' as p;
 
 void main(List<String> arguments) async {
@@ -28,13 +29,14 @@ void main(List<String> arguments) async {
       );
       final filePaths =
           context.contextRoot.analyzedFiles().where((e) => e.endsWith('.dart'));
-      //print(filePaths);
 
       for (final filePath in filePaths) {
         final result = await context.currentSession.getResolvedUnit(filePath);
         if (result is ResolvedUnitResult) {
-          final libFilePath = _toProjectPath(path: filePath, options: options);
+          final libFilePath =
+              toProjectPath(path: result.path, options: options);
           final analyzed = ImportLintAnalyze.ofFile(
+            filePath: result.path,
             file: io.File(libFilePath),
             unit: result.unit,
             options: options,
@@ -44,18 +46,6 @@ void main(List<String> arguments) async {
       }
     }
 
-    /*
-    late ImportLintOptions options;
-
-    for (final context in collection.contexts) {
-      options = ImportLintOptions.init(
-        directoryPath: rootDirectoryPath,
-        optionsFilePath: context.contextRoot.optionsFile!.path,
-      );
-    }
-    final analyzed =
-        await ImportLintAnalyze.ofInitCli(rootDirectoryPath: rootDirectoryPath);
-		*/
     progress.finish(showTiming: true);
 
     logger.stdout('');
@@ -68,18 +58,4 @@ void main(List<String> arguments) async {
     io.stdout.writeln(s);
     io.exit(1);
   }
-}
-
-String _toProjectPath({
-  required String path,
-  required ImportLintOptions options,
-}) {
-  final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
-  if (fixedPath.startsWith('/')) {
-    return fixedPath.replaceFirst('/', '');
-  }
-  if (fixedPath.startsWith(r'\')) {
-    return fixedPath.replaceFirst(r'\', '');
-  }
-  return fixedPath;
 }

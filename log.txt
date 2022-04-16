@@ -1,0 +1,68 @@
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, bin/example.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, lib/repository/test_one_repository.dart, 3]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart","offset":69,"length":32,"startLine":2,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, lib/repository/test_two_repository.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart","offset":7,"length":49,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, lib/space test/test.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, lib/use_case/base_use_case.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, lib/use_case/test_one_use_case.dart, 3]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart","offset":123,"length":49,"startLine":3,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, lib/use_case/test/test_use_case.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, lib/use_case/test_two_use_case.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart","offset":7,"length":24,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, lib/use_case/foo_use_case.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart","offset":7,"length":49,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, lib/use_case/foo_use_case.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart","offset":7,"length":49,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, bin/example.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, lib/repository/test_one_repository.dart, 3]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart","offset":69,"length":32,"startLine":2,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, lib/repository/test_two_repository.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart","offset":7,"length":49,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, lib/space test/test.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, lib/use_case/base_use_case.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, lib/use_case/test_one_use_case.dart, 3]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart","offset":123,"length":49,"startLine":3,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, lib/use_case/test/test_use_case.dart, 0]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, lib/use_case/test_two_use_case.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart","offset":7,"length":24,"startLine":1,"startColumn":0}]
+[test2]
+sended ↓
+[/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, lib/use_case/foo_use_case.dart, 1]
+[{"file":"/Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart","offset":7,"length":49,"startLine":1,"startColumn":0}]
