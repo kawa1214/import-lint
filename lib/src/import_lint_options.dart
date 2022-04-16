@@ -101,13 +101,14 @@ class Rule {
     required Map<String, dynamic> ruleMap,
     required String name,
   }) {
-    final targetFilePath = Glob(ruleMap['target_file_path']);
+    final targetFilePath = Glob(ruleMap['target_file_path'],
+        recursive: true, caseSensitive: false);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString()))
+        .map((e) => Glob(e.toString(), recursive: true, caseSensitive: false))
         .toList();
     final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString()))
+        .map((e) => Glob(e.toString(), recursive: true, caseSensitive: false))
         .toList();
 
     return Rule(

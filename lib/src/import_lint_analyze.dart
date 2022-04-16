@@ -114,12 +114,7 @@ class ImportLintAnalyze {
     required ImportLintOptions options,
   }) {
     final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
-    if (fixedPath.startsWith('/')) {
-      return fixedPath.replaceFirst('/', '');
-    }
-    if (fixedPath.startsWith(r'\')) {
-      return fixedPath.replaceFirst(r'\', '');
-    }
+
     return fixedPath;
   }
 
@@ -134,6 +129,7 @@ class ImportLintAnalyze {
       if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
       }
+      print('ok');
 
       for (final notAllowImportRule in ruleValue.notAllowImports) {
         if (notAllowImportRule.matches(libValue)) {
