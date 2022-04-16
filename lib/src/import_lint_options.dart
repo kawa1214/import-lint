@@ -2,7 +2,6 @@ import 'dart:convert' as convert;
 import 'dart:io' as io;
 
 import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart' as yaml;
 
 class ImportLintOptions {
@@ -102,13 +101,14 @@ class Rule {
     required Map<String, dynamic> ruleMap,
     required String name,
   }) {
-    final targetFilePath = Glob(ruleMap['target_file_path']);
+    final targetFilePath = Glob(_globCanonicalize(ruleMap['target_file_path']));
+    print(['rule target', _globCanonicalize(ruleMap['target_file_path'])]);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => Glob(p.canonicalize(e.toString())))
+        .map((e) => Glob(_globCanonicalize(e.toString())))
         .toList();
     final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => Glob(p.canonicalize(e.toString())))
+        .map((e) => Glob(_globCanonicalize(e.toString())))
         .toList();
 
     return Rule(
@@ -118,6 +118,14 @@ class Rule {
       excludeImports: excludeImports,
     );
   }
+
+  static String _globCanonicalize(String value) {
+    if (io.Platform.isWindows) {
+      return value.replaceAll('/', r'\');
+    }
+    return value.replaceAll(r'\', '/');
+  }
+
   final String name;
   final Glob targetFilePath;
   final List<Glob> notAllowImports;
