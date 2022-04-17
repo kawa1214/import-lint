@@ -1,18 +1,16 @@
 import 'dart:async';
+import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
-import 'package:analyzer_plugin/protocol/protocol_common.dart' as plugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
 import 'package:import_lint/import_lint.dart';
-
-import 'dart:io' as io;
+import 'package:import_lint/src/utils.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
@@ -22,13 +20,13 @@ class ImportLintPlugin extends ServerPlugin {
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
-  List<String> get fileGlobsToAnalyze => <String>['/lib/**/*.dart'];
+  List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
 
   @override
   String get name => 'Import Lint';
 
   @override
-  String get version => '1.0.0';
+  String get version => '1.0.0-alpha.0';
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
@@ -82,16 +80,21 @@ class ImportLintPlugin extends ServerPlugin {
       () {
         dartDriver.results.listen((analysisResult) {
           if (analysisResult is ResolvedUnitResult) {
-            final path = analysisResult.path;
+            final projectFilePath =
+                toProjectPath(path: analysisResult.path, options: options);
 
-            final errors = _checkFile(
-              path: io.File(path),
+            final analyzed = ImportLintAnalyze.ofFile(
+              filePath: analysisResult.path,
+              file: io.File(projectFilePath),
               unit: analysisResult.unit,
+              options: options,
             );
+
+            final errors = analyzed.issues.map((e) => e.pluginError).toList();
 
             channel.sendNotification(
               plugin.AnalysisErrorsParams(
-                path,
+                analysisResult.path,
                 errors,
               ).toNotification(),
             );
@@ -160,14 +163,5 @@ class ImportLintPlugin extends ServerPlugin {
     filesByDriver.forEach((driver, files) {
       driver.priorityFiles = files;
     });
-  }
-
-  List<plugin.AnalysisError> _checkFile({
-    required io.File path,
-    required CompilationUnit unit,
-  }) {
-    final analyzed =
-        ImportLintAnalyze.ofFile(file: path, unit: unit, options: options);
-    return analyzed.issues.map((e) => e.pluginError).toList();
   }
 }

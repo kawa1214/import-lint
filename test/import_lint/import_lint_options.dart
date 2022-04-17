@@ -1,5 +1,4 @@
 import 'package:import_lint/src/import_lint_options.dart';
-import 'package:test/expect.dart';
 import 'package:test/test.dart';
 
 import '../helper/generate_test_project.dart';
@@ -45,8 +44,8 @@ void runImportLintOptionsTest() {
         optionsFilePath: project.optionsPath,
       );
 
-      expect(options.packageName, GenerateTestProject.packageName);
-      expect(options.directoryPath, project.directoryPath);
+      expect(options.common.packageName, GenerateTestProject.packageName);
+      expect(options.common.directoryPath, project.directoryPath);
       expect(options.rules.value.length, GenerateTestProject.rulesLength);
     });
   });
