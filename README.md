@@ -1,7 +1,5 @@
 ![cover](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/cover.png)
 
-[![codecov](https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP)](https://codecov.io/gh/kawa1214/import-lint)
-
 # Why import lint?
 
 The Import Lint package defines import lint rules and report on lints found in Dart code.
@@ -34,13 +32,13 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            target_file_path: "/**/use_case/*_use_case.dart"
-            not_allow_imports: ["/**/use_case/*_use_case.dart"]
-            exclude_imports: ["/lib/use_case/base_use_case.dart"]
+            target_file_path: "**/use_case/*_use_case.dart"
+            not_allow_imports: ["**/use_case/*_use_case.dart"]
+            exclude_imports: ["lib/use_case/base_use_case.dart"]
         repository_rule:
-            target_file_path: "/**/repository/*_repository.dart"
+            target_file_path: "**/repository/*_repository.dart"
             not_allow_imports:
-                ["/**/use_case/*_repository.dart", "/**/use_case/*_use_case.dart"]
+                ["**/use_case/*_repository.dart", "**/use_case/*_use_case.dart"]
             exclude_imports: []
         # add custom rules...
 
@@ -55,7 +53,9 @@ By adding import_lint plugin to get the warnings directly in your IDE by configu
 ```
 flutter run import_lint
 ```
+
 or
+
 ```
 dart run import_lint
 ```
@@ -65,6 +65,7 @@ dart run import_lint
 - Passed
 
 `output`
+
 ```
 No issues found! 🎉
 ```
@@ -81,13 +82,13 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            target_file_path: "/**/use_case/*_use_case.dart"
-            not_allow_imports: ["/**/use_case/*_use_case.dart"]
-            exclude_imports: ["/lib/use_case/base_use_case.dart"]
+            target_file_path: "**/use_case/*_use_case.dart"
+            not_allow_imports: ["**/use_case/*_use_case.dart"]
+            exclude_imports: ["lib/use_case/base_use_case.dart"]
         repository_rule:
-            target_file_path: "/**/repository/*_repository.dart"
+            target_file_path: "**/repository/*_repository.dart"
             not_allow_imports:
-                ["/**/use_case/*_repository.dart", "/**/use_case/*_use_case.dart"]
+                ["**/use_case/*_repository.dart", "**/use_case/*_use_case.dart"]
             exclude_imports: []
 
 ```
@@ -104,23 +105,22 @@ import_lint:
             class TestOneRepository {}
 
         - test_two_repository.dart
-        
+
             class TestTwoRepository {}
-    
+
     - use_case
 
         - test_one_use_case.dart
-        
+
             import 'package:import_analyzer_test/use_case/base_use_case.dart';
             class TestOneUseCase extends BaseUseCase {}
-        
+
         - test_two_use_case.dart
-        
+
             import 'package:import_analyzer_test/repository/test_one_repository.dart';
             import 'package:import_analyzer_test/use_case/test_one_use_case.dart';
             class TestTwoUseCase {}
 ```
-
 
 `output`
 
