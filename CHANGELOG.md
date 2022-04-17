@@ -1,3 +1,11 @@
+## 0.8.0
+
+- Fix bug
+  - Not working on windows
+  - Analyzer error
+- Breaking change
+  - analysis_options.yaml
+
 ## 0.7.0
 
 - Fix packages dependency
@@ -30,7 +38,7 @@
 ## 0.2.2
 
 - Update README.md
- 
+
 ## 0.2.1
 
 - Update README.md
@@ -42,7 +50,6 @@
 ## 0.1.6
 
 - Support Ignore Rules
-
 
 ## 0.1.5
 
