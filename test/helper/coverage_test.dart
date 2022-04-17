@@ -3,5 +3,5 @@
 // ignore_for_file: unused_import
 import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/import_lint_analyze.dart';
-import 'package:import_lint/src/paths.dart';
+import 'package:import_lint/src/utils.dart';
 import 'package:import_lint/src/import_lint_options.dart';

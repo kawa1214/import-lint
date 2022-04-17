@@ -19,7 +19,6 @@ class ImportLintAnalyze {
     final directives = unit.directives;
 
     for (final directive in directives) {
-      //print(directive);
       if (directive is! ImportDirectiveImpl) {
         continue;
       }
@@ -41,15 +40,12 @@ class ImportLintAnalyze {
 
       final pathEntity = childEntities[1];
 
-      //print([importEntity, pathEntity, endEntity]);
       final pathSource = importDirective.selectedSource!.fullName;
 
-      //print(importPathValue);
       final libPath = toProjectPath(
         path: pathSource,
         options: options,
       );
-      //print(['libPath', libPath]);
 
       final rule = _ruleCheck(file: file, libValue: libPath, options: options);
 
@@ -66,6 +62,7 @@ class ImportLintAnalyze {
         ));
       }
     }
+
     return ImportLintAnalyze(issues);
   }
 
@@ -77,12 +74,9 @@ class ImportLintAnalyze {
     required ImportLintOptions options,
   }) {
     for (final ruleValue in options.rules.value) {
-      print([ruleValue.targetFilePath, file.path]);
-
       if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
       }
-      print('ok');
 
       for (final notAllowImportRule in ruleValue.notAllowImports) {
         if (notAllowImportRule.matches(libValue)) {
