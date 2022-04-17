@@ -49,8 +49,7 @@ void main(List<String> arguments) async {
     progress.finish(showTiming: true);
 
     logger.stdout('');
-    logger.stdout(errors.length.toString());
-    //logger.stdout(Output(errors).output);
+    logger.stdout(Output(errors).output);
 
     io.exit(0);
   } catch (e, s) {
