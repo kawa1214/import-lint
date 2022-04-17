@@ -98,7 +98,7 @@ packages:
       path: "/Users/ryo/Documents/packages/import_lint_test/import-lint"
       relative: false
     source: path
-    version: "0.7.0"
+    version: "0.8.0"
   meta:
     dependency: transitive
     description:
