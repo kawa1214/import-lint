@@ -91,12 +91,10 @@ class ImportLintAnalyze {
   }) {
     final result = <Rule>[];
     for (final ruleValue in options.rules.value) {
-      //print([ruleValue.targetFilePath, file.path]);
       if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
       }
 
-      // package:example/use_case/test_one_use_case.dart
       late String package;
       late String importValue;
 

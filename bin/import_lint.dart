@@ -51,17 +51,6 @@ void main(List<String> arguments) async {
     logger.stdout('');
     logger.stdout(Output(errors).output);
 
-    /*
-		[shortName, import_lint.dart]
-		[fullName, /Users/ryo/Documents/packages/import_lint_test/import-lint/lib/import_lint.dart]
-		[selectedUriContent, package:import_lint/import_lint.dart]
-		[libPath, Users/ryo/Documents/packages/import_lint_test/import-lint/lib/import_lint.dart]
-		[shortName, test_one_use_case.dart]
-		[fullName, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart]
-		[selectedUriContent, package:example/use_case/test_one_use_case.dart]
-		[libPath, lib/use_case/test_one_use_case.dart]
-		*/
-
     io.exit(0);
   } catch (e, s) {
     io.stdout.writeln('${e.toString()}\n');

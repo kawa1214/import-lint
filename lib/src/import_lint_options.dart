@@ -114,12 +114,6 @@ class Rule {
         .map((e) => ImportRulePath.from(e.toString(), commonOption))
         .toList();
 
-    /*
-    for (final i in notAllowImports) {
-      print([i.package, i.path]);
-    }
-		*/
-
     return Rule(
       name: name,
       targetFilePath: targetFilePath,
