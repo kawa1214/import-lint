@@ -40,27 +40,47 @@ class ImportLintAnalyze {
 
       final pathEntity = childEntities[1];
 
-      final pathSource = importDirective.selectedSource!.fullName;
+      final pathSource = importDirective.selectedSource?.fullName;
+      if (pathSource == null) {
+        continue;
+      }
 
       final libPath = toProjectPath(
         path: pathSource,
         options: options,
       );
 
-      final rule = _ruleCheck(file: file, libValue: libPath, options: options);
+      /*
+      print(['selectedUriContent', importDirective.selectedUriContent]);
+      print(['libPath', libPath]);
+      */
 
-      if (rule != null) {
-        final location = unit.lineInfo?.getLocation(directive.offset);
+      final importContent = importDirective.selectedUriContent;
 
-        issues.add(ImportLintError(
-          source: directive.toSource(),
-          file: io.File(filePath),
-          lineNumber: location?.lineNumber ?? 0,
-          startOffset: pathEntity.offset,
-          length: pathEntity.length,
-          rule: rule,
-        ));
+      if (importContent == null) {
+        break;
       }
+
+      final rules = _ruleCheck(
+          file: file,
+          importContent: importContent,
+          libPath: libPath,
+          options: options);
+
+      final location = unit.lineInfo?.getLocation(directive.offset);
+
+      final result = rules
+          .map((e) => ImportLintError(
+                source: directive.toSource(),
+                file: io.File(filePath),
+                lineNumber: location?.lineNumber ?? 0,
+                startOffset: pathEntity.offset,
+                length: pathEntity.length,
+                rule: e,
+              ))
+          .toList();
+
+      issues.addAll(result);
     }
 
     return ImportLintAnalyze(issues);
@@ -68,30 +88,58 @@ class ImportLintAnalyze {
 
   final List<ImportLintError> issues;
 
-  static Rule? _ruleCheck({
+  static List<Rule> _ruleCheck({
     required io.File file,
-    required String libValue,
+    required String importContent,
+    required String libPath,
     required ImportLintOptions options,
   }) {
+    final result = <Rule>[];
     for (final ruleValue in options.rules.value) {
+      //print([ruleValue.targetFilePath, file.path]);
       if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
       }
 
+      // package:example/use_case/test_one_use_case.dart
+      late String package;
+      late String importValue;
+
+      final packageRegExpResult =
+          RegExp('(?<=package:).*?(?=\/)').stringMatch(importContent);
+      if (packageRegExpResult != null) {
+        package = packageRegExpResult;
+      } else {
+        package = options.common.packageName;
+      }
+
+      if (package == options.common.packageName) {
+        importValue = libPath;
+      } else {
+        importValue = importContent.replaceFirst('package:$package/', '');
+      }
+
       for (final notAllowImportRule in ruleValue.notAllowImports) {
-        if (notAllowImportRule.matches(libValue)) {
+        print(['file', file.path, importValue, package]);
+        print([
+          'notAllowImportRule',
+          notAllowImportRule.package,
+          notAllowImportRule.path
+        ]);
+        print(['match', notAllowImportRule.path.matches(importValue)]);
+        if (notAllowImportRule.path.matches(importValue)) {
           final isIgnore = ruleValue.excludeImports
-              .map((e) => e.matches(libValue))
+              .map((e) => e.path.matches(importValue))
               .contains(true);
           if (isIgnore) {
             continue;
           }
-          return ruleValue;
+          result.add(ruleValue);
         }
       }
     }
 
-    return null;
+    return result;
   }
 }
 

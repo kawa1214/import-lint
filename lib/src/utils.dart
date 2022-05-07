@@ -5,11 +5,11 @@ String toProjectPath({
   required ImportLintOptions options,
 }) {
   final fixedPath = path.replaceFirst('${options.common.directoryPath}', '');
-  if (fixedPath.startsWith('/')) {
-    return fixedPath.replaceFirst('/', '');
+  if (fixedPath.startsWith('/lib/')) {
+    return fixedPath.replaceFirst('/lib/', '');
   }
-  if (fixedPath.startsWith(r'\')) {
-    return fixedPath.replaceFirst(r'\', '');
+  if (fixedPath.startsWith(r'\lib\')) {
+    return fixedPath.replaceFirst(r'\lib\', '');
   }
   return fixedPath;
 }
