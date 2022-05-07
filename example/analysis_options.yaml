@@ -11,6 +11,16 @@ import_lint:
       target_file_path: "use_case/*_use_case.dart"
       not_allow_imports: ["use_case/*_use_case.dart"]
       exclude_imports: ["use_case/base_use_case.dart"]
+    repository_rule:
+      target_file_path: "repository/*_repository.dart"
+      not_allow_imports:
+        [
+          "use_case/*_use_case.dart",
+          "repository/*_repository.dart",
+          "space\ test/*.dart",
+          "repository/sub/**/*.dart",
+        ]
+      exclude_imports: []
     package_rule:
       target_file_path: "**/*.dart"
       not_allow_imports: ["package:import_lint/import_lint.dart"]

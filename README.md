@@ -32,13 +32,22 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            target_file_path: "**/use_case/*_use_case.dart"
-            not_allow_imports: ["**/use_case/*_use_case.dart"]
-            exclude_imports: ["lib/use_case/base_use_case.dart"]
+            target_file_path: "use_case/*_use_case.dart"
+            not_allow_imports: ["use_case/*_use_case.dart"]
+            exclude_imports: ["use_case/base_use_case.dart"]
         repository_rule:
-            target_file_path: "**/repository/*_repository.dart"
+            target_file_path: "repository/*_repository.dart"
             not_allow_imports:
-                ["**/use_case/*_repository.dart", "**/use_case/*_use_case.dart"]
+                [
+                    "use_case/*_use_case.dart",
+                    "repository/*_repository.dart",
+                    "space\ test/*.dart",
+                    "repository/sub/**/*.dart",
+                ]
+            exclude_imports: []
+        package_rule:
+            target_file_path: "**/*.dart"
+            not_allow_imports: ["package:import_lint/import_lint.dart"]
             exclude_imports: []
         # add custom rules...
 
@@ -82,13 +91,22 @@ analyzer:
 import_lint:
     rules:
         use_case_rule:
-            target_file_path: "**/use_case/*_use_case.dart"
-            not_allow_imports: ["**/use_case/*_use_case.dart"]
-            exclude_imports: ["lib/use_case/base_use_case.dart"]
+            target_file_path: "use_case/*_use_case.dart"
+            not_allow_imports: ["use_case/*_use_case.dart"]
+            exclude_imports: ["use_case/base_use_case.dart"]
         repository_rule:
-            target_file_path: "**/repository/*_repository.dart"
+            target_file_path: "repository/*_repository.dart"
             not_allow_imports:
-                ["**/use_case/*_repository.dart", "**/use_case/*_use_case.dart"]
+                [
+                    "use_case/*_use_case.dart",
+                    "repository/*_repository.dart",
+                    "space\ test/*.dart",
+                    "repository/sub/**/*.dart",
+                ]
+            exclude_imports: []
+        package_rule:
+            target_file_path: "**/*.dart"
+            not_allow_imports: ["package:import_lint/import_lint.dart"]
             exclude_imports: []
 
 ```
@@ -119,6 +137,7 @@ import_lint:
 
             import 'package:import_analyzer_test/repository/test_one_repository.dart';
             import 'package:import_analyzer_test/use_case/test_one_use_case.dart';
+            import 'package:import_lint/import_lint.dart';
             class TestTwoUseCase {}
 ```
 
@@ -128,8 +147,9 @@ import_lint:
 use_case_rule • package:import_analyzer_test/use_case/test_two_use_case.dart:2 • import 'package:import_analyzer_test/use_case/test_one_use_case.dart'
 repository_rule • package:import_analyzer_test/repository/test_one_repository.dart:1 • import 'package:import_analyzer_test/repository/test_two_repository.dart'
 repository_rule • package:import_analyzer_test/repository/test_one_repository.dart:2 • import 'package:import_analyzer_test/use_case/test_one_use_case.dart'
+package_rule • package:import_analyzer_test/repository/test_one_repository.dart:3 • import 'package:import_lint/import_lint.dart';
 
-3 issues found.
+4 issues found.
 ```
 
 ## 🧤 Features
