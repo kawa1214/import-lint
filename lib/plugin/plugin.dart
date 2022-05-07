@@ -165,3 +165,12 @@ class ImportLintPlugin extends ServerPlugin {
     });
   }
 }
+
+/*
+void debuglog(Object value) {
+  final file = io.File(
+          '/Users/ryo/Documents/packages/import_lint_test/import-lint/log.txt')
+      .openSync(mode: io.FileMode.append);
+  file.writeStringSync('$value\n');
+}
+*/

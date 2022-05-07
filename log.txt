@@ -1,0 +1,1861 @@
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+-------
+sResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+6
+1
+100
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+2
+3
+4
+5
+6
+100
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+6
+2
+3
+4
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+1
+-------
+2
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+4
+1
+5
+100
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+1
+3
+4
+5
+2
+2
+3
+3
+5
+6
+4
+100
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+-------
+1
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+100
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+100
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+1
+2
+3
+4
+-------
+-------
+2
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[a5
+lysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+2
+3
+4
+5
+6
+2
+2
+6
+5
+3
+6
+2
+4
+3
+4
+4
+5
+6
+6
+3
+2
+4
+3
+5
+0
+4
+5
+6
+3
+2
+4
+3
+5
+4
+6
+6
+2
+0
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+1
+2
+3
+-------
+5
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+1
+100
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+1
+100
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+1
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+1
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_one_use_case.dart, projectFilePath, use_case/test_one_use_case.dart]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/test_two_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_one_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test_two_use_case.dart, projectFilePath, use_case/test_two_use_case.dart]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, true]
+[file, use_case/test_two_use_case.dart, import_lint.dart, import_lint]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/bin/example.dart, projectFilePath, /bin/example.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_one_repository.dart, projectFilePath, repository/test_one_repository.dart]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, use_case/base_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, repository/test_two_repository.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_one_repository.dart, space test/test.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/repository/test_two_repository.dart, projectFilePath, repository/test_two_repository.dart]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, repository/test_two_repository.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/space test/test.dart, projectFilePath, space test/test.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/base_use_case.dart, projectFilePath, use_case/base_use_case.dart]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/test/test_use_case.dart, projectFilePath, use_case/test/test_use_case.dart]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/test/test_use_case.dart, use_case/foo_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+2
+3
+4
+5
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+-------
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+[match, false]
+2
+3
+[file, use_case/foo_use_case.dart, repository/test_one_repository.dart, example]
+5
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+6
+[match, false]
+2
+3
+4
+5
+ile, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, use_case/*_use_case.dart{,/**}]
+[match, true]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, import_lint, import_lint.dart{,/**}]
+[match, false]
+[file, use_case/foo_use_case.dart, use_case/test_one_use_case.dart, example]
+[notAllowImportRule, example, **/test_two_use_case.dart{,/**}]
+[match, false]
+complete: sendNotification
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+2
+3
+3
+4
+5
+6
+100
+6
+2
+3
+4
+5
+6
+100
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100
+-------
+[analysisResult.path, /Users/ryo/Documents/packages/import_lint_test/import-lint/example/lib/use_case/foo_use_case.dart, projectFilePath, use_case/foo_use_case.dart]
+1
+2
+3
+4
+5
+6
+2
+3
+4
+5
+6
+100

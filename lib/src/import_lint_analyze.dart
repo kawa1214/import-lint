@@ -50,22 +50,17 @@ class ImportLintAnalyze {
         options: options,
       );
 
-      /*
-      print(['selectedUriContent', importDirective.selectedUriContent]);
-      print(['libPath', libPath]);
-      */
-
       final importContent = importDirective.selectedUriContent;
 
       if (importContent == null) {
         break;
       }
-
       final rules = _ruleCheck(
-          file: file,
-          importContent: importContent,
-          libPath: libPath,
-          options: options);
+        file: file,
+        importContent: importContent,
+        libPath: libPath,
+        options: options,
+      );
 
       final location = unit.lineInfo?.getLocation(directive.offset);
 
@@ -120,13 +115,6 @@ class ImportLintAnalyze {
       }
 
       for (final notAllowImportRule in ruleValue.notAllowImports) {
-        print(['file', file.path, importValue, package]);
-        print([
-          'notAllowImportRule',
-          notAllowImportRule.package,
-          notAllowImportRule.path
-        ]);
-        print(['match', notAllowImportRule.path.matches(importValue)]);
         if (notAllowImportRule.path.matches(importValue)) {
           final isIgnore = ruleValue.excludeImports
               .map((e) => e.path.matches(importValue))
