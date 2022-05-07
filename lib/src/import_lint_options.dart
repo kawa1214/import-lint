@@ -11,8 +11,8 @@ class ImportLintOptions {
     required String directoryPath,
     required String optionsFilePath,
   }) {
-    final rules = RulesOption.fromOptionsFile(optionsFilePath);
     final common = CommonOption.fromYaml(directoryPath);
+    final rules = RulesOption.fromOptionsFile(optionsFilePath, common);
     return ImportLintOptions(
       rules: rules,
       common: common,
@@ -60,7 +60,7 @@ class CommonOption {
 
 class RulesOption {
   const RulesOption(this.value);
-  factory RulesOption.fromOptionsFile(String path) {
+  factory RulesOption.fromOptionsFile(String path, CommonOption commonOption) {
     late String readValue;
     try {
       readValue = io.File(path).readAsStringSync();
@@ -78,9 +78,11 @@ class RulesOption {
     final ruleNames = rulesMap.keys.toList();
 
     final result = <Rule>[];
+
     for (final name in ruleNames) {
       final ruleMap = rulesMap[name];
-      final rule = Rule.ofMap(ruleMap: ruleMap, name: name);
+      final rule =
+          Rule.ofMap(ruleMap: ruleMap, name: name, commonOption: commonOption);
 
       result.add(rule);
     }
@@ -100,15 +102,16 @@ class Rule {
   factory Rule.ofMap({
     required Map<String, dynamic> ruleMap,
     required String name,
+    required CommonOption commonOption,
   }) {
     final targetFilePath = Glob(ruleMap['target_file_path'],
         recursive: true, caseSensitive: false);
 
     final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString(), recursive: true, caseSensitive: false))
+        .map((e) => ImportRulePath.from(e.toString(), commonOption))
         .toList();
     final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => Glob(e.toString(), recursive: true, caseSensitive: false))
+        .map((e) => ImportRulePath.from(e.toString(), commonOption))
         .toList();
 
     return Rule(
@@ -121,6 +124,26 @@ class Rule {
 
   final String name;
   final Glob targetFilePath;
-  final List<Glob> notAllowImports;
-  final List<Glob> excludeImports;
+  final List<ImportRulePath> notAllowImports;
+  final List<ImportRulePath> excludeImports;
+}
+
+class ImportRulePath {
+  const ImportRulePath(this.package, this.path);
+
+  factory ImportRulePath.from(String value, CommonOption commonOption) {
+    final package = RegExp('(?<=package:).*?(?=\/)').stringMatch(value);
+    if (package != null) {
+      final importPath = value.replaceFirst('package:$package/', '');
+      final path = Glob(importPath, recursive: true, caseSensitive: false);
+
+      return ImportRulePath(package, path);
+    }
+
+    final path = Glob(value, recursive: true, caseSensitive: false);
+    return ImportRulePath(commonOption.packageName, path);
+  }
+
+  final String package;
+  final Glob path;
 }
