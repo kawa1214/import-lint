@@ -1,3 +1,9 @@
+## 0.9.0
+
+- Support for importing external packages
+- Breaking change
+  - analysis_options.yaml
+
 ## 0.8.0
 
 - Fix bug
