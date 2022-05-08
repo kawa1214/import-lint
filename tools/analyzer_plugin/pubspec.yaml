@@ -1,6 +1,6 @@
 name: import_lint_loader
 description: bootstrap package of import_lint
-version: 0.9.0
+version: 0.9.1
 publish_to: none
 
 environment:
@@ -9,4 +9,4 @@ environment:
 dependencies:
   #import_lint:
   #  path: /Users/ryo/Documents/packages/import_lint_test/import-lint
-  import_lint: ^0.9.0
+  import_lint: ^0.9.1
