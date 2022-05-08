@@ -15,8 +15,8 @@ import 'package:import_lint/src/utils.dart';
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
-  late String rootDirectoryPath;
-  late ImportLintOptions options;
+  Map<String, ImportLintOptions> optionsMap = {};
+
   var _filesFromSetPriorityFilesRequest = <String>[];
 
   @override
@@ -61,11 +61,12 @@ class ImportLintPlugin extends ServerPlugin {
     final dartDriver = context.driver;
 
     try {
-      rootDirectoryPath = context.contextRoot.root.path;
-      options = ImportLintOptions.init(
+      final rootDirectoryPath = context.contextRoot.root.path;
+      final options = ImportLintOptions.init(
         directoryPath: rootDirectoryPath,
         optionsFilePath: optionsFile!,
       );
+      optionsMap.addAll({rootDirectoryPath: options});
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -80,24 +81,30 @@ class ImportLintPlugin extends ServerPlugin {
       () {
         dartDriver.results.listen((analysisResult) {
           if (analysisResult is ResolvedUnitResult) {
-            final projectFilePath =
-                toProjectPath(path: analysisResult.path, options: options);
+            final key =
+                analysisResult.session.analysisContext.contextRoot.root.path;
+            final options = optionsMap[key];
 
-            final analyzed = ImportLintAnalyze.ofFile(
-              filePath: analysisResult.path,
-              file: io.File(projectFilePath),
-              unit: analysisResult.unit,
-              options: options,
-            );
+            if (options != null) {
+              final projectFilePath =
+                  toProjectPath(path: analysisResult.path, options: options);
 
-            final errors = analyzed.issues.map((e) => e.pluginError).toList();
+              final analyzed = ImportLintAnalyze.ofFile(
+                filePath: analysisResult.path,
+                file: io.File(projectFilePath),
+                unit: analysisResult.unit,
+                options: options,
+              );
 
-            channel.sendNotification(
-              plugin.AnalysisErrorsParams(
-                analysisResult.path,
-                errors,
-              ).toNotification(),
-            );
+              final errors = analyzed.issues.map((e) => e.pluginError).toList();
+
+              channel.sendNotification(
+                plugin.AnalysisErrorsParams(
+                  analysisResult.path,
+                  errors,
+                ).toNotification(),
+              );
+            }
           } else if (analysisResult is ErrorsResult) {
             channel.sendNotification(plugin.PluginErrorParams(
               false,
