@@ -8,3 +8,7 @@ coverage/
 
 # Files and directories created by test.
 test/helper/generated_project/**
+
+example2
+.fvm
+.vscode

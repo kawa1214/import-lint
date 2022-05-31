@@ -62,13 +62,13 @@ class ImportLintAnalyze {
         options: options,
       );
 
-      final location = unit.lineInfo?.getLocation(directive.offset);
+      final location = unit.lineInfo.getLocation(directive.offset);
 
       final result = rules
           .map((e) => ImportLintError(
                 source: directive.toSource(),
                 file: io.File(filePath),
-                lineNumber: location?.lineNumber ?? 0,
+                lineNumber: location.lineNumber,
                 startOffset: pathEntity.offset,
                 length: pathEntity.length,
                 rule: e,
@@ -83,13 +83,13 @@ class ImportLintAnalyze {
 
   final List<ImportLintError> issues;
 
-  static List<Rule> _ruleCheck({
+  static List<RuleOption> _ruleCheck({
     required io.File file,
     required String importContent,
     required String libPath,
     required ImportLintOptions options,
   }) {
-    final result = <Rule>[];
+    final result = <RuleOption>[];
     for (final ruleValue in options.rules.value) {
       if (!ruleValue.targetFilePath.matches(file.path)) {
         continue;
@@ -103,9 +103,9 @@ class ImportLintAnalyze {
       if (packageRegExpResult != null) {
         package = packageRegExpResult;
       } else {
-        package = options.common.packageName;
+        //package = options.common.packageName;
       }
-
+      /*
       if (package == options.common.packageName) {
         importValue = libPath;
       } else {
@@ -123,6 +123,7 @@ class ImportLintAnalyze {
           result.add(ruleValue);
         }
       }
+			*/
     }
 
     return result;
@@ -175,7 +176,7 @@ class ImportLintError {
   final int lineNumber;
   final int startOffset;
   final int length;
-  final Rule rule;
+  final RuleOption rule;
 
   plugin.Location get location {
     return plugin.Location(

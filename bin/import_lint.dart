@@ -1,17 +1,33 @@
 import 'dart:io' as io;
 
-import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
-import 'package:cli_util/cli_logging.dart';
-import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/utils.dart';
-import 'package:path/path.dart' as p;
+import 'package:import_lint/src/cli.dart' as cli;
 
-void main(List<String> arguments) async {
+void main(List<String> args) async {
+  try {
+    await cli.run(args);
+
+    io.exit(0);
+  } catch (e, s) {
+    io.stdout.writeln('${e.toString()}\n');
+    io.stdout.writeln('''
+An error occurred while linting
+Please report it at: github.com/kawa1214/import-lint/issues
+$e
+$s
+''');
+
+    io.stdout.writeln(s);
+    io.exit(1);
+  }
+}
+
+/*
+void main(List<String> args) async {
   try {
     final logger = Logger.standard();
     final progress = logger.progress('Analyzing');
+
+    cli.run(args);
 
     final resourceProvider = PhysicalResourceProvider.INSTANCE;
 
@@ -58,3 +74,4 @@ void main(List<String> arguments) async {
     io.exit(1);
   }
 }
+*/

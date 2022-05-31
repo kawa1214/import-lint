@@ -26,36 +26,15 @@ class ImportLintOptions {
 class CommonOption {
   const CommonOption({
     required this.directoryPath,
-    required this.packageName,
   });
 
   factory CommonOption.fromYaml(String directoryPath) {
     return CommonOption(
       directoryPath: directoryPath,
-      packageName: _packageName(directoryPath),
     );
   }
 
   final String directoryPath;
-  final String packageName;
-
-  static String _packageName(String directoryPath) {
-    final pubspecFile = io.File('$directoryPath/$_pubspecFileName');
-    late String value;
-    try {
-      value = pubspecFile.readAsStringSync();
-    } on Exception catch (e) {
-      throw Exception(
-        'Not found pubspec.yaml file'
-        'at the root of your project.'
-        '\n$e',
-      );
-    }
-    final loadYaml = yaml.loadYaml(value);
-    return loadYaml['name'];
-  }
-
-  static const _pubspecFileName = 'pubspec.yaml';
 }
 
 class RulesOption {
@@ -77,29 +56,32 @@ class RulesOption {
 
     final ruleNames = rulesMap.keys.toList();
 
-    final result = <Rule>[];
+    final result = <RuleOption>[];
 
     for (final name in ruleNames) {
       final ruleMap = rulesMap[name];
-      final rule =
-          Rule.ofMap(ruleMap: ruleMap, name: name, commonOption: commonOption);
+      final rule = RuleOption.ofMap(
+        ruleMap: ruleMap,
+        name: name,
+        commonOption: commonOption,
+      );
 
       result.add(rule);
     }
     return RulesOption(result);
   }
-  final List<Rule> value;
+  final List<RuleOption> value;
 }
 
-class Rule {
-  const Rule({
+class RuleOption {
+  const RuleOption({
     required this.name,
     required this.targetFilePath,
     required this.notAllowImports,
     required this.excludeImports,
   });
 
-  factory Rule.ofMap({
+  factory RuleOption.ofMap({
     required Map<String, dynamic> ruleMap,
     required String name,
     required CommonOption commonOption,
@@ -114,7 +96,7 @@ class Rule {
         .map((e) => ImportRulePath.from(e.toString(), commonOption))
         .toList();
 
-    return Rule(
+    return RuleOption(
       name: name,
       targetFilePath: targetFilePath,
       notAllowImports: notAllowImports,
@@ -141,9 +123,9 @@ class ImportRulePath {
     }
 
     final path = Glob(value, recursive: true, caseSensitive: false);
-    return ImportRulePath(commonOption.packageName, path);
+    return ImportRulePath(null, path);
   }
 
-  final String package;
+  final String? package;
   final Glob path;
 }
