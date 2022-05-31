@@ -1,17 +1,15 @@
 import 'dart:io' as io;
 
-// ignore: implementation_imports
 import 'package:analyzer/error/error.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
-import 'package:analyzer/src/lint/io.dart'; // ignore: implementation_imports
+import 'package:analyzer/src/lint/io.dart';
 import 'package:analyzer/src/lint/registry.dart';
 import 'package:cli_util/cli_logging.dart';
 import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/rule.dart';
 import 'package:import_lint/src/utils.dart';
 
-// ignore: implementation_imports
 final logger = Logger.standard();
 
 Future<void> run(List<String> args) async {
