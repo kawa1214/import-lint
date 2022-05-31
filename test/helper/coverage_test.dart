@@ -2,6 +2,7 @@
 /// Helper to test coverage for all project files
 // ignore_for_file: unused_import
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/import_lint_analyze.dart';
 import 'package:import_lint/src/utils.dart';
 import 'package:import_lint/src/import_lint_options.dart';
+import 'package:import_lint/src/cli.dart';
+import 'package:import_lint/src/rule.dart';

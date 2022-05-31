@@ -21,7 +21,6 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
         AnalysisSetContextRootsParams;
 import 'package:glob/glob.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/cli.dart';
 import 'package:import_lint/src/rule.dart';
 
 class ImportLintPlugin extends ServerPlugin {
@@ -76,26 +75,7 @@ class ImportLintPlugin extends ServerPlugin {
     late Iterable<ImportLintRule> rules;
 
     try {
-      //debuglog(analysisContext.contextRoot.includedPaths);
-      /*
-			_include = analysisContext.contextRoot.includedPaths
-          .map((e) => Glob(e, recursive: true, caseSensitive: false))
-          .toList();
-			*/
-      //debuglog(_include);
-
       for (final i in analysisContext.contextRoot.included) {
-        /*
-        final test = analysisContext.contextRoot.packagesFile;
-        final a = i.provider.pathContext.current;
-        //i.provider.pathContext.style.
-
-        if (io.File('${i.path}/.packages').existsSync()) {
-          _include
-              .add(Glob('${i.path}', recursive: true, caseSensitive: false));
-          debuglog(i.path);
-        }
-				*/
         final packagesFile =
             io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
         final hasPackagesFile = packagesFile.existsSync();
@@ -104,11 +84,6 @@ class ImportLintPlugin extends ServerPlugin {
           _include
               .add(Glob('${i.path}', recursive: true, caseSensitive: false));
         }
-        //final packages = findPackagesFrom(i.provider, i);
-        //debuglog([packages.packages.length, i.path]);
-        //final package = packages.packageForPath(i.path);
-        //debuglog([package?.name, i.path]);
-        //debuglog([i.path, i.shortName, i.provider.pathContext.current]);
       }
 
       final rootDirectoryPath = context.contextRoot.root.path;
@@ -118,8 +93,6 @@ class ImportLintPlugin extends ServerPlugin {
       );
       registerLintRules(options);
       rules = options.rules.value.map((e) => ImportLintRule(e));
-
-      //registerLintRules(options);
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -129,8 +102,6 @@ class ImportLintPlugin extends ServerPlugin {
         ).toNotification(),
       );
     }
-
-    //debuglog(context.driver);
 
     final lintOptions = LinterOptions(rules)
       ..enabledLints = rules
@@ -143,7 +114,6 @@ class ImportLintPlugin extends ServerPlugin {
         dartDriver.results.listen((analysisResult) async {
           if (analysisResult is ResolvedUnitResult) {
             final result = await _check(analysisResult, dartDriver, linter);
-            //debuglog([result.length, analysisResult.path]);
 
             channel.sendNotification(
               plugin.AnalysisErrorsParams(
@@ -182,18 +152,9 @@ class ImportLintPlugin extends ServerPlugin {
   ) async {
     final included = _include.any((e) => e.matches(unit.path));
 
-    //debuglog([included, unit.path, _include]);
     if (!included) {
       return [];
     }
-
-    /*
-    debuglog([
-      excluded,
-      unit.path,
-      _exclude,
-    ]);
-		*/
 
     final result = await linter.lintFiles([io.File(unit.path)]);
 
