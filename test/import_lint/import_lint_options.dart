@@ -1,4 +1,4 @@
-import 'package:import_lint/src/import_lint_options.dart';
+import 'package:import_lint/src/lint_options.dart';
 import 'package:test/test.dart';
 
 import '../helper/generate_test_project.dart';
@@ -9,7 +9,7 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofHasNotAnalysisOptionsYaml();
       project.generate();
 
-      final options = () => ImportLintOptions.init(
+      final options = () => LintOptions.init(
             directoryPath: project.directoryPath,
             optionsFilePath: project.optionsPath,
           );
@@ -24,7 +24,7 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofHasNotPubspecYaml();
       project.generate();
 
-      final options = () => ImportLintOptions.init(
+      final options = () => LintOptions.init(
             directoryPath: project.directoryPath,
             optionsFilePath: project.optionsPath,
           );
@@ -39,7 +39,7 @@ void runImportLintOptionsTest() {
       final project = GenerateTestProject.ofImportLintOptions();
       project.generate();
 
-      final options = ImportLintOptions.init(
+      final options = LintOptions.init(
         directoryPath: project.directoryPath,
         optionsFilePath: project.optionsPath,
       );

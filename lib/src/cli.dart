@@ -25,14 +25,14 @@ Future<void> run(List<String> args) async {
   progress.finish(showTiming: true);
 }
 
-void registerLintRules(ImportLintOptions options) {
+void registerLintRules(LintOptions options) {
   final rules = options.rules.value.map((e) => ImportLintRule(e));
   rules.forEach((e) {
     Registry.ruleRegistry.register(e);
   });
 }
 
-ImportLintOptions _options() {
+LintOptions _options() {
   final collection = AnalysisContextCollectionImpl(
     resourceProvider: PhysicalResourceProvider.INSTANCE,
     includedPaths: [absoluteNormalizedPath('./')],
@@ -41,7 +41,7 @@ ImportLintOptions _options() {
   final context = collection.contexts.take(1).first;
   final rootDirectoryPath = context.contextRoot.root.path;
 
-  final options = ImportLintOptions.init(
+  final options = LintOptions.init(
     directoryPath: rootDirectoryPath,
     optionsFilePath: context.contextRoot.optionsFile!.path,
   );

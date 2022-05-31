@@ -4,16 +4,16 @@ import 'dart:io' as io;
 import 'package:glob/glob.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
-class ImportLintOptions {
-  const ImportLintOptions({required this.rules, required this.common});
+class LintOptions {
+  const LintOptions({required this.rules, required this.common});
 
-  factory ImportLintOptions.init({
+  factory LintOptions.init({
     required String directoryPath,
     required String optionsFilePath,
   }) {
     final common = CommonOption.fromYaml(directoryPath);
     final rules = RulesOption.fromOptionsFile(optionsFilePath, common);
-    return ImportLintOptions(
+    return LintOptions(
       rules: rules,
       common: common,
     );

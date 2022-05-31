@@ -87,7 +87,7 @@ class ImportLintPlugin extends ServerPlugin {
       }
 
       final rootDirectoryPath = context.contextRoot.root.path;
-      final options = ImportLintOptions.init(
+      final options = LintOptions.init(
         directoryPath: rootDirectoryPath,
         optionsFilePath: optionsFile!,
       );
