@@ -1,18 +1,32 @@
 import 'dart:convert' as convert;
-import 'dart:io' as io;
 
+import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:glob/glob.dart';
+import 'package:import_lint/src/exceptions.dart';
 import 'package:yaml/yaml.dart' as yaml;
+
+LintOptions getOptions(AnalysisContextCollectionImpl collection) {
+  final context = collection.contexts.take(1).first;
+  final rootDirectoryPath = context.contextRoot.root.path;
+
+  final options = LintOptions.init(
+    directoryPath: rootDirectoryPath,
+    optionsFile: context.contextRoot.optionsFile,
+  );
+
+  return options;
+}
 
 class LintOptions {
   const LintOptions({required this.rules, required this.common});
 
   factory LintOptions.init({
     required String directoryPath,
-    required String optionsFilePath,
+    required File? optionsFile,
   }) {
     final common = CommonOption.fromYaml(directoryPath);
-    final rules = RulesOption.fromOptionsFile(optionsFilePath, common);
+    final rules = RulesOption.fromOptionsFile(optionsFile, common);
     return LintOptions(
       rules: rules,
       common: common,
@@ -39,20 +53,19 @@ class CommonOption {
 
 class RulesOption {
   const RulesOption(this.value);
-  factory RulesOption.fromOptionsFile(String path, CommonOption commonOption) {
-    late String readValue;
-    try {
-      readValue = io.File(path).readAsStringSync();
-    } on Exception catch (e) {
-      throw Exception(
-        'Not found analysis_options.yaml file '
-        'at the root of your project.'
-        '\n $e',
-      );
+  factory RulesOption.fromOptionsFile(
+    File? optionsFile,
+    CommonOption commonOption,
+  ) {
+    if (optionsFile == null) {
+      throw _notFoundAnalytisOptionsException(null, null);
     }
+
+    final readValue = optionsFile.readAsStringSync();
+
     final loadedYaml = yaml.loadYaml(readValue);
     final encoded = convert.jsonEncode(loadedYaml['import_lint']['rules']);
-    final rulesMap = convert.jsonDecode(encoded) as Map<String, dynamic>;
+    final rulesMap = convert.jsonDecode(encoded) as Map<String, dynamic>? ?? {};
 
     final ruleNames = rulesMap.keys.toList();
 
@@ -71,6 +84,17 @@ class RulesOption {
     return RulesOption(result);
   }
   final List<RuleOption> value;
+
+  static FileException _notFoundAnalytisOptionsException(
+    Object? e,
+    StackTrace? s,
+  ) =>
+      FileException(
+        'Not found analysis_options.yaml file '
+        'at the root of your project.'
+        '\n $e'
+        '\n $s',
+      );
 }
 
 class RuleOption {
@@ -86,15 +110,22 @@ class RuleOption {
     required String name,
     required CommonOption commonOption,
   }) {
-    final targetFilePath = Glob(ruleMap['target_file_path'],
-        recursive: true, caseSensitive: false);
+    final targetFilePathValue = ruleMap['target_file_path'] as String?;
+    if (targetFilePathValue == null) {
+      throw FormatException('$name: target_file_path is required.');
+    }
 
-    final notAllowImports = (ruleMap['not_allow_imports'] as List<dynamic>)
-        .map((e) => ImportRulePath.from(e.toString(), commonOption))
-        .toList();
-    final excludeImports = (ruleMap['exclude_imports'] as List<dynamic>)
-        .map((e) => ImportRulePath.from(e.toString(), commonOption))
-        .toList();
+    final targetFilePath =
+        Glob(targetFilePathValue, recursive: true, caseSensitive: false);
+
+    final notAllowImports =
+        ((ruleMap['not_allow_imports'] as List<dynamic>?) ?? [])
+            .map((e) => ImportRulePath.from(e.toString(), commonOption))
+            .toList();
+    final excludeImports =
+        ((ruleMap['exclude_imports'] as List<dynamic>?) ?? [])
+            .map((e) => ImportRulePath.from(e.toString(), commonOption))
+            .toList();
 
     return RuleOption(
       name: name,

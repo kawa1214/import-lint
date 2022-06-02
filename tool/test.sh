@@ -6,9 +6,11 @@ bash tool/helper/dart_coverage_helper.sh
 
 sleep 1
 
-dart run test test/run.dart --chain-stack-traces -t presubmit-only --run-skipped --coverage=coverage || EXIT_CODE=$?;
+#dart run test test/all.dart --chain-stack-traces --coverage=coverage || EXIT_CODE=$?;
+dart run test test/all.dart --chain-stack-traces -t presubmit-only --run-skipped --coverage=coverage || EXIT_CODE=$?;
 
-dart run coverage:format_coverage -i coverage/test/run.dart.vm.json -o coverage/lcov/coverage.info -l --report-on=lib
+#dart run coverage:format_coverage -i coverage/test/run.dart.vm.json -o coverage/lcov/coverage.info -l --report-on=lib
+dart run coverage:format_coverage -i coverage/test/all.dart.vm.json -o coverage/lcov/coverage.info -l --report-on=lib
 
 genhtml coverage/lcov/coverage.info -o coverage/html -q
 

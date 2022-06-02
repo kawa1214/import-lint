@@ -14,8 +14,12 @@ final logger = Logger.standard();
 
 Future<void> run(List<String> args) async {
   final progress = logger.progress('Analyzing');
+  final collection = AnalysisContextCollectionImpl(
+    resourceProvider: PhysicalResourceProvider.INSTANCE,
+    includedPaths: [absoluteNormalizedPath('./')],
+  );
 
-  final options = _options();
+  final options = getOptions(collection);
   registerLintRules(options);
 
   await runLinter();
@@ -28,23 +32,6 @@ void registerLintRules(LintOptions options) {
   rules.forEach((e) {
     Registry.ruleRegistry.register(e);
   });
-}
-
-LintOptions _options() {
-  final collection = AnalysisContextCollectionImpl(
-    resourceProvider: PhysicalResourceProvider.INSTANCE,
-    includedPaths: [absoluteNormalizedPath('./')],
-  );
-
-  final context = collection.contexts.take(1).first;
-  final rootDirectoryPath = context.contextRoot.root.path;
-
-  final options = LintOptions.init(
-    directoryPath: rootDirectoryPath,
-    optionsFilePath: context.contextRoot.optionsFile!.path,
-  );
-
-  return options;
 }
 
 Future<void> runLinter() async {

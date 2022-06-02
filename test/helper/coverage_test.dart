@@ -4,5 +4,6 @@
 import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/utils.dart';
 import 'package:import_lint/src/lint_options.dart';
+import 'package:import_lint/src/exceptions.dart';
 import 'package:import_lint/src/cli.dart';
 import 'package:import_lint/src/rule.dart';
