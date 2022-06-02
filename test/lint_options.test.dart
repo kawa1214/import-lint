@@ -12,14 +12,14 @@ import 'helper/analyzer_helper.dart';
 
 main() {
   group('LintOptionsTest', () {
-    test('should succeed when has correct format analysis_options.file', () {
+    test('should succeed when has correct format analysis_options.yaml', () {
       LintOptionsTest().correctFormatTest();
     });
-    test('', () {
+    test('shoud throw file exception when has not analysis_options.yaml', () {
       LintOptionsTest().fileDoesNotExistText();
     });
-    test('', () {
-      LintOptionsTest().wrongFileFormatTest();
+    test('shoud throw format exception when has not target file path', () {
+      LintOptionsTest().hasNotTargetFilePathFormatExceptionTest();
     });
   });
 }
@@ -119,7 +119,7 @@ import_lint:
     expect(exception.runtimeType, FileException);
   }
 
-  void wrongFileFormatTest() {
+  void hasNotTargetFilePathFormatExceptionTest() {
     resourceProvider.newFile('/analysis_options.yaml', '''
 import_lint:
   rules:
