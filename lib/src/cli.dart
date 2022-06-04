@@ -4,7 +4,6 @@ import 'package:analyzer/error/error.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/src/lint/io.dart';
-import 'package:analyzer/src/lint/registry.dart';
 import 'package:cli_util/cli_logging.dart';
 import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/rule.dart';
@@ -18,20 +17,13 @@ Future<void> run(List<String> args) async {
     resourceProvider: PhysicalResourceProvider.INSTANCE,
     includedPaths: [absoluteNormalizedPath('./')],
   );
-
-  final options = getOptions(collection);
+  final context = collection.contexts.take(1).first;
+  final options = getOptions(context);
   registerLintRules(options);
 
   await runLinter();
 
   progress.finish(showTiming: true);
-}
-
-void registerLintRules(LintOptions options) {
-  final rules = options.rules.value.map((e) => ImportLintRule(e));
-  rules.forEach((e) {
-    Registry.ruleRegistry.register(e);
-  });
 }
 
 Future<void> runLinter() async {

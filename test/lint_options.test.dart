@@ -1,5 +1,7 @@
 import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/src/dart/analysis/context_builder.dart';
+import 'package:analyzer/src/dart/analysis/context_locator.dart';
+import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer/src/test_utilities/mock_sdk.dart';
 import 'package:analyzer/src/test_utilities/resource_provider_mixin.dart';
 import 'package:glob/glob.dart';
@@ -30,6 +32,21 @@ class LintOptionsTest with ResourceProviderMixin {
 
   Folder get sdkRoot => newFolder('/sdk');
 
+  String get _includedPaths => absoluteNormalizedPath('./');
+
+  DriverBasedAnalysisContext _buildContext() {
+    final roots = ContextLocatorImpl(
+      resourceProvider: resourceProvider,
+    ).locateRoots(includedPaths: [_includedPaths]);
+
+    return ContextBuilderImpl(
+      resourceProvider: resourceProvider,
+    ).createContext(
+      contextRoot: roots.single,
+      sdkPath: sdkRoot.path,
+    );
+  }
+
   void setUp() {
     createMockSdk(
       resourceProvider: resourceProvider,
@@ -51,13 +68,9 @@ import_lint:
       exclude_imports: []
 ''');
 
-    final collection = AnalysisContextCollectionImpl(
-      resourceProvider: resourceProvider,
-      includedPaths: [absoluteNormalizedPath('./')],
-      sdkPath: sdkRoot.path,
-    );
+    final context = _buildContext();
 
-    final options = getOptions(collection);
+    final options = getOptions(context);
 
     expect(options.common.directoryPath, '/');
     expect(options.rules.value.length, 2);
@@ -100,15 +113,11 @@ import_lint:
   }
 
   void fileDoesNotExistText() {
-    final collection = AnalysisContextCollectionImpl(
-      resourceProvider: resourceProvider,
-      includedPaths: [absoluteNormalizedPath('./')],
-      sdkPath: sdkRoot.path,
-    );
+    final context = _buildContext();
 
     late FileException exception;
     try {
-      getOptions(collection);
+      getOptions(context);
     } on FileException catch (e) {
       exception = e;
     }
@@ -128,15 +137,11 @@ import_lint:
       exclude_imports: []
 ''');
 
-    final collection = AnalysisContextCollectionImpl(
-      resourceProvider: resourceProvider,
-      includedPaths: [absoluteNormalizedPath('./')],
-      sdkPath: sdkRoot.path,
-    );
+    final context = _buildContext();
 
     late FormatException exception;
     try {
-      getOptions(collection);
+      getOptions(context);
     } on FormatException catch (e) {
       exception = e;
     }

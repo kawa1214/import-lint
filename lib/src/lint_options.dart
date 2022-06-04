@@ -1,13 +1,12 @@
 import 'dart:convert' as convert;
 
 import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/exceptions.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
-LintOptions getOptions(AnalysisContextCollectionImpl collection) {
-  final context = collection.contexts.take(1).first;
+LintOptions getOptions(DriverBasedAnalysisContext context) {
   final rootDirectoryPath = context.contextRoot.root.path;
 
   final options = LintOptions.init(
