@@ -1,14 +1,13 @@
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/src/test_utilities/mock_sdk.dart';
+import 'package:analyzer/src/test_utilities/resource_provider_mixin.dart';
 import 'package:glob/glob.dart';
-import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/exceptions.dart';
+import 'package:import_lint/src/lint_options.dart';
 import 'package:import_lint/src/utils.dart';
-import 'package:meta/meta.dart' show mustCallSuper;
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-
-import 'helper/analyzer_helper.dart';
 
 main() {
   group('LintOptionsTest', () {
@@ -31,7 +30,6 @@ class LintOptionsTest with ResourceProviderMixin {
 
   Folder get sdkRoot => newFolder('/sdk');
 
-  @mustCallSuper
   void setUp() {
     createMockSdk(
       resourceProvider: resourceProvider,
