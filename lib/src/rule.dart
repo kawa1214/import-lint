@@ -4,8 +4,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/rule.dart';
-import 'package:import_lint/src/utils.dart';
 
 export 'package:analyzer/dart/element/type_system.dart';
 export 'package:analyzer/src/dart/ast/token.dart';
