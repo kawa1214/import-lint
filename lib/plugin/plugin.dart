@@ -5,7 +5,6 @@ import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
@@ -27,6 +26,7 @@ class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
   var _filesFromSetPriorityFilesRequest = <String>[];
+  late LintOptions options;
 
   @override
   List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
@@ -72,8 +72,6 @@ class ImportLintPlugin extends ServerPlugin {
     final context = analysisContext as DriverBasedAnalysisContext;
     final dartDriver = context.driver;
 
-    late Iterable<ImportLintRule> rules;
-
     try {
       for (final i in analysisContext.contextRoot.included) {
         final packagesFile =
@@ -88,12 +86,10 @@ class ImportLintPlugin extends ServerPlugin {
 
       final rootDirectoryPath = context.contextRoot.root.path;
 
-      final options = LintOptions.init(
+      options = LintOptions.init(
         directoryPath: rootDirectoryPath,
         optionsFile: context.contextRoot.optionsFile,
       );
-      registerLintRules(options);
-      rules = options.rules.value.map((e) => ImportLintRule(e));
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -104,17 +100,11 @@ class ImportLintPlugin extends ServerPlugin {
       );
     }
 
-    final lintOptions = LinterOptions(rules)
-      ..enabledLints = rules
-      ..resourceProvider = PhysicalResourceProvider.INSTANCE;
-
-    final linter = DartLinter(lintOptions);
-
     runZonedGuarded(
       () {
         dartDriver.results.listen((analysisResult) async {
           if (analysisResult is ResolvedUnitResult) {
-            final result = await _check(analysisResult, dartDriver, linter);
+            final result = await _check(analysisResult, context);
 
             channel.sendNotification(
               plugin.AnalysisErrorsParams(
@@ -147,42 +137,16 @@ class ImportLintPlugin extends ServerPlugin {
   List<Glob> _include = [];
 
   Future<List<AnalysisError>> _check(
-    ResolvedUnitResult unit,
-    AnalysisDriver driver,
-    DartLinter linter,
+    ResolvedUnitResult result,
+    DriverBasedAnalysisContext context,
   ) async {
-    final included = _include.any((e) => e.matches(unit.path));
+    final included = _include.any((e) => e.matches(result.path));
 
     if (!included) {
       return [];
     }
 
-    final result = await linter.lintFiles([io.File(unit.path)]);
-
-    final List<AnalysisError> errors = [];
-
-    for (final info in result) {
-      for (final e in info.errors) {
-        if (e.message.contains('Found Import Lint Error')) {
-          errors.add(AnalysisError(
-            AnalysisErrorSeverity('WARNING'),
-            AnalysisErrorType.LINT,
-            Location(
-              unit.path,
-              e.offset,
-              e.length,
-              0,
-              0,
-            ),
-            e.message,
-            'import_lint',
-            correction: 'Try removing the import.',
-            hasFix: false,
-          ));
-        }
-      }
-    }
-
+    final errors = await getErrors(options, context, result.path);
     return errors;
   }
 

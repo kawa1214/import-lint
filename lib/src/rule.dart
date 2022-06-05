@@ -1,5 +1,8 @@
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:import_lint/import_lint.dart';
 import 'package:import_lint/src/rule.dart';
 import 'package:import_lint/src/utils.dart';
@@ -26,122 +29,162 @@ export 'package:analyzer/src/lint/util.dart' show Spelunker;
 export 'package:analyzer/src/services/lint.dart' show lintRegistry;
 export 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 
-class ImportLintRule extends LintRule {
-  ImportLintRule(this.ruleOption)
-      : super(
-            name: 'import_lint_${ruleOption.name}',
-            description: 'Found Import Lint Error: ${ruleOption.name}',
-            details: 'Found Import Lint Error: ${ruleOption.name}',
-            group: Group.style);
+Future<List<AnalysisError>> getErrors(
+  LintOptions options,
+  DriverBasedAnalysisContext context,
+  String path,
+) async {
+  final result =
+      await context.currentSession.getResolvedUnit(path) as ResolvedUnitResult;
 
-  final RuleOption ruleOption;
+  final workspace = context.contextRoot.workspace;
+  final package = workspace.findPackageFor(path);
 
-  @override
-  void registerNodeProcessors(
-      NodeLintRegistry registry, LinterContext context) {
-    final package = context.package;
-    if (package is! PubWorkspacePackage) return;
+  if (package is! PubWorkspacePackage) return [];
 
-    final pubspec = package.pubspec;
-    if (pubspec == null) return;
-    final packageName = pubspec.name?.value.text;
-    if (packageName == null) return;
+  final pubspec = package.pubspec;
 
-    final directoryPath = package.root;
+  if (pubspec == null) return [];
+  final packageName = pubspec.name?.value.text;
 
-    final visitor =
-        _ImportLintVisitor(this, context, packageName, directoryPath);
-    registry.addImportDirective(this, visitor);
+  if (packageName == null) return [];
+
+  final directoryPath = package.root;
+  final errors = <AnalysisError>[];
+
+  for (final rule in options.rules.value) {
+    result.unit.visitChildren(
+      _ImportLintVisitor(
+        rule,
+        result.path,
+        packageName,
+        directoryPath,
+        result.unit,
+        (error) {
+          errors.add(error);
+        },
+      ),
+    );
   }
+
+  return errors;
+}
+
+class _ImportSource {
+  const _ImportSource({
+    required this.package,
+    required this.source,
+  });
+  final String package;
+  final String source;
 }
 
 class _ImportLintVisitor extends SimpleAstVisitor<void> {
   _ImportLintVisitor(
-    this.rule,
-    this.context,
+    this.ruleOption,
+    this.filePath,
     this.packageName,
     this.directoryPath,
+    this.unit,
+    this.onError,
   );
 
-  final ImportLintRule rule;
-  final LinterContext context;
+  final RuleOption ruleOption;
+  final String filePath;
   final String packageName;
   final String directoryPath;
+  final CompilationUnit unit;
+  final Function(AnalysisError) onError;
+
+  _ImportSource? _toImportSource(ImportDirective node) {
+    final encodedSelectedSourceUri = node.selectedSource?.uri.toString();
+
+    if (encodedSelectedSourceUri == null) {
+      return null;
+    }
+
+    final selectedSource = Uri.decodeFull(encodedSelectedSourceUri);
+
+    final package = _packageFromSelectedSource(selectedSource);
+    final source = _sourceFromSelectedSource(selectedSource, package);
+
+    return _ImportSource(package: package, source: source);
+  }
+
+  String _packageFromSelectedSource(String source) {
+    late String package;
+    final packageRegExpResult =
+        RegExp('(?<=package:).*?(?=\/)').stringMatch(source);
+    if (packageRegExpResult != null) {
+      package = packageRegExpResult;
+    } else {
+      package = packageName;
+    }
+
+    return package;
+  }
+
+  String _sourceFromSelectedSource(String source, String package) {
+    return source.replaceFirst('package:$package/', '');
+  }
 
   @override
   void visitImportDirective(ImportDirective node) {
-    final visitor = _FileVisitor();
-    context.currentUnit.unit.accept(visitor);
-    final filePath = visitor.filePath;
+    final importSource = _toImportSource(node);
 
-    if (filePath == null) {
+    if (importSource == null) {
       return;
     }
 
-    final pathSource = node.selectedSource?.fullName;
-    if (pathSource == null) {
+    final libFilePath = toPackagePath(filePath);
+
+    if (!ruleOption.targetFilePath.matches(libFilePath)) {
       return;
     }
 
-    final libPath = toPackagePath(
-      pathSource,
-      directoryPath,
-    );
+    for (final notAllowImportRule in ruleOption.notAllowImports) {
+      if (notAllowImportRule.path.matches(importSource.source)) {
+        final isIgnore = ruleOption.excludeImports.map((e) {
+          final matchIgnore = e.path.matches(importSource.source);
+          final equalPackage =
+              importSource.package == e.fixedPackage(packageName);
 
-    final importContent = node.selectedUriContent;
-
-    if (importContent == null) {
-      return;
-    }
-
-    final libFilePath = toPackagePath(filePath, directoryPath);
-
-    if (!rule.ruleOption.targetFilePath.matches(libFilePath)) {
-      return;
-    }
-
-    late String importPackageName;
-    late String importValue;
-
-    final packageRegExpResult =
-        RegExp('(?<=package:).*?(?=\/)').stringMatch(importContent);
-    if (packageRegExpResult != null) {
-      importPackageName = packageRegExpResult;
-    } else {
-      importPackageName = packageName;
-    }
-
-    if (importPackageName == packageName) {
-      importValue = libPath;
-    } else {
-      importValue =
-          importContent.replaceFirst('package:$importPackageName/', '');
-    }
-
-    //debuglog([importPackageName, importValue]);
-
-    for (final notAllowImportRule in rule.ruleOption.notAllowImports) {
-      if (notAllowImportRule.path.matches(importValue)) {
-        final isIgnore = rule.ruleOption.excludeImports
-            .map((e) => e.path.matches(importValue))
-            .contains(true);
+          return matchIgnore && equalPackage;
+        }).contains(true);
 
         if (isIgnore) {
           continue;
         }
 
-        rule.reportLint(node.uri);
+        if (importSource.package !=
+            notAllowImportRule.fixedPackage(packageName)) {
+          continue;
+        }
+
+        final lineInfo = unit.lineInfo;
+        final loc = lineInfo.getLocation(node.uri.offset);
+        final locEnd = lineInfo.getLocation(node.uri.end);
+
+        final error = AnalysisError(
+          AnalysisErrorSeverity('WARNING'),
+          AnalysisErrorType.LINT,
+          Location(
+            filePath,
+            node.offset,
+            node.length,
+            loc.lineNumber,
+            loc.columnNumber,
+            endLine: locEnd.lineNumber,
+            endColumn: locEnd.columnNumber,
+          ),
+          'Found Import Lint Error: ${ruleOption.name}',
+          'import_lint',
+          correction: 'Try removing the import.',
+          hasFix: false,
+        );
+
+        onError(error);
       }
     }
-  }
-}
-
-class _FileVisitor extends SimpleAstVisitor<void> {
-  _FileVisitor();
-  String? filePath = null;
-
-  @override
-  void visitCompilationUnit(CompilationUnit node) {
-    filePath = node.declaredElement?.source.fullName;
   }
 }
