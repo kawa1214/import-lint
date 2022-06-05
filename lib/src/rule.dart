@@ -42,10 +42,7 @@ Future<List<AnalysisError>> getErrors(
 
   if (package is! PubWorkspacePackage) return [];
 
-  final pubspec = package.pubspec;
-
-  if (pubspec == null) return [];
-  final packageName = pubspec.name?.value.text;
+  final packageName = package.pubspec?.name?.value.text;
 
   if (packageName == null) return [];
 
@@ -106,22 +103,20 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
     final selectedSource = Uri.decodeFull(encodedSelectedSourceUri);
 
     final package = _packageFromSelectedSource(selectedSource);
+    if (package == null) {
+      return null;
+    }
+
     final source = _sourceFromSelectedSource(selectedSource, package);
 
     return _ImportSource(package: package, source: source);
   }
 
-  String _packageFromSelectedSource(String source) {
-    late String package;
+  String? _packageFromSelectedSource(String source) {
     final packageRegExpResult =
         RegExp('(?<=package:).*?(?=\/)').stringMatch(source);
-    if (packageRegExpResult != null) {
-      package = packageRegExpResult;
-    } else {
-      package = packageName;
-    }
 
-    return package;
+    return packageRegExpResult;
   }
 
   String _sourceFromSelectedSource(String source, String package) {
@@ -131,7 +126,6 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
   @override
   void visitImportDirective(ImportDirective node) {
     final importSource = _toImportSource(node);
-
     if (importSource == null) {
       return;
     }
