@@ -19,7 +19,6 @@ Future<void> run(List<String> args) async {
     includedPaths: [absoluteNormalizedPath('./')],
   );
   final context = collection.contexts.take(1).first;
-  //registerLintRules(options);
 
   await runLinter(context);
 
