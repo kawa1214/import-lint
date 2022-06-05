@@ -14,6 +14,7 @@ final logger = Logger.standard();
 
 Future<void> run(List<String> args) async {
   final progress = logger.progress('Analyzing');
+
   final collection = AnalysisContextCollectionImpl(
     resourceProvider: PhysicalResourceProvider.INSTANCE,
     includedPaths: [absoluteNormalizedPath('./')],
