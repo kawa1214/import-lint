@@ -7,8 +7,6 @@ import 'package:analyzer/src/lint/io.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:cli_util/cli_logging.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/rule.dart';
-import 'package:import_lint/src/utils.dart';
 
 final logger = Logger.standard();
 

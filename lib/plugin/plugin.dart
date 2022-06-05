@@ -20,7 +20,6 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
         AnalysisSetContextRootsParams;
 import 'package:glob/glob.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/rule.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
