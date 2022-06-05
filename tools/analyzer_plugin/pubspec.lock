@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "34.0.0"
+    version: "38.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.0"
+    version: "3.4.1"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       path: "/Users/ryo/Documents/packages/import_lint_test/import-lint"
       relative: false
     source: path
-    version: "0.9.1"
+    version: "0.9.3"
   meta:
     dependency: transitive
     description:

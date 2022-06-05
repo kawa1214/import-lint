@@ -8,16 +8,24 @@ import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
-import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin;
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
+import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
+    show
+        AnalysisErrorsParams,
+        ContextRoot,
+        PluginErrorParams,
+        AnalysisSetPriorityFilesResult,
+        AnalysisSetPriorityFilesParams,
+        AnalysisSetContextRootsResult,
+        AnalysisSetContextRootsParams;
+import 'package:glob/glob.dart';
 import 'package:import_lint/import_lint.dart';
-import 'package:import_lint/src/utils.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
-  Map<String, ImportLintOptions> optionsMap = {};
-
   var _filesFromSetPriorityFilesRequest = <String>[];
+  late LintOptions options;
 
   @override
   List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
@@ -27,6 +35,9 @@ class ImportLintPlugin extends ServerPlugin {
 
   @override
   String get version => '1.0.0-alpha.0';
+
+  @override
+  String get contactInfo => 'https://github.com/kawa1214/import-lint';
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
@@ -61,12 +72,23 @@ class ImportLintPlugin extends ServerPlugin {
     final dartDriver = context.driver;
 
     try {
+      for (final i in analysisContext.contextRoot.included) {
+        final packagesFile =
+            io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
+        final hasPackagesFile = packagesFile.existsSync();
+
+        if (hasPackagesFile) {
+          _include
+              .add(Glob('${i.path}', recursive: true, caseSensitive: false));
+        }
+      }
+
       final rootDirectoryPath = context.contextRoot.root.path;
-      final options = ImportLintOptions.init(
+
+      options = LintOptions.init(
         directoryPath: rootDirectoryPath,
-        optionsFilePath: optionsFile!,
+        optionsFile: context.contextRoot.optionsFile,
       );
-      optionsMap.addAll({rootDirectoryPath: options});
     } catch (e, s) {
       channel.sendNotification(
         plugin.PluginErrorParams(
@@ -79,32 +101,16 @@ class ImportLintPlugin extends ServerPlugin {
 
     runZonedGuarded(
       () {
-        dartDriver.results.listen((analysisResult) {
+        dartDriver.results.listen((analysisResult) async {
           if (analysisResult is ResolvedUnitResult) {
-            final key =
-                analysisResult.session.analysisContext.contextRoot.root.path;
-            final options = optionsMap[key];
+            final result = await _check(analysisResult, context);
 
-            if (options != null) {
-              final projectFilePath =
-                  toProjectPath(path: analysisResult.path, options: options);
-
-              final analyzed = ImportLintAnalyze.ofFile(
-                filePath: analysisResult.path,
-                file: io.File(projectFilePath),
-                unit: analysisResult.unit,
-                options: options,
-              );
-
-              final errors = analyzed.issues.map((e) => e.pluginError).toList();
-
-              channel.sendNotification(
-                plugin.AnalysisErrorsParams(
-                  analysisResult.path,
-                  errors,
-                ).toNotification(),
-              );
-            }
+            channel.sendNotification(
+              plugin.AnalysisErrorsParams(
+                analysisResult.path,
+                result,
+              ).toNotification(),
+            );
           } else if (analysisResult is ErrorsResult) {
             channel.sendNotification(plugin.PluginErrorParams(
               false,
@@ -125,6 +131,22 @@ class ImportLintPlugin extends ServerPlugin {
       },
     );
     return dartDriver;
+  }
+
+  List<Glob> _include = [];
+
+  Future<List<AnalysisError>> _check(
+    ResolvedUnitResult result,
+    DriverBasedAnalysisContext context,
+  ) async {
+    final included = _include.any((e) => e.matches(result.path));
+
+    if (!included) {
+      return [];
+    }
+
+    final errors = await getErrors(options, context, result.path);
+    return errors;
   }
 
   @override

@@ -8,4 +8,4 @@ environment:
 dev_dependencies:
   import_lint:
     path: ../
-  lints: ^1.0.0
+  lints: ^2.0.0

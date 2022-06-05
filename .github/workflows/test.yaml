@@ -7,7 +7,7 @@ jobs:
     name: Dart Test
     runs-on: ubuntu-latest
     container:
-      image: google/dart:latest
+      image: dart:stable
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -15,7 +15,3 @@ jobs:
         run: dart pub get
       - name: run tool/test.sh
         run: bash tool/test.sh
-      - name: Upload codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}

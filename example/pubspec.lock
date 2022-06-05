@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "34.0.0"
+    version: "38.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.0"
+    version: "3.4.1"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -98,14 +98,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.9.1"
+    version: "0.9.3"
   lints:
     dependency: "direct dev"
     description:
       name: lints
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.0"
   meta:
     dependency: transitive
     description:
@@ -177,5 +177,4 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.14.3 <3.0.0"
-  flutter: ">=1.20.0"
+  dart: ">=2.17.0-206.0.dev <3.0.0"
