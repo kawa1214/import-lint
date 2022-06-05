@@ -2,16 +2,15 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 
 String toPackagePath(
   String path,
-  String directoryPath,
 ) {
-  final fixedPath = path.replaceFirst('${directoryPath}', '');
-  if (fixedPath.startsWith('/lib/')) {
-    return fixedPath.replaceFirst('/lib/', '');
+  final reg = RegExp('\/lib\/(.*)');
+  final match = reg.firstMatch(path)?.group(1);
+
+  if (match == null) {
+    return path;
+  } else {
+    return match;
   }
-  if (fixedPath.startsWith(r'\lib\')) {
-    return fixedPath.replaceFirst(r'\lib\', '');
-  }
-  return fixedPath;
 }
 
 String absoluteNormalizedPath(String path) {
