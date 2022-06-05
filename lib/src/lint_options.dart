@@ -158,4 +158,7 @@ class ImportRulePath {
 
   final String? package;
   final Glob path;
+
+  String fixedPackage(String workspacePackage) =>
+      package == null ? workspacePackage : package!;
 }
