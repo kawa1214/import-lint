@@ -134,9 +134,17 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
       return;
     }
 
+    final isFileExcluded = ruleOption.ignoreFiles
+        .map((e) => e.path.matches(libFilePath))
+        .contains(true);
+
+    if (isFileExcluded) {
+      return;
+    }
+
     for (final notAllowImportRule in ruleOption.notAllowImports) {
       if (notAllowImportRule.path.matches(importSource.source)) {
-        final isIgnore = ruleOption.excludeImports.map((e) {
+        final isImportExcluded = ruleOption.excludeImports.map((e) {
           final matchIgnore = e.path.matches(importSource.source);
           final equalPackage =
               importSource.package == e.fixedPackage(packageName);
@@ -144,7 +152,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
           return matchIgnore && equalPackage;
         }).contains(true);
 
-        if (isIgnore) {
+        if (isImportExcluded) {
           continue;
         }
 

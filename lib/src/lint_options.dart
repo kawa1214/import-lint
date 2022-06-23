@@ -99,6 +99,7 @@ class RulesOption {
 class RuleOption {
   const RuleOption({
     required this.name,
+    this.ignoreFiles = const [],
     required this.targetFilePath,
     required this.notAllowImports,
     required this.excludeImports,
@@ -118,26 +119,37 @@ class RuleOption {
         Glob(targetFilePathValue, recursive: true, caseSensitive: false);
 
     final notAllowImports =
-        ((ruleMap['not_allow_imports'] as List<dynamic>?) ?? [])
-            .map((e) => ImportRulePath.from(e.toString(), commonOption))
-            .toList();
+        _importRulesFromRuleMap(ruleMap, 'not_allow_imports', commonOption);
     final excludeImports =
-        ((ruleMap['exclude_imports'] as List<dynamic>?) ?? [])
-            .map((e) => ImportRulePath.from(e.toString(), commonOption))
-            .toList();
+        _importRulesFromRuleMap(ruleMap, 'exclude_imports', commonOption);
+    final ingoreFiles =
+        _importRulesFromRuleMap(ruleMap, 'ignore_files', commonOption);
 
     return RuleOption(
       name: name,
+      ignoreFiles: ingoreFiles,
       targetFilePath: targetFilePath,
       notAllowImports: notAllowImports,
       excludeImports: excludeImports,
     );
   }
 
+  static List<ImportRulePath> _importRulesFromRuleMap(
+          Map<String, dynamic> ruleMap, String ruleKey, CommonOption option) =>
+      _createImportRules(_parseArray(ruleMap[ruleKey]), option);
+
+  static List<ImportRulePath> _createImportRules(
+          List<String> rules, CommonOption option) =>
+      rules.map((e) => ImportRulePath.from(e, option)).toList();
+
+  static List<String> _parseArray(dynamic ruleArray) =>
+      List.from(ruleArray ?? []);
+
   final String name;
   final Glob targetFilePath;
   final List<ImportRulePath> notAllowImports;
   final List<ImportRulePath> excludeImports;
+  final List<ImportRulePath> ignoreFiles;
 }
 
 class ImportRulePath {

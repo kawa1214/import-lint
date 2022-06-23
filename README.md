@@ -21,6 +21,7 @@ dart pub add --dev import_lint
 - target_file_path: Specify a file paths to analyze.
 - not_allow_imports: Specify import rules not to allow.
 - exclude_imports: Specify exclude import rules.
+- ignore_files: Files to ignore import rules
 
 Example
 
