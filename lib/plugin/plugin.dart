@@ -78,12 +78,10 @@ class ImportLintPlugin extends ServerPlugin {
       dartDriver.results.listen((event) async {
         if (event is ResolvedUnitResult) {
           final result = await _check(dartDriver, event, context);
-          if (result.isNotEmpty) {
-            channel.sendNotification(plugin.AnalysisErrorsParams(
-              event.path,
-              result,
-            ).toNotification());
-          }
+          channel.sendNotification(plugin.AnalysisErrorsParams(
+            event.path,
+            result,
+          ).toNotification());
         } else if (event is ErrorsResult) {
           channel.sendNotification(plugin.PluginErrorParams(
             false,
