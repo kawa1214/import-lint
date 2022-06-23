@@ -18,7 +18,6 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
         AnalysisSetPriorityFilesParams,
         AnalysisSetContextRootsResult,
         AnalysisSetContextRootsParams;
-import 'package:glob/glob.dart';
 import 'package:import_lint/import_lint.dart';
 
 class ImportLintPlugin extends ServerPlugin {
@@ -41,7 +40,6 @@ class ImportLintPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    debuglog('Analisys Driver');
     final rootPath = contextRoot.root;
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
@@ -72,22 +70,13 @@ class ImportLintPlugin extends ServerPlugin {
 
     final dartDriver = context.driver;
     runZonedGuarded(() {
-      dartDriver.results.listen((event) {
-        debuglog('Zoned guard');
+      dartDriver.results.listen((event) async {
         if (event is ResolvedUnitResult) {
-          channel.sendNotification(
-            plugin.AnalysisErrorsParams(
-              event.path,
-              [
-                AnalysisError(
-                    AnalysisErrorSeverity.ERROR,
-                    AnalysisErrorType.LINT,
-                    Location(event.path, 0, 1, 0, 1),
-                    'Ae n hein mah',
-                    'Zero um alfa beta')
-              ],
-            ).toNotification(),
-          );
+          final result = await _check(event, context);
+          channel.sendNotification(plugin.AnalysisErrorsParams(
+            event.path,
+            result,
+          ).toNotification());
         }
       });
     }, (error, stack) {
@@ -171,18 +160,10 @@ class ImportLintPlugin extends ServerPlugin {
     // return dartDriver;
   }
 
-  List<Glob> _include = [];
-
   Future<List<AnalysisError>> _check(
     ResolvedUnitResult result,
     DriverBasedAnalysisContext context,
   ) async {
-    final included = _include.any((e) => e.matches(result.path));
-
-    if (!included) {
-      return [];
-    }
-
     final errors = await getErrors(options, context, result.path);
     return errors;
   }
