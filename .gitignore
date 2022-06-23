@@ -14,3 +14,4 @@ test/helper/generated_project/**
 example2
 .fvm
 .vscode
+.idea/
