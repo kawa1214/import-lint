@@ -10,5 +10,5 @@ dependencies:
   import_lint:
     git:
       url: https://github.com/lfariaUnifei/import-lint
-      ref: test
+      ref: main
 #  import_lint: ^0.9.3
