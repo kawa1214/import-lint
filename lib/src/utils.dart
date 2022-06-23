@@ -1,18 +1,20 @@
 import 'dart:io';
+
 import 'package:analyzer/file_system/physical_file_system.dart';
 
 String toPackagePath(
   String path,
 ) {
-  final separator = Platform.pathSeparator;
-  final reg = RegExp('\\${separator}lib\\${separator}(.*)');
-  final match = reg.firstMatch(path)?.group(1);
+  final normalizedPath = _normalizePath(path);
+  final reg = RegExp('\/lib\/(.*)');
+  final match = reg.firstMatch(normalizedPath)?.group(1);
+  final result = match ?? normalizedPath;
+  return result;
+}
 
-  if (match == null) {
-    return path;
-  } else {
-    return match;
-  }
+String _normalizePath(String path) {
+  final separator = Platform.pathSeparator;
+  return path.replaceAll(separator, '/');
 }
 
 String absoluteNormalizedPath(String path) {
