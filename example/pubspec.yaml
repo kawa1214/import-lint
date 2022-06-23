@@ -7,6 +7,8 @@ environment:
 
 dev_dependencies:
   import_lint:
-    path: ../
+    git:
+      url: https://github.com/lfariaUnifei/import-lint
+      ref: test
   lints: ^2.0.0
   dart_code_metrics: ^4.16.0

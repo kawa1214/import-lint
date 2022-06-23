@@ -31,10 +31,10 @@ class ImportLintPlugin extends ServerPlugin {
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
-  String get name => 'Import Lint';
+  String get name => 'Import Linturu';
 
   @override
-  String get version => '1.0.0-alpha.0';
+  String get version => '1.1.0-beta.0';
 
   @override
   String get contactInfo => 'https://github.com/kawa1214/import-lint';
@@ -51,7 +51,7 @@ class ImportLintPlugin extends ServerPlugin {
     );
 
     if (locator.isEmpty) {
-      debuglog('Locator empty');
+      // debuglog('Locator empty');
       final error = StateError('Unexpected empty context');
       channel.sendNotification(plugin.PluginErrorParams(
         true,
@@ -75,7 +75,19 @@ class ImportLintPlugin extends ServerPlugin {
       dartDriver.results.listen((event) {
         debuglog('Zoned guard');
         if (event is ResolvedUnitResult) {
-          debuglog('Resolved unit');
+          channel.sendNotification(
+            plugin.AnalysisErrorsParams(
+              event.path,
+              [
+                AnalysisError(
+                    AnalysisErrorSeverity.ERROR,
+                    AnalysisErrorType.LINT,
+                    Location(event.path, 0, 1, 0, 1),
+                    'Ae n hein mah',
+                    'Zero um alfa beta')
+              ],
+            ).toNotification(),
+          );
         }
       });
     }, (error, stack) {
