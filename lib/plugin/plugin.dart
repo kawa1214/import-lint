@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io' as io;
 
-import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
+import 'package:analyzer/src/dart/analysis/context_builder.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
@@ -28,7 +28,7 @@ class ImportLintPlugin extends ServerPlugin {
   late LintOptions options;
 
   @override
-  List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
+  List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
   String get name => 'Import Lint';
@@ -41,18 +41,17 @@ class ImportLintPlugin extends ServerPlugin {
 
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
-    final optionsFile = contextRoot.optionsFile;
-
+    debuglog('Analisys Driver');
+    final rootPath = contextRoot.root;
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
-      includedPaths: [contextRoot.root],
-      excludedPaths: [
-        ...contextRoot.exclude,
-      ],
-      optionsFile: optionsFile,
+      includedPaths: [rootPath],
+      excludedPaths: contextRoot.exclude,
+      optionsFile: contextRoot.optionsFile,
     );
 
     if (locator.isEmpty) {
+      debuglog('Locator empty');
       final error = StateError('Unexpected empty context');
       channel.sendNotification(plugin.PluginErrorParams(
         true,
@@ -63,74 +62,101 @@ class ImportLintPlugin extends ServerPlugin {
       throw error;
     }
 
-    final builder = ContextBuilder(
+    final builder = ContextBuilderImpl(
       resourceProvider: resourceProvider,
     );
 
-    final analysisContext = builder.createContext(contextRoot: locator.first);
-    final context = analysisContext as DriverBasedAnalysisContext;
-    final dartDriver = context.driver;
-
-    try {
-      for (final i in analysisContext.contextRoot.included) {
-        final packagesFile =
-            io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
-        final hasPackagesFile = packagesFile.existsSync();
-
-        if (hasPackagesFile) {
-          _include
-              .add(Glob('${i.path}', recursive: true, caseSensitive: false));
-        }
-      }
-
-      final rootDirectoryPath = context.contextRoot.root.path;
-
-      options = LintOptions.init(
-        directoryPath: rootDirectoryPath,
-        optionsFile: context.contextRoot.optionsFile,
-      );
-    } catch (e, s) {
-      channel.sendNotification(
-        plugin.PluginErrorParams(
-          true,
-          'Failed to load options: ${e.toString()}',
-          s.toString(),
-        ).toNotification(),
-      );
-    }
-
-    runZonedGuarded(
-      () {
-        dartDriver.results.listen((analysisResult) async {
-          if (analysisResult is ResolvedUnitResult) {
-            final result = await _check(analysisResult, context);
-
-            channel.sendNotification(
-              plugin.AnalysisErrorsParams(
-                analysisResult.path,
-                result,
-              ).toNotification(),
-            );
-          } else if (analysisResult is ErrorsResult) {
-            channel.sendNotification(plugin.PluginErrorParams(
-              false,
-              'ErrorResult ${analysisResult}',
-              '',
-            ).toNotification());
-          }
-        });
-      },
-      (Object e, StackTrace stackTrace) {
-        channel.sendNotification(
-          plugin.PluginErrorParams(
-            false,
-            'Unexpected error: ${e.toString()}',
-            stackTrace.toString(),
-          ).toNotification(),
-        );
-      },
+    final context = builder.createContext(
+      contextRoot: locator.first,
     );
+
+    final dartDriver = context.driver;
+    runZonedGuarded(() {
+      dartDriver.results.listen((event) {
+        debuglog('Zoned guard');
+        if (event is ResolvedUnitResult) {
+          debuglog('Resolved unit');
+        }
+      });
+    }, (error, stack) {
+      debuglog(stack.toString());
+    });
     return dartDriver;
+    // final config = _createConfig(dartDriver, rootPath);
+    //
+    // if (config == null) {
+    //   return dartDriver;
+    // }
+
+    // final analysisContext = builder.createContext(contextRoot: locator.first);
+    // final context = analysisContext as DriverBasedAnalysisContext;
+    // final dartDriver = context.driver;
+    //
+    // try {
+    //   for (final i in analysisContext.contextRoot.included) {
+    //     final packagesFile =
+    //         io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
+    //     final hasPackagesFile = packagesFile.existsSync();
+    //
+    //     if (hasPackagesFile) {
+    //       _include
+    //           .add(Glob('${i.path}', recursive: true, caseSensitive: false));
+    //     }
+    //   }
+    //
+    //   final rootDirectoryPath = context.contextRoot.root.path;
+    //
+    //   options = LintOptions.init(
+    //     directoryPath: rootDirectoryPath,
+    //     optionsFile: context.contextRoot.optionsFile,
+    //   );
+    // } catch (e, s) {
+    //   debuglog(e);
+    //   debuglog(s);
+    //   channel.sendNotification(
+    //     plugin.PluginErrorParams(
+    //       true,
+    //       'Failed to load options: ${e.toString()}',
+    //       s.toString(),
+    //     ).toNotification(),
+    //   );
+    // }
+    //
+    // runZonedGuarded(
+    //   () {
+    //     dartDriver.results.listen((analysisResult) async {
+    //       if (analysisResult is ResolvedUnitResult) {
+    //         final result = await _check(analysisResult, context);
+    //         debuglog('Error Resolved');
+    //         channel.sendNotification(
+    //           plugin.AnalysisErrorsParams(
+    //             analysisResult.path,
+    //             result,
+    //           ).toNotification(),
+    //         );
+    //       } else if (analysisResult is ErrorsResult) {
+    //         debuglog('Error result');
+    //         channel.sendNotification(plugin.PluginErrorParams(
+    //           false,
+    //           'ErrorResult ${analysisResult}',
+    //           '',
+    //         ).toNotification());
+    //       }
+    //     });
+    //   },
+    //   (Object e, StackTrace stackTrace) {
+    //     debuglog(e);
+    //     debuglog(stackTrace);
+    //     channel.sendNotification(
+    //       plugin.PluginErrorParams(
+    //         false,
+    //         'Unexpected error: ${e.toString()}',
+    //         stackTrace.toString(),
+    //       ).toNotification(),
+    //     );
+    //   },
+    // );
+    // return dartDriver;
   }
 
   List<Glob> _include = [];
@@ -195,11 +221,8 @@ class ImportLintPlugin extends ServerPlugin {
   }
 }
 
-/*
 void debuglog(Object value) {
-  final file = io.File(
-          '/Users/ryo/Documents/packages/import_lint_test/import-lint/log.txt')
+  final file = io.File('C:\\Users\\luaol\\plugin-report.txt')
       .openSync(mode: io.FileMode.append);
   file.writeStringSync('$value\n');
 }
-*/

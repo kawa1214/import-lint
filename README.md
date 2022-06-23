@@ -16,11 +16,34 @@ or
 dart pub add --dev import_lint
 ```
 
-2. You have lints configured in an `analysis_options.yaml` file at the root of your project.
+2. Add import lints into your `analysis_options.yaml`
 
+````yaml
+analyzer:
+    plugins:
+        - import_lint
+import_lint:
+  rules:
+    use_case_rule:
+      target_file_path: "use_case/*_use_case.dart"
+      not_allow_imports: ["use_case/*_use_case.dart"]
+      exclude_imports: ["use_case/base_use_case.dart"]
+````
+3. Plugin uses file globs to match file paths.
+
+
+4. It considers the following paths on your project:
+   1. Remove remove absolute file paths and use relative, example: `/home/user/project/lib/file.dart` became `lib/file.dart` 
+   2. For each file inside lib/**, remove lib/, example: `lib/folder/file.dart` became `folder/file.dart`
+   3. For each file inside test/**, do not remove test/, example: `test/folder/file.dart` is `test/folder/file.dart`
+   
+
+    So, `/home/user/project/lib/folder/file.dart` became `folder/file.dart` and `/home/user/project/test/folder/file.dart` became `test/folder/file.dart`
+
+5. Available rules configuration
 - target_file_path: Specify a file paths to analyze.
 - not_allow_imports: Specify import rules not to allow.
-- exclude_imports: Specify exclude import rules.
+- exclude_imports: Specify imports that are excluded, or, allowed for this rule.
 - ignore_files: Files to ignore import rules
 
 Example
