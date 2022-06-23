@@ -7,7 +7,7 @@ String toPackagePath(
 ) {
   final normalizedPath = _normalizePath(path);
   final reg = RegExp('\/(lib|test)\/(.*)');
-  final match = reg.firstMatch(normalizedPath)?.group(1);
+  final match = reg.firstMatch(normalizedPath)?.group(2);
   final result = match ?? normalizedPath;
   return result;
 }
