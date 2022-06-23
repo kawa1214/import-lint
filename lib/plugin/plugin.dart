@@ -68,6 +68,12 @@ class ImportLintPlugin extends ServerPlugin {
       contextRoot: locator.first,
     );
 
+    final rootDirectoryPath = context.contextRoot.root.path;
+    options = LintOptions.init(
+      directoryPath: rootDirectoryPath,
+      optionsFile: context.contextRoot.optionsFile,
+    );
+
     final dartDriver = context.driver;
     runZonedGuarded(() {
       dartDriver.results.listen((event) async {
@@ -105,12 +111,6 @@ class ImportLintPlugin extends ServerPlugin {
     //     }
     //   }
     //
-    //   final rootDirectoryPath = context.contextRoot.root.path;
-    //
-    //   options = LintOptions.init(
-    //     directoryPath: rootDirectoryPath,
-    //     optionsFile: context.contextRoot.optionsFile,
-    //   );
     // } catch (e, s) {
     //   debuglog(e);
     //   debuglog(s);
