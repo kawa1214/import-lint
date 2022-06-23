@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
@@ -30,10 +29,10 @@ class ImportLintPlugin extends ServerPlugin {
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
-  String get name => 'Import Linturu';
+  String get name => 'Import Lint';
 
   @override
-  String get version => '1.1.0-beta.0';
+  String get version => '1.0.0-alpha.0';
 
   @override
   String get contactInfo => 'https://github.com/kawa1214/import-lint';
@@ -83,81 +82,22 @@ class ImportLintPlugin extends ServerPlugin {
             event.path,
             result,
           ).toNotification());
+        } else if (event is ErrorsResult) {
+          channel.sendNotification(plugin.PluginErrorParams(
+            false,
+            'ErrorResult ${event}',
+            '',
+          ).toNotification());
         }
       });
     }, (error, stack) {
-      debuglog(stack.toString());
+      channel.sendNotification(plugin.PluginErrorParams(
+        false,
+        'Unexpected error: ${error.toString()}',
+        stack.toString(),
+      ).toNotification());
     });
     return dartDriver;
-    // final config = _createConfig(dartDriver, rootPath);
-    //
-    // if (config == null) {
-    //   return dartDriver;
-    // }
-
-    // final analysisContext = builder.createContext(contextRoot: locator.first);
-    // final context = analysisContext as DriverBasedAnalysisContext;
-    // final dartDriver = context.driver;
-    //
-    // try {
-    //   for (final i in analysisContext.contextRoot.included) {
-    //     final packagesFile =
-    //         io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
-    //     final hasPackagesFile = packagesFile.existsSync();
-    //
-    //     if (hasPackagesFile) {
-    //       _include
-    //           .add(Glob('${i.path}', recursive: true, caseSensitive: false));
-    //     }
-    //   }
-    //
-    // } catch (e, s) {
-    //   debuglog(e);
-    //   debuglog(s);
-    //   channel.sendNotification(
-    //     plugin.PluginErrorParams(
-    //       true,
-    //       'Failed to load options: ${e.toString()}',
-    //       s.toString(),
-    //     ).toNotification(),
-    //   );
-    // }
-    //
-    // runZonedGuarded(
-    //   () {
-    //     dartDriver.results.listen((analysisResult) async {
-    //       if (analysisResult is ResolvedUnitResult) {
-    //         final result = await _check(analysisResult, context);
-    //         debuglog('Error Resolved');
-    //         channel.sendNotification(
-    //           plugin.AnalysisErrorsParams(
-    //             analysisResult.path,
-    //             result,
-    //           ).toNotification(),
-    //         );
-    //       } else if (analysisResult is ErrorsResult) {
-    //         debuglog('Error result');
-    //         channel.sendNotification(plugin.PluginErrorParams(
-    //           false,
-    //           'ErrorResult ${analysisResult}',
-    //           '',
-    //         ).toNotification());
-    //       }
-    //     });
-    //   },
-    //   (Object e, StackTrace stackTrace) {
-    //     debuglog(e);
-    //     debuglog(stackTrace);
-    //     channel.sendNotification(
-    //       plugin.PluginErrorParams(
-    //         false,
-    //         'Unexpected error: ${e.toString()}',
-    //         stackTrace.toString(),
-    //       ).toNotification(),
-    //     );
-    //   },
-    // );
-    // return dartDriver;
   }
 
   Future<List<AnalysisError>> _check(
@@ -188,20 +128,38 @@ class ImportLintPlugin extends ServerPlugin {
     plugin.AnalysisSetContextRootsParams parameters,
   ) async {
     final result = await super.handleAnalysisSetContextRoots(parameters);
+    // The super-call adds files to the driver, so we need to prioritize them so they get analyzed.
+    _updatePriorityFiles();
+
     return result;
   }
 
+  /// AnalysisDriver doesn't fully resolve files that are added via `addFile`; they need to be either explicitly requested
+  /// via `getResult`/etc, or added to `priorityFiles`.
+  ///
+  /// This method updates `priorityFiles` on the driver to include:
+  ///
+  /// - Any files prioritized by the analysis server via [handleAnalysisSetPriorityFiles]
+  /// - All other files the driver has been told to analyze via addFile (in [ServerPlugin.handleAnalysisSetContextRoots])
+  ///
+  /// As a result, [_processResult] will get called with resolved units, and thus all of our diagnostics
+  /// will get run on all files in the repo instead of only the currently open/edited ones!
   void _updatePriorityFiles() {
     final filesToFullyResolve = {
+      // Ensure these go first, since they're actually considered priority; ...
       ..._filesFromSetPriorityFilesRequest,
+
+      // ... all other files need to be analyzed, but don't trump priority
       for (final driver2 in driverMap.values)
         ...(driver2 as AnalysisDriver).addedFiles,
     };
 
+    // From ServerPlugin.handleAnalysisSetPriorityFiles.
     final filesByDriver = <AnalysisDriverGeneric, List<String>>{};
     for (final file in filesToFullyResolve) {
       final contextRoot = contextRootContaining(file);
       if (contextRoot != null) {
+        // TODO(dkrutskikh): Which driver should we use if there is no context root?
         final driver = driverMap[contextRoot];
         if (driver != null) {
           filesByDriver.putIfAbsent(driver, () => <String>[]).add(file);
@@ -214,8 +172,8 @@ class ImportLintPlugin extends ServerPlugin {
   }
 }
 
-void debuglog(Object value) {
-  final file = io.File('C:\\Users\\luaol\\plugin-report.txt')
-      .openSync(mode: io.FileMode.append);
-  file.writeStringSync('$value\n');
-}
+// void debuglog(Object value) {
+//   final file = io.File('')
+//       .openSync(mode: io.FileMode.append);
+//   file.writeStringSync('$value\n');
+// }
