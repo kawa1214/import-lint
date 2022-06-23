@@ -77,11 +77,13 @@ class ImportLintPlugin extends ServerPlugin {
     runZonedGuarded(() {
       dartDriver.results.listen((event) async {
         if (event is ResolvedUnitResult) {
-          final result = await _check(event, context);
-          channel.sendNotification(plugin.AnalysisErrorsParams(
-            event.path,
-            result,
-          ).toNotification());
+          final result = await _check(dartDriver, event, context);
+          if (result.isNotEmpty) {
+            channel.sendNotification(plugin.AnalysisErrorsParams(
+              event.path,
+              result,
+            ).toNotification());
+          }
         } else if (event is ErrorsResult) {
           channel.sendNotification(plugin.PluginErrorParams(
             false,
@@ -101,11 +103,15 @@ class ImportLintPlugin extends ServerPlugin {
   }
 
   Future<List<AnalysisError>> _check(
+    AnalysisDriver driver,
     ResolvedUnitResult result,
     DriverBasedAnalysisContext context,
   ) async {
-    final errors = await getErrors(options, context, result.path);
-    return errors;
+    if (driver.analysisContext?.contextRoot.isAnalyzed(result.path) ?? false) {
+      final errors = await getErrors(options, context, result.path);
+      return errors;
+    }
+    return [];
   }
 
   @override
