@@ -164,7 +164,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
           continue;
         }
 
-        if (libFilePath.contains("create-boarding-school-operation")) {
+        if (filePath.contains('core')) {
           debuglog('''
             Aqui o safado!
             Rule name: ${ruleOption.name},
