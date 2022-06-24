@@ -78,6 +78,9 @@ class ImportLintPlugin extends ServerPlugin {
       optionsFile: context.contextRoot.optionsFile,
     );
 
+    debuglog('Options: ' + options.rules.value.map((e) => e.name).toList().toString());
+    debuglog('--------------------------------------------------');
+
     final dartDriver = context.driver;
     runZonedGuarded(() {
       dartDriver.results.listen((event) async {
