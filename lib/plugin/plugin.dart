@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/context_locator.dart';
+import 'package:analyzer/dart/analysis/context_root.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
@@ -40,6 +42,8 @@ class ImportLintPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
+    debuglog('Plugin root path: ' + rootPath);
+    
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
       includedPaths: [rootPath],
@@ -48,7 +52,6 @@ class ImportLintPlugin extends ServerPlugin {
     );
 
     if (locator.isEmpty) {
-      // debuglog('Locator empty');
       final error = StateError('Unexpected empty context');
       channel.sendNotification(plugin.PluginErrorParams(
         true,
@@ -66,6 +69,8 @@ class ImportLintPlugin extends ServerPlugin {
     final context = builder.createContext(
       contextRoot: locator.first,
     );
+
+    _printContextRoot(context.contextRoot, 'Locator.first');
 
     final rootDirectoryPath = context.contextRoot.root.path;
     options = LintOptions.init(
@@ -98,6 +103,14 @@ class ImportLintPlugin extends ServerPlugin {
       ).toNotification());
     });
     return dartDriver;
+  }
+
+  void _printContextRoot(ContextRoot ctxRoot, String getFrom) {
+    debuglog('''
+      Name: ${getFrom}
+      RootPath: ${ctxRoot.root.path},
+      WorkspaceRoot: ${ctxRoot.workspace.root}
+    ''');
   }
 
   Future<List<AnalysisError>> _check(
@@ -163,7 +176,6 @@ class ImportLintPlugin extends ServerPlugin {
     for (final file in filesToFullyResolve) {
       final contextRoot = contextRootContaining(file);
       if (contextRoot != null) {
-        // TODO(dkrutskikh): Which driver should we use if there is no context root?
         final driver = driverMap[contextRoot];
         if (driver != null) {
           filesByDriver.putIfAbsent(driver, () => <String>[]).add(file);
@@ -176,8 +188,8 @@ class ImportLintPlugin extends ServerPlugin {
   }
 }
 
-// void debuglog(Object value) {
-//   final file = io.File('')
-//       .openSync(mode: io.FileMode.append);
-//   file.writeStringSync('$value\n');
-// }
+void debuglog(Object value) {
+  final file = io.File('C:\\Users\\luaol\\plugin-report.txt')
+      .openSync(mode: io.FileMode.append);
+  file.writeStringSync('$value\n');
+}
