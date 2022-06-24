@@ -70,7 +70,7 @@ class ImportLintPlugin extends ServerPlugin {
       contextRoot: locator.first,
     );
 
-    _printContextRoot(context.contextRoot, 'Locator.first');
+    printContextRoot(context.contextRoot, 'Locator.first');
 
     final rootDirectoryPath = context.contextRoot.root.path;
     options = LintOptions.init(
@@ -108,13 +108,6 @@ class ImportLintPlugin extends ServerPlugin {
     return dartDriver;
   }
 
-  void _printContextRoot(ContextRoot ctxRoot, String getFrom) {
-    debuglog('''
-      Name: ${getFrom}
-      RootPath: ${ctxRoot.root.path},
-      WorkspaceRoot: ${ctxRoot.workspace.root}
-    ''');
-  }
 
   Future<List<AnalysisError>> _check(
     AnalysisDriver driver,
@@ -189,6 +182,15 @@ class ImportLintPlugin extends ServerPlugin {
       driver.priorityFiles = files;
     });
   }
+}
+
+
+void printContextRoot(ContextRoot ctxRoot, String getFrom) {
+  debuglog('''
+    Name: ${getFrom}
+    RootPath: ${ctxRoot.root.path},
+    WorkspaceRoot: ${ctxRoot.workspace.root}
+  ''');
 }
 
 void debuglog(Object value) {

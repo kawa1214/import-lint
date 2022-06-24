@@ -58,6 +58,7 @@ Future<List<AnalysisError>> getErrors(
         (error) {
           errors.add(error);
         },
+        context,
       ),
     );
   }
@@ -82,6 +83,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
     this.directoryPath,
     this.unit,
     this.onError,
+    this.context,
   );
 
   final RuleOption ruleOption;
@@ -89,6 +91,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
   final String packageName;
   final String directoryPath;
   final CompilationUnit unit;
+  final DriverBasedAnalysisContext context;
   final Function(AnalysisError) onError;
 
   _ImportSource? _toImportSource(ImportDirective node) {
@@ -159,6 +162,16 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
         if (importSource.package !=
             notAllowImportRule.fixedPackage(packageName)) {
           continue;
+        }
+
+        if (libFilePath.contains("create-boarding-school-operation")) {
+          debuglog('''
+            Aqui o safado!
+            Rule name: ${ruleOption.name},
+            DirectoryPath: ${directoryPath},
+
+          ''');
+          printContextRoot(context.contextRoot, 'Rule');
         }
 
         final lineInfo = unit.lineInfo;
