@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io' as io;
 
 import 'package:analyzer/dart/analysis/context_locator.dart';
-import 'package:analyzer/dart/analysis/context_root.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
@@ -69,16 +67,11 @@ class ImportLintPlugin extends ServerPlugin {
       contextRoot: locator.first,
     );
 
-    // printContextRoot(context.contextRoot, 'Locator.first');
-
     final rootDirectoryPath = context.contextRoot.root.path;
-    LintOptions options = LintOptions.init(
+    final LintOptions options = LintOptions.init(
       directoryPath: rootDirectoryPath,
       optionsFile: context.contextRoot.optionsFile,
     );
-
-    // debuglog('Options: ' + options.rules.value.map((e) => e.name).toList().toString());
-    // debuglog('--------------------------------------------------');
 
     final dartDriver = context.driver;
     runZonedGuarded(() {
@@ -183,16 +176,8 @@ class ImportLintPlugin extends ServerPlugin {
   }
 }
 
-void printContextRoot(ContextRoot ctxRoot, String getFrom) {
-  debuglog('''
-    Name: ${getFrom}
-    RootPath: ${ctxRoot.root.path},
-    WorkspaceRoot: ${ctxRoot.workspace.root}
-  ''');
-}
-
-void debuglog(Object value) {
-  final file = io.File('C:\\Users\\luaol\\plugin-report.txt')
-      .openSync(mode: io.FileMode.append);
-  file.writeStringSync('$value\n');
-}
+// void debuglog(Object value) {
+//   final file = io.File('C:\\Users\\luaol\\plugin-report.txt')
+//       .openSync(mode: io.FileMode.append);
+//   file.writeStringSync('$value\n');
+// }

@@ -164,15 +164,6 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
           continue;
         }
 
-        if (filePath.contains('core')) {
-          debuglog('''
-            Aqui o safado!
-            Rule name: ${ruleOption.name},
-            DirectoryPath: ${directoryPath},
-          ''');
-          printContextRoot(context.contextRoot, 'Rule');
-        }
-
         final lineInfo = unit.lineInfo;
         final loc = lineInfo.getLocation(node.uri.offset);
         final locEnd = lineInfo.getLocation(node.uri.end);
