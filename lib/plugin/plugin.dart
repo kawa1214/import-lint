@@ -25,7 +25,6 @@ class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
 
   var _filesFromSetPriorityFilesRequest = <String>[];
-  late LintOptions options;
 
   @override
   List<String> get fileGlobsToAnalyze => const ['*.dart'];
@@ -43,7 +42,7 @@ class ImportLintPlugin extends ServerPlugin {
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
     // debuglog('Plugin root path: ' + rootPath);
-    
+
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
       includedPaths: [rootPath],
@@ -73,7 +72,7 @@ class ImportLintPlugin extends ServerPlugin {
     // printContextRoot(context.contextRoot, 'Locator.first');
 
     final rootDirectoryPath = context.contextRoot.root.path;
-    options = LintOptions.init(
+    LintOptions options = LintOptions.init(
       directoryPath: rootDirectoryPath,
       optionsFile: context.contextRoot.optionsFile,
     );
@@ -85,7 +84,7 @@ class ImportLintPlugin extends ServerPlugin {
     runZonedGuarded(() {
       dartDriver.results.listen((event) async {
         if (event is ResolvedUnitResult) {
-          final result = await _check(dartDriver, event, context);
+          final result = await _check(options, dartDriver, event, context);
           channel.sendNotification(plugin.AnalysisErrorsParams(
             event.path,
             result,
@@ -108,8 +107,8 @@ class ImportLintPlugin extends ServerPlugin {
     return dartDriver;
   }
 
-
   Future<List<AnalysisError>> _check(
+    LintOptions options,
     AnalysisDriver driver,
     ResolvedUnitResult result,
     DriverBasedAnalysisContext context,
@@ -183,7 +182,6 @@ class ImportLintPlugin extends ServerPlugin {
     });
   }
 }
-
 
 void printContextRoot(ContextRoot ctxRoot, String getFrom) {
   debuglog('''

@@ -169,7 +169,6 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
             Aqui o safado!
             Rule name: ${ruleOption.name},
             DirectoryPath: ${directoryPath},
-
           ''');
           printContextRoot(context.contextRoot, 'Rule');
         }
