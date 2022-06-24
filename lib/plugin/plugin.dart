@@ -42,7 +42,7 @@ class ImportLintPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
-    debuglog('Plugin root path: ' + rootPath);
+    // debuglog('Plugin root path: ' + rootPath);
     
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
@@ -70,7 +70,7 @@ class ImportLintPlugin extends ServerPlugin {
       contextRoot: locator.first,
     );
 
-    printContextRoot(context.contextRoot, 'Locator.first');
+    // printContextRoot(context.contextRoot, 'Locator.first');
 
     final rootDirectoryPath = context.contextRoot.root.path;
     options = LintOptions.init(
@@ -78,8 +78,8 @@ class ImportLintPlugin extends ServerPlugin {
       optionsFile: context.contextRoot.optionsFile,
     );
 
-    debuglog('Options: ' + options.rules.value.map((e) => e.name).toList().toString());
-    debuglog('--------------------------------------------------');
+    // debuglog('Options: ' + options.rules.value.map((e) => e.name).toList().toString());
+    // debuglog('--------------------------------------------------');
 
     final dartDriver = context.driver;
     runZonedGuarded(() {
