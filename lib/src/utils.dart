@@ -25,6 +25,13 @@ String absoluteNormalizedPath(String path) {
   );
 }
 
+String? extractPackage(String source) {
+  final packageRegExpResult =
+      RegExp('(?<=package:).*?(?=\/)').stringMatch(source);
+
+  return packageRegExpResult;
+}
+
 const int $backslash = 0x5c;
 
 const int $pipe = 0x7c;

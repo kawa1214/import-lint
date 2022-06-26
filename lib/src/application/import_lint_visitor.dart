@@ -42,6 +42,7 @@ class ImportLintVisitor extends SimpleAstVisitor<void> {
     }
 
     return Import.create(
+      uriUsedToImport: node.uriContent!,
       fullImportPath: Uri.decodeFull(encodedSelectedSourceUri),
       sourceFilePath: toPackagePath(filePath),
     );
