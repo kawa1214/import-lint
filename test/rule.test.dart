@@ -6,7 +6,6 @@ import 'package:analyzer/src/test_utilities/mock_sdk.dart';
 import 'package:analyzer/src/test_utilities/resource_provider_mixin.dart';
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/lint_options.dart';
-import 'package:import_lint/src/rule.dart';
 import 'package:import_lint/src/utils.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';

@@ -5,7 +5,6 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
@@ -17,7 +16,8 @@ import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
         AnalysisSetPriorityFilesParams,
         AnalysisSetContextRootsResult,
         AnalysisSetContextRootsParams;
-import 'package:import_lint/import_lint.dart';
+import 'package:import_lint/src/infra/error_collector.dart';
+import 'package:import_lint/src/main/create_error_collector.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin(ResourceProvider provider) : super(provider);
@@ -39,7 +39,6 @@ class ImportLintPlugin extends ServerPlugin {
   @override
   AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
     final rootPath = contextRoot.root;
-    // debuglog('Plugin root path: ' + rootPath);
 
     final locator =
         ContextLocator(resourceProvider: resourceProvider).locateRoots(
@@ -67,17 +66,13 @@ class ImportLintPlugin extends ServerPlugin {
       contextRoot: locator.first,
     );
 
-    final rootDirectoryPath = context.contextRoot.root.path;
-    final LintOptions options = LintOptions.init(
-      directoryPath: rootDirectoryPath,
-      optionsFile: context.contextRoot.optionsFile,
-    );
+    final ErrorCollector errorCollector = createCollector(context);
 
     final dartDriver = context.driver;
     runZonedGuarded(() {
       dartDriver.results.listen((event) async {
         if (event is ResolvedUnitResult) {
-          final result = await _check(options, dartDriver, event, context);
+          final result = await _check(errorCollector, dartDriver, event);
           channel.sendNotification(plugin.AnalysisErrorsParams(
             event.path,
             result,
@@ -101,13 +96,12 @@ class ImportLintPlugin extends ServerPlugin {
   }
 
   Future<List<AnalysisError>> _check(
-    LintOptions options,
+    ErrorCollector errorCollector,
     AnalysisDriver driver,
     ResolvedUnitResult result,
-    DriverBasedAnalysisContext context,
   ) async {
     if (driver.analysisContext?.contextRoot.isAnalyzed(result.path) ?? false) {
-      final errors = await getErrors(options, context, result.path);
+      final errors = await errorCollector.collectErrorsFor(result.path);
       return errors;
     }
     return [];
