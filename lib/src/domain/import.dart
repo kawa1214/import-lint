@@ -37,7 +37,7 @@ class Import {
       sourceFilePath: sourceFilePath,
       importedPackage: package,
       isRelativeImport: extractPackage(uriUsedToImport) == null,
-      importedFilePath: fullImportPath,
+      fullImportPath: fullImportPath,
     );
   }
 }
