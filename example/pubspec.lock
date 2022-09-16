@@ -116,11 +116,9 @@ packages:
   import_lint:
     dependency: "direct dev"
     description:
-      path: "."
-      ref: test
-      resolved-ref: "0e522d22bc92552d68fc19264e65f199d876d64c"
-      url: "https://github.com/lfariaUnifei/import-lint"
-    source: git
+      path: ".."
+      relative: true
+    source: path
     version: "0.9.3"
   lints:
     dependency: "direct dev"

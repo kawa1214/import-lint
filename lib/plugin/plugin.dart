@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
@@ -20,7 +20,12 @@ import 'package:import_lint/src/infra/error_collector.dart';
 import 'package:import_lint/src/main/create_error_collector.dart';
 
 class ImportLintPlugin extends ServerPlugin {
-  ImportLintPlugin(ResourceProvider provider) : super(provider);
+  ImportLintPlugin(super.provider);
+
+  @override
+  void contentChanged(String path) {
+    super.driverForPath(path)?.addFile(path);
+  }
 
   var _filesFromSetPriorityFilesRequest = <String>[];
 
@@ -108,11 +113,6 @@ class ImportLintPlugin extends ServerPlugin {
   }
 
   @override
-  void contentChanged(String path) {
-    super.driverForPath(path)?.addFile(path);
-  }
-
-  @override
   Future<plugin.AnalysisSetPriorityFilesResult> handleAnalysisSetPriorityFiles(
     plugin.AnalysisSetPriorityFilesParams parameters,
   ) async {
@@ -167,6 +167,13 @@ class ImportLintPlugin extends ServerPlugin {
     filesByDriver.forEach((driver, files) {
       driver.priorityFiles = files;
     });
+  }
+
+  @override
+  Future<void> analyzeFile(
+      {required AnalysisContext analysisContext, required String path}) {
+    // TODO: implement analyzeFile
+    throw UnimplementedError();
   }
 }
 

@@ -6,11 +6,11 @@ homepage: https://kawa.dev
 repository: https://github.com/kawa1214/import-lint
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.18.1 <3.0.0"
 
 dependencies:
-  analyzer: ">=2.4.0 <4.2.0"
-  analyzer_plugin: ">=0.8.0 <0.11.0"
+  analyzer: ">=4.1.0 <4.8.0"
+  analyzer_plugin: ">=0.10.0 <0.11.0"
   args: ^2.3.0
   cli_util: ^0.3.5
   glob: ^2.0.2
