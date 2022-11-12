@@ -45,9 +45,17 @@ import_lint:
                     "repository/sub/**/*.dart",
                 ]
             exclude_imports: []
+        domain_rule:
+            target_file_path: "domain/**/*_entity.dart"
+            not_allow_imports: ["domain/*_entity.dart"]
+            exclude_imports: ["domain/base_entity.dart"]
         package_rule:
             target_file_path: "**/*.dart"
             not_allow_imports: ["package:import_lint/import_lint.dart"]
+            exclude_imports: []
+        core_package_rule:
+            target_file_path: "package:core/**/*.dart"
+            not_allow_imports: ["package:module/**/*.dart"]
             exclude_imports: []
         # add custom rules...
 

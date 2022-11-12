@@ -4,6 +4,7 @@ analyzer:
   errors:
     unused_import: ignore
     undefined_shown_name: ignore
+    duplicate_import: ignore
 
 linter:
   rules:

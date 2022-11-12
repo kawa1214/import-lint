@@ -97,16 +97,14 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
     if (uri is DirectiveUriWithLibraryImpl) {
       final sourceFullName = uri.source.fullName;
 
-      final packagePath = toPackagePath(sourceFullName);
+      final source = toPackagePath(sourceFullName);
+      final package = _packageFromSelectedSource(node.uri.toString());
 
-      return _ImportSource(package: packageName, source: packagePath);
+      return _ImportSource(package: package, source: source);
     } else if (uri is DirectiveUriWithRelativeUriImpl) {
       final relativeUri = uri.relativeUriString;
 
       final uriPackage = _packageFromSelectedSource(relativeUri);
-      if (uriPackage == null) {
-        return null;
-      }
 
       final source = _sourceFromSelectedSource(relativeUri, uriPackage);
 
@@ -116,9 +114,13 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
     return null;
   }
 
-  String? _packageFromSelectedSource(String source) {
+  String _packageFromSelectedSource(String source) {
     final packageRegExpResult =
         RegExp('(?<=package:).*?(?=\/)').stringMatch(source);
+
+    if (packageRegExpResult == null) {
+      return packageName;
+    }
 
     return packageRegExpResult;
   }
