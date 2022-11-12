@@ -9,22 +9,15 @@ import 'package:import_lint/src/exceptions.dart';
 import 'package:import_lint/src/lint_options.dart';
 import 'package:import_lint/src/utils.dart';
 import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test_reflective_loader/test_reflective_loader.dart';
 
 main() {
-  group('LintOptionsTest', () {
-    test('should succeed when has correct format analysis_options.yaml', () {
-      LintOptionsTest().correctFormatTest();
-    });
-    test('shoud throw file exception when has not analysis_options.yaml', () {
-      LintOptionsTest().fileDoesNotExistText();
-    });
-    test('shoud throw format exception when has not target file path', () {
-      LintOptionsTest().hasNotTargetFilePathFormatExceptionTest();
-    });
+  defineReflectiveSuite(() {
+    defineReflectiveTests(LintOptionsTest);
   });
 }
 
+@reflectiveTest
 class LintOptionsTest with ResourceProviderMixin {
   LintOptionsTest() {
     setUp();
@@ -54,7 +47,7 @@ class LintOptionsTest with ResourceProviderMixin {
     );
   }
 
-  void correctFormatTest() {
+  void test_correctFormat() {
     resourceProvider.newFile('/analysis_options.yaml', '''
 import_lint:
   rules:
@@ -112,7 +105,7 @@ import_lint:
     );
   }
 
-  void fileDoesNotExistText() {
+  void test_fileDoesNotExist() {
     final context = _buildContext();
 
     late FileException exception;
@@ -126,7 +119,7 @@ import_lint:
     expect(exception.runtimeType, FileException);
   }
 
-  void hasNotTargetFilePathFormatExceptionTest() {
+  void test_hasNotTargetFilePathFormatException() {
     resourceProvider.newFile('/analysis_options.yaml', '''
 import_lint:
   rules:
