@@ -7,6 +7,7 @@ import 'package:import_lint/import_lint.dart';
 
 export 'package:analyzer/dart/element/type_system.dart';
 export 'package:analyzer/src/dart/ast/token.dart';
+export 'package:analyzer/src/dart/element/element.dart';
 export 'package:analyzer/src/dart/error/lint_codes.dart';
 export 'package:analyzer/src/dart/resolver/exit_detector.dart';
 export 'package:analyzer/src/generated/engine.dart' show AnalysisErrorInfo;
@@ -23,7 +24,6 @@ export 'package:analyzer/src/lint/linter.dart'
         NodeLintRegistry,
         NodeLintRule;
 export 'package:analyzer/src/lint/pub.dart' show PubspecVisitor, PSEntry;
-export 'package:analyzer/src/lint/util.dart' show Spelunker;
 export 'package:analyzer/src/services/lint.dart' show lintRegistry;
 export 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 
@@ -32,19 +32,9 @@ Future<List<AnalysisError>> getErrors(
   DriverBasedAnalysisContext context,
   String path,
 ) async {
-  // print(path);
-  // try {
-  //   final test = await context.currentSession.getResolvedUnit(path);
-  //   print(['in test', test]);
-  // } catch (e, s) {
-  //   print([e, s]);
-  // }
-
-  //throw Exception('ok');
-
   final result =
       await context.currentSession.getResolvedUnit(path) as ResolvedUnitResult;
-  throw Exception('ok');
+
   final workspace = context.contextRoot.workspace;
   final package = workspace.findPackageFor(path);
 
@@ -102,22 +92,28 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
   final Function(AnalysisError) onError;
 
   _ImportSource? _toImportSource(ImportDirective node) {
-    final encodedSelectedSourceUri = node.element?.uri.toString();
+    final uri = node.element?.uri;
 
-    if (encodedSelectedSourceUri == null) {
-      return null;
+    if (uri is DirectiveUriWithLibraryImpl) {
+      final sourceFullName = uri.source.fullName;
+
+      final packagePath = toPackagePath(sourceFullName);
+
+      return _ImportSource(package: packageName, source: packagePath);
+    } else if (uri is DirectiveUriWithRelativeUriImpl) {
+      final relativeUri = uri.relativeUriString;
+
+      final uriPackage = _packageFromSelectedSource(relativeUri);
+      if (uriPackage == null) {
+        return null;
+      }
+
+      final source = _sourceFromSelectedSource(relativeUri, uriPackage);
+
+      return _ImportSource(package: uriPackage, source: source);
     }
 
-    final selectedSource = Uri.decodeFull(encodedSelectedSourceUri);
-
-    final package = _packageFromSelectedSource(selectedSource);
-    if (package == null) {
-      return null;
-    }
-
-    final source = _sourceFromSelectedSource(selectedSource, package);
-
-    return _ImportSource(package: package, source: source);
+    return null;
   }
 
   String? _packageFromSelectedSource(String source) {

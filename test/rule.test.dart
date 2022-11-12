@@ -402,14 +402,8 @@ import '3_not.dart';
       common: CommonOption(directoryPath: '/'),
     );
 
-    await context.applyPendingFileChanges();
-    getErrors(options, context, testFilePath).then((value) {
-      print(value);
-    });
-
     final errors = await getErrors(options, context, testFilePath);
-    print(['errors', errors]);
-    //expect(errors.length, 0);
+    expect(errors.length, 0);
   }
 }
 
