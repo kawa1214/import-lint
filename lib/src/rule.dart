@@ -32,9 +32,19 @@ Future<List<AnalysisError>> getErrors(
   DriverBasedAnalysisContext context,
   String path,
 ) async {
+  // print(path);
+  // try {
+  //   final test = await context.currentSession.getResolvedUnit(path);
+  //   print(['in test', test]);
+  // } catch (e, s) {
+  //   print([e, s]);
+  // }
+
+  //throw Exception('ok');
+
   final result =
       await context.currentSession.getResolvedUnit(path) as ResolvedUnitResult;
-
+  throw Exception('ok');
   final workspace = context.contextRoot.workspace;
   final package = workspace.findPackageFor(path);
 
@@ -92,7 +102,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
   final Function(AnalysisError) onError;
 
   _ImportSource? _toImportSource(ImportDirective node) {
-    final encodedSelectedSourceUri = node.selectedSource?.uri.toString();
+    final encodedSelectedSourceUri = node.element?.uri.toString();
 
     if (encodedSelectedSourceUri == null) {
       return null;

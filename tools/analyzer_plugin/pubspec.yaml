@@ -4,9 +4,9 @@ version: 0.9.3
 publish_to: none
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  #import_lint:
-  #  path: /Users/ryo/Documents/packages/import_lint_test/import-lint
-  import_lint: ^0.9.3
+  import_lint:
+    path: /Users/ryo/Documents/packages/import_lint_test/import-lint
+  # import_lint: ^0.9.3

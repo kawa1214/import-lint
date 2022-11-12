@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io' as io;
 
+import 'package:analyzer/dart/analysis/analysis_context.dart';
+import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/context_builder.dart';
 import 'package:analyzer/dart/analysis/context_locator.dart';
 import 'package:analyzer/dart/analysis/results.dart';
-import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
@@ -22,10 +23,9 @@ import 'package:glob/glob.dart';
 import 'package:import_lint/import_lint.dart';
 
 class ImportLintPlugin extends ServerPlugin {
-  ImportLintPlugin(ResourceProvider provider) : super(provider);
+  ImportLintPlugin({required super.resourceProvider});
 
-  var _filesFromSetPriorityFilesRequest = <String>[];
-  late LintOptions options;
+  LintOptions? options;
 
   @override
   List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
@@ -145,15 +145,22 @@ class ImportLintPlugin extends ServerPlugin {
       return [];
     }
 
-    final errors = await getErrors(options, context, result.path);
+    if (options == null) {
+      return [];
+    }
+
+    final errors = await getErrors(options!, context, result.path);
     return errors;
   }
 
+  /*
   @override
   void contentChanged(String path) {
     super.driverForPath(path)?.addFile(path);
   }
+	*/
 
+  /*
   @override
   Future<plugin.AnalysisSetPriorityFilesResult> handleAnalysisSetPriorityFiles(
     plugin.AnalysisSetPriorityFilesParams parameters,
@@ -171,7 +178,9 @@ class ImportLintPlugin extends ServerPlugin {
     final result = await super.handleAnalysisSetContextRoots(parameters);
     return result;
   }
+	*/
 
+  /*
   void _updatePriorityFiles() {
     final filesToFullyResolve = {
       ..._filesFromSetPriorityFilesRequest,
@@ -192,6 +201,81 @@ class ImportLintPlugin extends ServerPlugin {
     filesByDriver.forEach((driver, files) {
       driver.priorityFiles = files;
     });
+  }
+	*/
+
+  @override
+  Future<void> analyzeFile({
+    required AnalysisContext analysisContext,
+    required String path,
+  }) async {
+    final included = _include.any((e) => e.matches(path));
+
+    if (!included) {
+      return;
+    }
+
+    if (options == null) {
+      return;
+    }
+
+    try {
+      final context = analysisContext as DriverBasedAnalysisContext;
+      final errors = await getErrors(options!, context, path);
+
+      channel.sendNotification(
+        plugin.AnalysisErrorsParams(
+          path,
+          errors,
+        ).toNotification(),
+      );
+    } on Exception catch (e, s) {
+      channel.sendNotification(plugin.PluginErrorParams(
+        false,
+        'ErrorResult ${e.toString()}',
+        s.toString(),
+      ).toNotification());
+    }
+  }
+
+  @override
+  Future<void> afterNewContextCollection({
+    required AnalysisContextCollection contextCollection,
+  }) {
+    contextCollection.contexts.forEach(_initOptions);
+
+    return super
+        .afterNewContextCollection(contextCollection: contextCollection);
+  }
+
+  Future<void> _initOptions(AnalysisContext context) async {
+    try {
+      for (final i in context.contextRoot.included) {
+        final packagesFile =
+            io.File(i.parent.canonicalizePath('${i.shortName}/.packages'));
+        final hasPackagesFile = packagesFile.existsSync();
+
+        if (hasPackagesFile) {
+          _include
+              .add(Glob('${i.path}', recursive: true, caseSensitive: false));
+        }
+      }
+
+      final rootDirectoryPath = context.contextRoot.root.path;
+
+      options = LintOptions.init(
+        directoryPath: rootDirectoryPath,
+        optionsFile: context.contextRoot.optionsFile,
+      );
+    } catch (e, s) {
+      channel.sendNotification(
+        plugin.PluginErrorParams(
+          true,
+          'Failed to load options: ${e.toString()}',
+          s.toString(),
+        ).toNotification(),
+      );
+    }
   }
 }
 
