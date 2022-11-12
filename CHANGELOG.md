@@ -1,3 +1,7 @@
+## 0.9.4
+
+- bump analyzer v5.2.0
+
 ## 0.9.3
 
 - BugFix
