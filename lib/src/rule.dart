@@ -7,6 +7,7 @@ import 'package:import_lint/import_lint.dart';
 
 export 'package:analyzer/dart/element/type_system.dart';
 export 'package:analyzer/src/dart/ast/token.dart';
+export 'package:analyzer/src/dart/element/element.dart';
 export 'package:analyzer/src/dart/error/lint_codes.dart';
 export 'package:analyzer/src/dart/resolver/exit_detector.dart';
 export 'package:analyzer/src/generated/engine.dart' show AnalysisErrorInfo;
@@ -23,7 +24,6 @@ export 'package:analyzer/src/lint/linter.dart'
         NodeLintRegistry,
         NodeLintRule;
 export 'package:analyzer/src/lint/pub.dart' show PubspecVisitor, PSEntry;
-export 'package:analyzer/src/lint/util.dart' show Spelunker;
 export 'package:analyzer/src/services/lint.dart' show lintRegistry;
 export 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 
@@ -92,27 +92,35 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
   final Function(AnalysisError) onError;
 
   _ImportSource? _toImportSource(ImportDirective node) {
-    final encodedSelectedSourceUri = node.selectedSource?.uri.toString();
+    final uri = node.element?.uri;
 
-    if (encodedSelectedSourceUri == null) {
-      return null;
+    if (uri is DirectiveUriWithLibraryImpl) {
+      final sourceFullName = uri.source.fullName;
+
+      final source = toPackagePath(sourceFullName);
+      final package = _packageFromSelectedSource(node.uri.toString());
+
+      return _ImportSource(package: package, source: source);
+    } else if (uri is DirectiveUriWithRelativeUriImpl) {
+      final relativeUri = uri.relativeUriString;
+
+      final uriPackage = _packageFromSelectedSource(relativeUri);
+
+      final source = _sourceFromSelectedSource(relativeUri, uriPackage);
+
+      return _ImportSource(package: uriPackage, source: source);
     }
 
-    final selectedSource = Uri.decodeFull(encodedSelectedSourceUri);
-
-    final package = _packageFromSelectedSource(selectedSource);
-    if (package == null) {
-      return null;
-    }
-
-    final source = _sourceFromSelectedSource(selectedSource, package);
-
-    return _ImportSource(package: package, source: source);
+    return null;
   }
 
-  String? _packageFromSelectedSource(String source) {
+  String _packageFromSelectedSource(String source) {
     final packageRegExpResult =
         RegExp('(?<=package:).*?(?=\/)').stringMatch(source);
+
+    if (packageRegExpResult == null) {
+      return packageName;
+    }
 
     return packageRegExpResult;
   }
