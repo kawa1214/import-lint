@@ -103,6 +103,7 @@ import_lint:
       target_file_path: "use_case/*_use_case.dart"
       not_allow_imports: ["use_case/*_use_case.dart"]
       exclude_imports: ["use_case/base_use_case.dart"]
+      ignore_files: ["**/test_three*.dart"]
     repository_rule:
       target_file_path: "repository/*_repository.dart"
       not_allow_imports:
@@ -113,11 +114,10 @@ import_lint:
           "repository/sub/**/*.dart",
         ]
       exclude_imports: []
-    package_rule:
-      target_file_path: "**/*.dart"
-      not_allow_imports: ["package:import_lint/import_lint.dart"]
-      exclude_imports: []
     example_package_rule:
       target_file_path: "**/*.dart"
       not_allow_imports: ["package:example/**/test_two_use_case.dart"]
       exclude_imports: []
+    use_relative_imports:
+      target_file_path: "**/*.dart"
+      not_allow_imports: ["package:example/**.dart"]

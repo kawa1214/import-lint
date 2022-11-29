@@ -1,20 +1,35 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/analysis/analysis_context.dart';
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
+import 'package:analyzer/dart/analysis/context_locator.dart';
+import 'package:analyzer/dart/analysis/results.dart';
+import 'package:analyzer/src/dart/analysis/context_builder.dart';
+import 'package:analyzer/src/dart/analysis/driver.dart';
 import 'package:analyzer_plugin/plugin/plugin.dart';
 import 'package:analyzer_plugin/protocol/protocol_generated.dart' as plugin
-    show AnalysisErrorsParams, PluginErrorParams;
-import 'package:import_lint/import_lint.dart';
+    show
+        AnalysisErrorsParams,
+        ContextRoot,
+        PluginErrorParams,
+        AnalysisSetPriorityFilesResult,
+        AnalysisSetPriorityFilesParams,
+        AnalysisSetContextRootsResult,
+        AnalysisSetContextRootsParams;
+import 'package:import_lint/src/infra/error_collector.dart';
+import 'package:import_lint/src/main/create_error_collector.dart';
 
 class ImportLintPlugin extends ServerPlugin {
-  ImportLintPlugin({required super.resourceProvider});
-
-  LintOptions? options;
+  ImportLintPlugin(super.provider);
 
   @override
-  List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
+  void contentChanged(String path) {
+    super.driverForPath(path)?.addFile(path);
+  }
+
+  var _filesFromSetPriorityFilesRequest = <String>[];
+
+  @override
+  List<String> get fileGlobsToAnalyze => const ['*.dart'];
 
   @override
   String get name => 'Import Lint';
@@ -27,60 +42,138 @@ class ImportLintPlugin extends ServerPlugin {
   String get contactInfo => 'https://github.com/kawa1214/import-lint';
 
   @override
-  Future<void> analyzeFile({
-    required AnalysisContext analysisContext,
-    required String path,
-  }) async {
-    if (options == null) {
-      return;
+  AnalysisDriverGeneric createAnalysisDriver(plugin.ContextRoot contextRoot) {
+    final rootPath = contextRoot.root;
+
+    final locator =
+        ContextLocator(resourceProvider: resourceProvider).locateRoots(
+      includedPaths: [rootPath],
+      excludedPaths: contextRoot.exclude,
+      optionsFile: contextRoot.optionsFile,
+    );
+
+    if (locator.isEmpty) {
+      final error = StateError('Unexpected empty context');
+      channel.sendNotification(plugin.PluginErrorParams(
+        true,
+        error.message,
+        error.stackTrace.toString(),
+      ).toNotification());
+
+      throw error;
     }
 
-    try {
-      final context = analysisContext as DriverBasedAnalysisContext;
-      final errors = await getErrors(options!, context, path);
+    final builder = ContextBuilderImpl(
+      resourceProvider: resourceProvider,
+    );
 
-      channel.sendNotification(
-        plugin.AnalysisErrorsParams(
-          path,
-          errors,
-        ).toNotification(),
-      );
-    } on Exception catch (e, s) {
+    final context = builder.createContext(
+      contextRoot: locator.first,
+    );
+
+    final ErrorCollector errorCollector = createCollector(context);
+
+    final dartDriver = context.driver;
+    runZonedGuarded(() {
+      dartDriver.results.listen((event) async {
+        if (event is ResolvedUnitResult) {
+          final result = await _check(errorCollector, dartDriver, event);
+          channel.sendNotification(plugin.AnalysisErrorsParams(
+            event.path,
+            result,
+          ).toNotification());
+        } else if (event is ErrorsResult) {
+          channel.sendNotification(plugin.PluginErrorParams(
+            false,
+            'ErrorResult ${event}',
+            '',
+          ).toNotification());
+        }
+      });
+    }, (error, stack) {
       channel.sendNotification(plugin.PluginErrorParams(
         false,
-        'ErrorResult ${e.toString()}',
-        s.toString(),
+        'Unexpected error: ${error.toString()}',
+        stack.toString(),
       ).toNotification());
+    });
+    return dartDriver;
+  }
+
+  Future<List<AnalysisError>> _check(
+    ErrorCollector errorCollector,
+    AnalysisDriver driver,
+    ResolvedUnitResult result,
+  ) async {
+    if (driver.analysisContext?.contextRoot.isAnalyzed(result.path) ?? false) {
+      final errors = await errorCollector.collectErrorsFor(result.path);
+      return errors;
     }
+    return [];
   }
 
   @override
-  Future<void> afterNewContextCollection({
-    required AnalysisContextCollection contextCollection,
-  }) {
-    contextCollection.contexts.forEach(_initOptions);
+  Future<plugin.AnalysisSetPriorityFilesResult> handleAnalysisSetPriorityFiles(
+    plugin.AnalysisSetPriorityFilesParams parameters,
+  ) async {
+    _filesFromSetPriorityFilesRequest = parameters.files;
+    _updatePriorityFiles();
 
-    return super
-        .afterNewContextCollection(contextCollection: contextCollection);
+    return plugin.AnalysisSetPriorityFilesResult();
   }
 
-  Future<void> _initOptions(AnalysisContext context) async {
-    try {
-      final rootDirectoryPath = context.contextRoot.root.path;
+  @override
+  Future<plugin.AnalysisSetContextRootsResult> handleAnalysisSetContextRoots(
+    plugin.AnalysisSetContextRootsParams parameters,
+  ) async {
+    final result = await super.handleAnalysisSetContextRoots(parameters);
+    // The super-call adds files to the driver, so we need to prioritize them so they get analyzed.
+    _updatePriorityFiles();
 
-      options = LintOptions.init(
-        directoryPath: rootDirectoryPath,
-        optionsFile: context.contextRoot.optionsFile,
-      );
-    } catch (e, s) {
-      channel.sendNotification(
-        plugin.PluginErrorParams(
-          true,
-          'Failed to load options: ${e.toString()}',
-          s.toString(),
-        ).toNotification(),
-      );
+    return result;
+  }
+
+  /// AnalysisDriver doesn't fully resolve files that are added via `addFile`; they need to be either explicitly requested
+  /// via `getResult`/etc, or added to `priorityFiles`.
+  ///
+  /// This method updates `priorityFiles` on the driver to include:
+  ///
+  /// - Any files prioritized by the analysis server via [handleAnalysisSetPriorityFiles]
+  /// - All other files the driver has been told to analyze via addFile (in [ServerPlugin.handleAnalysisSetContextRoots])
+  ///
+  /// As a result, [_processResult] will get called with resolved units, and thus all of our diagnostics
+  /// will get run on all files in the repo instead of only the currently open/edited ones!
+  void _updatePriorityFiles() {
+    final filesToFullyResolve = {
+      // Ensure these go first, since they're actually considered priority; ...
+      ..._filesFromSetPriorityFilesRequest,
+
+      // ... all other files need to be analyzed, but don't trump priority
+      for (final driver2 in driverMap.values)
+        ...(driver2 as AnalysisDriver).addedFiles,
+    };
+
+    // From ServerPlugin.handleAnalysisSetPriorityFiles.
+    final filesByDriver = <AnalysisDriverGeneric, List<String>>{};
+    for (final file in filesToFullyResolve) {
+      final contextRoot = contextRootContaining(file);
+      if (contextRoot != null) {
+        final driver = driverMap[contextRoot];
+        if (driver != null) {
+          filesByDriver.putIfAbsent(driver, () => <String>[]).add(file);
+        }
+      }
     }
+    filesByDriver.forEach((driver, files) {
+      driver.priorityFiles = files;
+    });
+  }
+
+  @override
+  Future<void> analyzeFile(
+      {required AnalysisContext analysisContext, required String path}) {
+    // TODO: implement analyzeFile
+    throw UnimplementedError();
   }
 }
 

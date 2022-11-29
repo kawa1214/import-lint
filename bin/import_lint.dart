@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:import_lint/src/cli.dart' as cli;
+import 'package:import_lint/src/infra/cli.dart' as cli;
 
 void main(List<String> args) async {
   try {
