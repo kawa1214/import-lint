@@ -6,7 +6,9 @@ import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer/src/lint/io.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:cli_util/cli_logging.dart';
-import 'package:import_lint/import_lint.dart';
+import 'package:import_lint/src/main/create_error_collector.dart';
+
+import '../utils.dart';
 
 final logger = Logger.standard();
 
@@ -26,7 +28,7 @@ Future<void> run(List<String> args) async {
 
 Future<void> runLinter(DriverBasedAnalysisContext context) async {
   final targetPath = './';
-  final options = getOptions(context);
+  final errorCollector = createCollector(context);
 
   final files = collectFiles(targetPath)
       .map((file) => absoluteNormalizedPath(file.path))
@@ -36,7 +38,7 @@ Future<void> runLinter(DriverBasedAnalysisContext context) async {
   final errors = <AnalysisError>[];
 
   for (final file in files) {
-    final fileErrors = await getErrors(options, context, file.path);
+    final fileErrors = await errorCollector.collectErrorsFor(file.path);
     errors.addAll(fileErrors);
   }
 
