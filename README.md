@@ -160,9 +160,14 @@ package_rule • package:import_analyzer_test/repository/test_one_repository.dar
 4 issues found.
 ```
 
-## 🧤 Features
+## Contribution
 
-- [x] Analyzer Plugin Support
-- [x] CLI Support
-- [x] Ignore Import Line
-- [x] Add Test
+Welcome PRs!
+
+You can develop locally by setting the path to an absolute path as shown below.
+`tools/analyzer_plugin/pubspec.yaml`
+
+```
+dependencies:
+  import_lint: ^0.9.3 → import_lint:/Users/xxx/import-lint
+```
