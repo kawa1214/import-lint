@@ -144,13 +144,13 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
 
     for (final notAllowImportRule in ruleOption.notAllowImports) {
       if (notAllowImportRule.path.matches(importSource.source)) {
-        final isIgnore = ruleOption.excludeImports.map((e) {
-          final matchIgnore = e.path.matches(importSource.source);
+        final bool isIgnore = ruleOption.excludeImports.any((e) {
+          final matchIgnore = e.path.matches(libFilePath);
           final equalPackage =
               importSource.package == e.fixedPackage(packageName);
 
           return matchIgnore && equalPackage;
-        }).contains(true);
+        });
 
         if (isIgnore) {
           continue;
