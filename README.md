@@ -160,6 +160,21 @@ package_rule • package:import_analyzer_test/repository/test_one_repository.dar
 4 issues found.
 ```
 
+## Option
+### CLI
+#### Rule Severities
+
+To change the severity of a rule, add a `severity` key to the rule configuration.
+
+- `warning` (default)
+- `error` (exit code 1 when lint is found)
+
+```yaml
+import_lint:
+    severity: 'error'
+    rules: ...
+```
+
 ## Contribution
 
 Welcome PRs!

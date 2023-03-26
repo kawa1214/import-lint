@@ -50,6 +50,7 @@ Future<List<AnalysisError>> getErrors(
   for (final rule in options.rules.value) {
     result.unit.visitChildren(
       _ImportLintVisitor(
+        options.common,
         rule,
         result.path,
         packageName,
@@ -76,6 +77,7 @@ class _ImportSource {
 
 class _ImportLintVisitor extends SimpleAstVisitor<void> {
   _ImportLintVisitor(
+    this.commonOption,
     this.ruleOption,
     this.filePath,
     this.packageName,
@@ -84,6 +86,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
     this.onError,
   );
 
+  final CommonOption commonOption;
   final RuleOption ruleOption;
   final String filePath;
   final String packageName;
@@ -166,7 +169,7 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
         final locEnd = lineInfo.getLocation(node.uri.end);
 
         final error = AnalysisError(
-          AnalysisErrorSeverity('WARNING'),
+          commonOption.severity,
           AnalysisErrorType.LINT,
           Location(
             filePath,

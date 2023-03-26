@@ -10,7 +10,9 @@ import 'package:import_lint/import_lint.dart';
 
 final logger = Logger.standard();
 
-Future<void> run(List<String> args) async {
+typedef ExitCode = int;
+
+Future<ExitCode> run(List<String> args) async {
   final progress = logger.progress('Analyzing');
 
   final collection = AnalysisContextCollectionImpl(
@@ -19,12 +21,16 @@ Future<void> run(List<String> args) async {
   );
   final context = collection.contexts.take(1).first;
 
-  await runLinter(context);
+  final hasError = await runLinter(context);
 
   progress.finish(showTiming: true);
+
+  return hasError ? 1 : 0;
 }
 
-Future<void> runLinter(DriverBasedAnalysisContext context) async {
+typedef HasError = bool;
+
+Future<HasError> runLinter(DriverBasedAnalysisContext context) async {
   final targetPath = './';
   final options = getOptions(context);
 
@@ -35,10 +41,12 @@ Future<void> runLinter(DriverBasedAnalysisContext context) async {
 
   final errors = <AnalysisError>[];
 
-  for (final file in files) {
-    final fileErrors = await getErrors(options, context, file.path);
-    errors.addAll(fileErrors);
-  }
+  final tasks = files.map((file) => getErrors(options, context, file.path));
+  final results = await Future.wait(tasks);
+  errors.addAll(results.toList().expand((e) => e));
+
+  final bool hasError =
+      errors.where((e) => e.severity == AnalysisErrorSeverity.ERROR).isNotEmpty;
 
   final buffer = StringBuffer();
   final reporter = Reporter(buffer);
@@ -46,6 +54,8 @@ Future<void> runLinter(DriverBasedAnalysisContext context) async {
   reporter.writeLints(errors);
 
   logger.stdout(buffer.toString());
+
+  return hasError;
 }
 
 class Reporter {
