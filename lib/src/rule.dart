@@ -136,20 +136,20 @@ class _ImportLintVisitor extends SimpleAstVisitor<void> {
       return;
     }
 
-    final libFilePath = toPackagePath(filePath);
+    final currentTargetPath = toPackagePath(filePath);
 
-    if (!ruleOption.targetFilePath.matches(libFilePath)) {
+    if (!ruleOption.targetFilePath.matches(currentTargetPath)) {
       return;
     }
 
     for (final notAllowImportRule in ruleOption.notAllowImports) {
       if (notAllowImportRule.path.matches(importSource.source)) {
-        final bool isIgnore = ruleOption.excludeImports.any((e) {
-          final matchIgnore = e.path.matches(libFilePath);
+        final bool isIgnore = ruleOption.excludeImports.any((excludePath) {
+          final matchIgnorePath = excludePath.path.matches(currentTargetPath);
           final equalPackage =
-              importSource.package == e.fixedPackage(packageName);
+              importSource.package == excludePath.fixedPackage(packageName);
 
-          return matchIgnore && equalPackage;
+          return matchIgnorePath && equalPackage;
         });
 
         if (isIgnore) {
