@@ -41,10 +41,9 @@ Future<HasError> runLinter(DriverBasedAnalysisContext context) async {
 
   final errors = <AnalysisError>[];
 
-  for (final file in files) {
-    final fileErrors = await getErrors(options, context, file.path);
-    errors.addAll(fileErrors);
-  }
+  final tasks = files.map((file) => getErrors(options, context, file.path));
+  final results = await Future.wait(tasks);
+  errors.addAll(results.toList().expand((e) => e));
 
   final bool hasError =
       errors.where((e) => e.severity == AnalysisErrorSeverity.ERROR).isNotEmpty;
