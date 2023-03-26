@@ -141,15 +141,15 @@ class RuleOption {
 }
 
 class ImportRulePath {
-  const ImportRulePath(this.package, this.path);
+  const ImportRulePath(this.package, this.glob);
 
   factory ImportRulePath.from(String value, CommonOption commonOption) {
     final package = RegExp('(?<=package:).*?(?=\/)').stringMatch(value);
     if (package != null) {
       final importPath = value.replaceFirst('package:$package/', '');
-      final path = Glob(importPath, recursive: true, caseSensitive: false);
+      final glob = Glob(importPath, recursive: true, caseSensitive: false);
 
-      return ImportRulePath(package, path);
+      return ImportRulePath(package, glob);
     }
 
     final path = Glob(value, recursive: true, caseSensitive: false);
@@ -157,7 +157,7 @@ class ImportRulePath {
   }
 
   final String? package;
-  final Glob path;
+  final Glob glob;
 
   String fixedPackage(String workspacePackage) =>
       package == null ? workspacePackage : package!;

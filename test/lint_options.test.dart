@@ -80,11 +80,11 @@ import_lint:
       null,
     );
     expect(
-      testRule.notAllowImports.first.path.pattern,
+      testRule.notAllowImports.first.glob.pattern,
       Glob('test/*.dart', recursive: true, caseSensitive: false).pattern,
     );
     expect(
-      testRule.excludeImports.first.path.pattern,
+      testRule.excludeImports.first.glob.pattern,
       Glob('not_test/*.dart', recursive: true, caseSensitive: false).pattern,
     );
 
@@ -100,7 +100,7 @@ import_lint:
       'import_lint',
     );
     expect(
-      packageRule.notAllowImports.first.path.pattern,
+      packageRule.notAllowImports.first.glob.pattern,
       Glob('import_lint.dart', recursive: true, caseSensitive: false).pattern,
     );
   }
