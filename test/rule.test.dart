@@ -6,6 +6,7 @@ import 'package:analyzer/src/dart/analysis/context_locator.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer/src/test_utilities/mock_sdk.dart';
 import 'package:analyzer/src/test_utilities/resource_provider_mixin.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/lint_options.dart';
 import 'package:import_lint/src/rule.dart';
@@ -105,7 +106,10 @@ import '3_not.dart';
           ),
         ],
       ),
-      common: CommonOption(directoryPath: '/'),
+      common: CommonOption(
+        directoryPath: '/',
+        severity: AnalysisErrorSeverity.WARNING,
+      ),
     );
 
     final errors = await getErrors(options, context, testFilePath);
@@ -158,7 +162,10 @@ import '3_test.dart';
           ),
         ],
       ),
-      common: CommonOption(directoryPath: '/'),
+      common: CommonOption(
+        directoryPath: '/',
+        severity: AnalysisErrorSeverity.WARNING,
+      ),
     );
 
     final errors = await getErrors(options, context, testFilePath);
@@ -256,7 +263,10 @@ import 'package:$_anotherPackageName/test/1_test.dart';
           ),
         ],
       ),
-      common: CommonOption(directoryPath: '/'),
+      common: CommonOption(
+        directoryPath: '/',
+        severity: AnalysisErrorSeverity.WARNING,
+      ),
     );
 
     final errors = await getErrors(options, context, testFilePath);
@@ -307,7 +317,10 @@ import 'package:$_anotherPackageName/test/1_test.dart';
           ),
         ],
       ),
-      common: CommonOption(directoryPath: '/'),
+      common: CommonOption(
+        directoryPath: '/',
+        severity: AnalysisErrorSeverity.WARNING,
+      ),
     );
 
     final errors = await getErrors(options, context, testFilePath);
@@ -399,7 +412,10 @@ import '3_not.dart';
           ),
         ],
       ),
-      common: CommonOption(directoryPath: '/'),
+      common: CommonOption(
+        directoryPath: '/',
+        severity: AnalysisErrorSeverity.WARNING,
+      ),
     );
 
     final errors = await getErrors(options, context, testFilePath);

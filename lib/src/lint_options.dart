@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
+import 'package:analyzer_plugin/protocol/protocol_common.dart';
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/exceptions.dart';
 import 'package:yaml/yaml.dart' as yaml;
@@ -24,7 +25,10 @@ class LintOptions {
     required String directoryPath,
     required File? optionsFile,
   }) {
-    final common = CommonOption.fromYaml(directoryPath);
+    final common = CommonOption.fromYaml(
+      optionsFile: optionsFile,
+      directoryPath: directoryPath,
+    );
     final rules = RulesOption.fromOptionsFile(optionsFile, common);
     return LintOptions(
       rules: rules,
@@ -39,15 +43,35 @@ class LintOptions {
 class CommonOption {
   const CommonOption({
     required this.directoryPath,
+    required this.severity,
   });
 
-  factory CommonOption.fromYaml(String directoryPath) {
+  factory CommonOption.fromYaml({
+    required File? optionsFile,
+    required String directoryPath,
+  }) {
+    if (optionsFile == null) {
+      throw _notFoundAnalyticsOptionsException(null, null);
+    }
+    final readValue = optionsFile.readAsStringSync();
+    final loadedYaml = yaml.loadYaml(readValue);
+    final encodedSeverity =
+        convert.jsonEncode(loadedYaml['import_lint']['severity']);
+    final inputSeverity =
+        convert.jsonDecode(encodedSeverity) as String? ?? null;
+
+    final severity = inputSeverity == null
+        ? null
+        : AnalysisErrorSeverity(inputSeverity.toUpperCase());
+
     return CommonOption(
       directoryPath: directoryPath,
+      severity: severity ?? AnalysisErrorSeverity.WARNING,
     );
   }
 
   final String directoryPath;
+  final AnalysisErrorSeverity severity;
 }
 
 class RulesOption {
@@ -57,7 +81,7 @@ class RulesOption {
     CommonOption commonOption,
   ) {
     if (optionsFile == null) {
-      throw _notFoundAnalytisOptionsException(null, null);
+      throw _notFoundAnalyticsOptionsException(null, null);
     }
 
     final readValue = optionsFile.readAsStringSync();
@@ -83,18 +107,18 @@ class RulesOption {
     return RulesOption(result);
   }
   final List<RuleOption> value;
-
-  static FileException _notFoundAnalytisOptionsException(
-    Object? e,
-    StackTrace? s,
-  ) =>
-      FileException(
-        'Not found analysis_options.yaml file '
-        'at the root of your project.'
-        '\n $e'
-        '\n $s',
-      );
 }
+
+FileException _notFoundAnalyticsOptionsException(
+  Object? e,
+  StackTrace? s,
+) =>
+    FileException(
+      'Not found analysis_options.yaml file '
+      'at the root of your project.'
+      '\n $e'
+      '\n $s',
+    );
 
 class RuleOption {
   const RuleOption({

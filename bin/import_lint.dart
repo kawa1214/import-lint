@@ -4,9 +4,9 @@ import 'package:import_lint/src/cli.dart' as cli;
 
 void main(List<String> args) async {
   try {
-    await cli.run(args);
+    final exitCode = await cli.run(args);
 
-    io.exit(0);
+    io.exit(exitCode);
   } catch (e, s) {
     io.stdout.writeln('${e.toString()}\n');
     io.stdout.writeln('''
