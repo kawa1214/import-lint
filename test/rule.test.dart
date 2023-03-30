@@ -314,6 +314,57 @@ import 'package:$_anotherPackageName/test/1_test.dart';
 
     expect(errors.length, 0);
   }
+
+  void test_excludeImport_diffDirectory() async {
+    final testFilePath = '/lib/$_packageDir/use_case/1_test.dart';
+    final testFileContent = '''
+import 'package:$_anotherPackageName/repository/1_test.dart';
+''';
+
+    resourceProvider.newFile(testFilePath, testFileContent);
+
+    final context = _buildContext();
+
+    final options = LintOptions(
+      rules: RulesOption(
+        [
+          RuleOption(
+            name: 'name',
+            targetFilePath: Glob(
+              '**/*.dart',
+              recursive: true,
+              caseSensitive: false,
+            ),
+            notAllowImports: [
+              ImportRulePath(
+                _anotherPackageName,
+                Glob(
+                  'repository/**.dart',
+                  recursive: true,
+                  caseSensitive: false,
+                ),
+              ),
+            ],
+            excludeImports: [
+              ImportRulePath(
+                _anotherPackageName,
+                Glob(
+                  'use_case/**.dart',
+                  recursive: true,
+                  caseSensitive: false,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      common: CommonOption(directoryPath: '/'),
+    );
+
+    final errors = await getErrors(options, context, testFilePath);
+
+    expect(errors.length, 0);
+  }
 }
 
 @reflectiveTest
