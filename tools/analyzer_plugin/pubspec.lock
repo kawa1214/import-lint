@@ -95,10 +95,10 @@ packages:
   import_lint:
     dependency: "direct main"
     description:
-      path: "/Users/ryo/Documents/packages/import_lint_test/import-lint"
-      relative: false
-    source: path
-    version: "0.9.4"
+      name: import_lint
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.5"
   meta:
     dependency: transitive
     description:

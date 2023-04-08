@@ -1,3 +1,7 @@
+## 0.9.5
+
+- Add Severity option([#27](https://github.com/kawa1214/import-lint/pull/27))
+
 ## 0.9.4
 
 - bump analyzer v5.2.0
