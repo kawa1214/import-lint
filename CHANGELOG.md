@@ -1,3 +1,8 @@
+## 1.0.0
+
+- Breaking change
+  - Changed yaml specs (eslint/no-restricted-paths.)
+
 ## 0.9.5
 
 - Add Severity option([#27](https://github.com/kawa1214/import-lint/pull/27))

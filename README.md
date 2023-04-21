@@ -1,8 +1,8 @@
 ![cover](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/cover.png)
 
-# Why import lint?
+# Why import_lint?
 
-The Import Lint package defines import lint rules and report on lints found in Dart code.
+The [import_lint package](https://pub.dev/packages/import_lint) defines rules to restrict imports and performs static analysis. It was inspired by [eslint/no-restricted-paths](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-restricted-paths.md).
 
 ## 😻 Usage
 
@@ -18,47 +18,31 @@ dart pub add --dev import_lint
 
 2. You have lints configured in an `analysis_options.yaml` file at the root of your project.
 
-- target_file_path: Specify a file paths to analyze.
-- not_allow_imports: Specify import rules not to allow.
-- exclude_imports: Specify exclude import rules.(For dart packages, do not write the package name `dart:` [#25](https://github.com/kawa1214/import-lint/issues/25))
+- target: Define the file paths of the targets to be restricted using glob patterns.
+- from: Define the paths that are not allowed to be used in imports using glob patterns.
+- target_except: Define the exception paths for the target using glob patterns.
+- from_except: Define the exception paths for the 'from' rule using glob patterns.
 
-Example
+Example of `analysis_options.yaml`
 
-```
+```yaml
 analyzer:
-    plugins:
-        - import_lint
+  plugins:
+    - import_lint
 
 import_lint:
-    rules:
-        use_case_rule:
-            target_file_path: "use_case/*_use_case.dart"
-            not_allow_imports: ["use_case/*_use_case.dart"]
-            exclude_imports: ["use_case/base_use_case.dart"]
-        repository_rule:
-            target_file_path: "repository/*_repository.dart"
-            not_allow_imports:
-                [
-                    "use_case/*_use_case.dart",
-                    "repository/*_repository.dart",
-                    "space\ test/*.dart",
-                    "repository/sub/**/*.dart",
-                ]
-            exclude_imports: []
-        domain_rule:
-            target_file_path: "domain/**/*_entity.dart"
-            not_allow_imports: ["domain/*_entity.dart"]
-            exclude_imports: ["domain/base_entity.dart"]
-        package_rule:
-            target_file_path: "**/*.dart"
-            not_allow_imports: ["package:import_lint/import_lint.dart"]
-            exclude_imports: []
-        core_package_rule:
-            target_file_path: "package:core/**/*.dart"
-            not_allow_imports: ["package:module/**/*.dart"]
-            exclude_imports: []
-        # add custom rules...
-
+  rules:
+    import_rule:
+      target: "target/*_target.dart"
+      from: ["from/**/*.dart"]
+      target_except: ["target/except_target.dart"]
+      from_except: ["from/except_from.dart"]
+    package_rule:
+      target: "package:import_lint/import_lint.dart"
+      from: ["/**/*.dart"]
+      target_except: []
+      from_except: []
+    # add custom rules...
 ```
 
 By adding import_lint plugin to get the warnings directly in your IDE by configuring.
@@ -77,92 +61,73 @@ or
 dart run import_lint
 ```
 
-## Result
-
-- Passed
-
-`output`
-
-```
-No issues found! 🎉
-```
-
-- Failed Example
+## Example
 
 `analysis_options.yaml`
 
-```
+```yaml
 analyzer:
-    plugins:
-        - import_lint
+  plugins:
+    - import_lint
 
 import_lint:
-    rules:
-        use_case_rule:
-            target_file_path: "use_case/*_use_case.dart"
-            not_allow_imports: ["use_case/*_use_case.dart"]
-            exclude_imports: ["use_case/base_use_case.dart"]
-        repository_rule:
-            target_file_path: "repository/*_repository.dart"
-            not_allow_imports:
-                [
-                    "use_case/*_use_case.dart",
-                    "repository/*_repository.dart",
-                    "space\ test/*.dart",
-                    "repository/sub/**/*.dart",
-                ]
-            exclude_imports: []
-        package_rule:
-            target_file_path: "**/*.dart"
-            not_allow_imports: ["package:import_lint/import_lint.dart"]
-            exclude_imports: []
-
+  rules:
+    import_rule:
+      target: "target/*_target.dart"
+      from: ["from/**/*.dart"]
+      target_except: ["target/except_target.dart"]
+      from_except: ["from/except_from.dart"]
+    package_rule:
+      target: "package:import_lint/import_lint.dart"
+      from: ["/**/*.dart"]
+      target_except: []
+      from_except: []
 ```
 
 `files`
 
-```
+```dart
 - lib
-    - repository
-        - test_one_repository.dart
+    - target
+        - test_target.dart
 
-            import 'package:import_analyzer_test/repository/test_two_repository.dart';
-            import 'package:import_analyzer_test/use_case/test_one_use_case.dart';
-            class TestOneRepository {}
+            class TestTarget {}
 
-        - test_two_repository.dart
+        - except_target.dart
 
-            class TestTwoRepository {}
+            class ExceptTarget {}
 
-    - use_case
+    - from
+        - test_from.dart
 
-        - test_one_use_case.dart
+            import 'package:import_analyzer_test/target/test_target.dart';
+            import 'package:import_analyzer_test/target/except_target.dart';
+            class TestFrom {}
 
-            import 'package:import_analyzer_test/use_case/base_use_case.dart';
-            class TestOneUseCase extends BaseUseCase {}
+        - except_from.dart
 
-        - test_two_use_case.dart
+            import 'package:import_analyzer_test/target/test_target.dart';
+            class ExceptFrom {}
 
-            import 'package:import_analyzer_test/repository/test_one_repository.dart';
-            import 'package:import_analyzer_test/use_case/test_one_use_case.dart';
+    - package
+        - package.dart
+
             import 'package:import_lint/import_lint.dart';
-            class TestTwoUseCase {}
+            class Package {}
 ```
 
 `output`
 
 ```{dart}
-use_case_rule • package:import_analyzer_test/use_case/test_two_use_case.dart:2 • import 'package:import_analyzer_test/use_case/test_one_use_case.dart'
-repository_rule • package:import_analyzer_test/repository/test_one_repository.dart:1 • import 'package:import_analyzer_test/repository/test_two_repository.dart'
-repository_rule • package:import_analyzer_test/repository/test_one_repository.dart:2 • import 'package:import_analyzer_test/use_case/test_one_use_case.dart'
-package_rule • package:import_analyzer_test/repository/test_one_repository.dart:3 • import 'package:import_lint/import_lint.dart';
 
-4 issues found.
+from > test_from > import 'package:import_analyzer_test/target/test_target.dart';
+package > package.dart > import 'package:import_lint/import_lint.dart';
+
 ```
 
 ## Option
-### CLI
-#### Rule Severities
+
+### Rule Severities
 
 To change the severity of a rule, add a `severity` key to the rule configuration.
 
@@ -171,8 +136,8 @@ To change the severity of a rule, add a `severity` key to the rule configuration
 
 ```yaml
 import_lint:
-    severity: 'error'
-    rules: ...
+  severity: "error"
+  rules: ...
 ```
 
 ## Contribution
@@ -184,5 +149,5 @@ You can develop locally by setting the path to an absolute path as shown below.
 
 ```
 dependencies:
-  import_lint: ^0.9.3 → import_lint:/Users/xxx/import-lint
+  import_lint: ^x.x.x → import_lint:/Users/xxx/import-lint
 ```
