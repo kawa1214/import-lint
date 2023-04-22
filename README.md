@@ -20,8 +20,7 @@ dart pub add --dev import_lint
 
 - target: Define the file paths of the targets to be restricted using glob patterns.
 - from: Define the paths that are not allowed to be used in imports using glob patterns.
-- target_except: Define the exception paths for the target using glob patterns.
-- from_except: Define the exception paths for the 'from' rule using glob patterns.
+- except: Define the exception paths for the 'from' rule using glob patterns.
 
 Example of `analysis_options.yaml`
 
@@ -32,16 +31,22 @@ analyzer:
 
 import_lint:
   rules:
-    import_rule:
-      target: "target/*_target.dart"
-      from: ["from/**/*.dart"]
-      target_except: ["target/except_target.dart"]
-      from_except: ["from/except_from.dart"]
+    example_rule:
+      target: "package:example/target/*_target.dart"
+      from: "package:example/from/*.dart"
+      expect: ["package:example/target/expect.dart"]
+    self_rule:
+      target: "package:example/self/*.dart"
+      from: "package:example/self/*.dart"
+      expect: []
+    only_rule:
+      target: "package:example/only/*.dart"
+      from: "package:example/[^only_from]**/*.dart"
+      expect: []
     package_rule:
       target: "package:import_lint/import_lint.dart"
-      from: ["/**/*.dart"]
-      target_except: []
-      from_except: []
+      from: "package:example/**/*.dart"
+      expect: []
     # add custom rules...
 ```
 
@@ -72,43 +77,70 @@ analyzer:
 
 import_lint:
   rules:
-    import_rule:
-      target: "target/*_target.dart"
-      from: ["from/**/*.dart"]
-      target_except: ["target/except_target.dart"]
-      from_except: ["from/except_from.dart"]
+    example_rule:
+      target: "package:example/target/*_target.dart"
+      from: "package:example/from/*.dart"
+      expect: ["package:example/target/expect.dart"]
+    self_rule:
+      target: "package:example/self/*.dart"
+      from: "package:example/self/*.dart"
+      expect: []
+    only_rule:
+      target: "package:example/[!only]**/*.dart"
+      from: "package:example/only_from/*.dart"
+      expect: []
     package_rule:
-      target: "package:import_lint/import_lint.dart"
-      from: ["/**/*.dart"]
-      target_except: []
-      from_except: []
+      target: "package:example/**/*.dart"
+      from: "package:import_lint/import_lint.dart"
+      expect: []
 ```
 
 `files`
 
 ```dart
 - lib
+    // example_rule
+    - from
+        - except_from.dart
+
+            class ExceptFrom {}
+
+        - test_from.dart
+
+            class TestFrom {}
+
     - target
         - test_target.dart
 
+            import 'package:example/from/except_from.dart';
+            import 'package:example/from/test_from.dart';
+
             class TestTarget {}
 
-        - except_target.dart
+    // self_rule
+    - self
+        - self1.dart
 
-            class ExceptTarget {}
+            import 'package:example/self/self2.dart';
+            import 'package:example/only_from/only_from.dart';
 
-    - from
-        - test_from.dart
+            class Self1 {}
 
-            import 'package:import_analyzer_test/target/test_target.dart';
-            import 'package:import_analyzer_test/target/except_target.dart';
-            class TestFrom {}
+        - self2.dart
 
-        - except_from.dart
+            class Self2 {}
 
-            import 'package:import_analyzer_test/target/test_target.dart';
-            class ExceptFrom {}
+    // only_rule
+    - only_from
+        - only_from.dart
 
+            class OnlyFrom {}
+
+    - only
+        - only.dart
+            import 'package:example/only_from/only_from.dart';
+
+    // package_rule
     - package
         - package.dart
 
@@ -120,9 +152,17 @@ import_lint:
 
 ```{dart}
 
-from > test_from > import 'package:import_analyzer_test/target/test_target.dart';
-package > package.dart > import 'package:import_lint/import_lint.dart';
+example_rule
+target > test_target.dart > import 'package:example/from/test_from.dart'
 
+self_rule
+self > slef1.dart > import 'package:example/self/self2.dart'
+
+only_rule
+self > self.dart >  import 'package:example/only_from/only_from.dart'
+
+package_rule
+package > package.dart > import 'package:import_lint/import_lint.dart'
 ```
 
 ## Option
