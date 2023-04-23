@@ -1,7 +1,7 @@
 import 'package:analyzer/file_system/file_system.dart' show File;
 import 'package:yaml/yaml.dart' show YamlMap, YamlNode, YamlList, loadYamlNode;
 
-// Parse analysis_options.yaml file.
+/// Parse analysis_options.yaml file.
 class AnalysisOptions {
   const AnalysisOptions(this.options);
 
@@ -22,8 +22,8 @@ class AnalysisOptions {
     return AnalysisOptions(map);
   }
 
-  // Read a map from a YamlMap.
-  // This function is called recursively to read nested maps.
+  /// Read a map from a YamlMap.
+  /// This function is called recursively to read nested maps.
   static Map<String, Object> _readMap(YamlMap yaml) {
     final result = <String, Object>{};
     for (final key in yaml.nodes.keys) {
@@ -36,7 +36,7 @@ class AnalysisOptions {
     return result;
   }
 
-  // Read a value from a YamlNode.
+  /// Read a value from a YamlNode.
   static Object? _readNode(dynamic node) {
     if (node is YamlMap) {
       return _readMap(node);
