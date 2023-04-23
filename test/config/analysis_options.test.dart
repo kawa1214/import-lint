@@ -1,13 +1,11 @@
-import 'package:analyzer/file_system/file_system.dart';
-import 'package:analyzer/src/dart/analysis/context_builder.dart';
-import 'package:analyzer/src/dart/analysis/context_locator.dart';
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
-import 'package:analyzer/src/test_utilities/mock_sdk.dart';
-import 'package:analyzer/src/test_utilities/resource_provider_mixin.dart';
-import 'package:import_lint/src/config/analysis_options.dart';
-import 'package:import_lint/src/utils.dart';
-import 'package:test/expect.dart';
-import 'package:test_reflective_loader/test_reflective_loader.dart';
+import 'package:import_lint/src/config/analysis_options.dart'
+    show AnalysisOptions;
+import 'package:test/expect.dart' show expect;
+import 'package:test_reflective_loader/test_reflective_loader.dart'
+    show reflectiveTest, defineReflectiveSuite, defineReflectiveTests;
+
+import '../helper/BaseResourceProviderMixin.dart'
+    show BaseResourceProviderMixin;
 
 main() {
   defineReflectiveSuite(() {
@@ -16,36 +14,13 @@ main() {
 }
 
 @reflectiveTest
-class AnalysisOptionsTest with ResourceProviderMixin {
+class AnalysisOptionsTest with BaseResourceProviderMixin {
   AnalysisOptionsTest() {
     setUp();
   }
-  Folder get _sdkRoot => newFolder('/sdk');
-
-  String get _includedPaths => absoluteNormalizedPath('./');
-
-  DriverBasedAnalysisContext _buildContext() {
-    final roots = ContextLocatorImpl(
-      resourceProvider: resourceProvider,
-    ).locateRoots(includedPaths: [_includedPaths]);
-
-    return ContextBuilderImpl(
-      resourceProvider: resourceProvider,
-    ).createContext(
-      contextRoot: roots.single,
-      sdkPath: _sdkRoot.path,
-    );
-  }
-
-  void setUp() {
-    createMockSdk(
-      resourceProvider: resourceProvider,
-      root: _sdkRoot,
-    );
-  }
 
   void test_correctFormat() {
-    resourceProvider.newFile('/analysis_options.yaml', '''
+    newFile('/analysis_options.yaml', '''
 import_lint:
   severity: error
   rules:
@@ -55,7 +30,7 @@ import_lint:
       expect: ["package:example/target/expect.dart"]
 ''');
 
-    final context = _buildContext();
+    final context = buildContext();
     final file = context.contextRoot.optionsFile!;
 
     final analysisOptions = AnalysisOptions.fromYaml(file);
@@ -91,10 +66,10 @@ import_lint:
   }
 
   void test_empty() {
-    resourceProvider.newFile('/analysis_options.yaml', '''
+    newFile('/analysis_options.yaml', '''
 ''');
 
-    final context = _buildContext();
+    final context = buildContext();
     final file = context.contextRoot.optionsFile!;
 
     final analysisOptions = AnalysisOptions.fromYaml(file);
