@@ -6,7 +6,7 @@ class RulePath {
   const RulePath(this.package, this.pattern);
 
   factory RulePath.fromString(Object? value) {
-    if (!(value is String)) {
+    if (value is! String) {
       throw ArgumentException(
         'must be a String',
       );

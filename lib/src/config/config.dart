@@ -12,7 +12,7 @@ class Config {
 
   factory Config.fromAnalysisOptions(AnalysisOptions analysisOptions) {
     final root = analysisOptions.options[_rootKey];
-    if (!(root is Map<String, Object>)) {
+    if (root is! Map<String, Object>) {
       throw ArgumentException(
         '$_rootKey is required',
       );
@@ -21,7 +21,7 @@ class Config {
     final severity = SeverityExtension.fromString(root[_severityKey]);
 
     final rulesMap = root[_rulesKey];
-    if (!(rulesMap is Map<String, Object>)) {
+    if (rulesMap is! Map<String, Object>) {
       throw ArgumentException(
         '$_rulesKey is required',
       );

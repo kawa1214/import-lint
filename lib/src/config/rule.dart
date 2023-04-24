@@ -15,7 +15,7 @@ class Rule {
   });
 
   factory Rule.fromMap(Object? name, Object? value) {
-    if (!(name is String)) {
+    if (name is! String) {
       throw ArgumentException(
         'name must be a String',
       );
@@ -27,7 +27,7 @@ class Rule {
       );
     }
 
-    if (!(value is Map<String, Object>)) {
+    if (value is! Map<String, Object>) {
       throw ArgumentException(
         'must be a Map<String, Object>',
       );
@@ -37,7 +37,7 @@ class Rule {
     final from = RulePath.fromString(value['from']);
 
     final expect = value['expect'];
-    if (!(expect is List<String>)) {
+    if (expect is! List<String>) {
       throw ArgumentException(
         'expect must be a List<String>',
       );
