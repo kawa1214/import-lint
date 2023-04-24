@@ -4,7 +4,7 @@ import 'package:import_lint/src/config/analysis_options.dart';
 import 'package:test/expect.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
-import '../helper/BaseResourceProviderMixin.dart';
+import '../helper/base_resource_provider_mixin.dart';
 
 main() {
   defineReflectiveSuite(() {
