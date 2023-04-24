@@ -20,7 +20,7 @@ extension SeverityExtension on Severity {
     }
   }
 
-  static Severity fromAnalysisErrorSeverity(Object? value) {
+  static Severity fromString(Object? value) {
     switch (value) {
       case 'error':
         return Severity.error;

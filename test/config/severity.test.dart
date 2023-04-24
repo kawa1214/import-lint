@@ -13,15 +13,12 @@ main() {
 @reflectiveTest
 class SeverityTest {
   void test_fromString() {
-    expect(
-        SeverityExtension.fromAnalysisErrorSeverity('error'), Severity.error);
-    expect(SeverityExtension.fromAnalysisErrorSeverity('warning'),
-        Severity.warning);
-    expect(SeverityExtension.fromAnalysisErrorSeverity('info'), Severity.info);
-    expect(SeverityExtension.fromAnalysisErrorSeverity(null), Severity.warning);
-    expect(SeverityExtension.fromAnalysisErrorSeverity(''), Severity.warning);
-    expect(SeverityExtension.fromAnalysisErrorSeverity('unknown'),
-        Severity.warning);
+    expect(SeverityExtension.fromString('error'), Severity.error);
+    expect(SeverityExtension.fromString('warning'), Severity.warning);
+    expect(SeverityExtension.fromString('info'), Severity.info);
+    expect(SeverityExtension.fromString(null), Severity.warning);
+    expect(SeverityExtension.fromString(''), Severity.warning);
+    expect(SeverityExtension.fromString('unknown'), Severity.warning);
   }
 
   void test_toAnalysisErrorSeverity() {
