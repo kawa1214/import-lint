@@ -1,11 +1,10 @@
-import 'package:import_lint/src/config/analysis_options.dart'
-    show AnalysisOptions;
-import 'package:test/expect.dart' show expect;
-import 'package:test_reflective_loader/test_reflective_loader.dart'
-    show reflectiveTest, defineReflectiveSuite, defineReflectiveTests;
+import 'dart:collection';
 
-import '../helper/BaseResourceProviderMixin.dart'
-    show BaseResourceProviderMixin;
+import 'package:import_lint/src/config/analysis_options.dart';
+import 'package:test/expect.dart';
+import 'package:test_reflective_loader/test_reflective_loader.dart';
+
+import '../helper/BaseResourceProviderMixin.dart';
 
 main() {
   defineReflectiveSuite(() {
@@ -34,33 +33,47 @@ import_lint:
     final file = context.contextRoot.optionsFile!;
 
     final analysisOptions = AnalysisOptions.fromYaml(file);
-    final options = analysisOptions.options;
 
+    final options = analysisOptions.options;
+    expect(options.runtimeType, UnmodifiableMapView<String, Object>);
     expect(options.length, 1);
     expect(options.keys, ['import_lint']);
 
-    final importLint = options['import_lint']! as Map<String, Object>;
-
+    expect(
+      options['import_lint'].runtimeType,
+      UnmodifiableMapView<String, Object>,
+    );
+    final importLint =
+        options['import_lint']! as UnmodifiableMapView<String, Object>;
     expect(importLint.length, 2);
     expect(importLint.keys, ['severity', 'rules']);
 
+    expect(importLint['severity'].runtimeType, String);
     final severity = importLint['severity']! as String;
     expect(severity, 'error');
 
+    expect(
+      importLint['rules'].runtimeType,
+      UnmodifiableMapView<String, Object>,
+    );
     final rules = importLint['rules']! as Map<String, Object>;
     expect(rules.length, 1);
 
-    final exampleRule = rules['example_rule']! as Map<String, Object>;
+    final exampleRule =
+        rules['example_rule']! as UnmodifiableMapView<String, Object>;
     expect(exampleRule.length, 3);
     expect(exampleRule.keys, ['target', 'from', 'expect']);
 
+    expect(exampleRule['target'].runtimeType, String);
     final exampleRuleTarget = exampleRule['target']! as String;
     expect(exampleRuleTarget, 'package:example/target/*_target.dart');
 
+    expect(exampleRule['from'].runtimeType, String);
     final exampleRuleFrom = exampleRule['from']! as String;
     expect(exampleRuleFrom, 'package:example/from/*.dart');
 
-    final exampleRuleExpect = exampleRule['expect']! as List<dynamic>;
+    expect(exampleRule['expect'].runtimeType, List<String>);
+    final exampleRuleExpect = exampleRule['expect']! as List<String>;
     expect(exampleRuleExpect.length, 1);
     expect(exampleRuleExpect[0], 'package:example/target/expect.dart');
   }

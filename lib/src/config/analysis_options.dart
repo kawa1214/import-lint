@@ -1,5 +1,5 @@
 import 'package:analyzer/file_system/file_system.dart' show File;
-import 'package:yaml/yaml.dart' show YamlMap, YamlNode, YamlList, loadYamlNode;
+import 'package:yaml/yaml.dart' show YamlMap, YamlList, loadYamlNode;
 
 /// Parse analysis_options.yaml file.
 class AnalysisOptions {
@@ -33,7 +33,7 @@ class AnalysisOptions {
         result[key.value as String] = value;
       }
     }
-    return result;
+    return Map.unmodifiable(result);
   }
 
   /// Read a value from a YamlNode.
@@ -41,7 +41,8 @@ class AnalysisOptions {
     if (node is YamlMap) {
       return _readMap(node);
     } else if (node is YamlList) {
-      return node.toList();
+      final listOfStrings = node.toList().whereType<String>();
+      return List<String>.unmodifiable(listOfStrings);
     } else if (node is String) {
       return node;
     } else {
