@@ -191,5 +191,3 @@ You can develop locally by setting the path to an absolute path as shown below.
 dependencies:
   import_lint: ^x.x.x → import_lint:/Users/xxx/import-lint
 ```
-
-/Users/ryo/.pub-cache/hosted/pub.dartlang.org/analyzer-5.2.0/lib/src/test_utilities/resource_provider_mixin.dart
