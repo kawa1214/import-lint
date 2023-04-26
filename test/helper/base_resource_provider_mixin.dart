@@ -17,13 +17,25 @@ mixin BaseResourceProviderMixin {
   }
 
   String get packageName => 'example';
+  String get _packageDir => 'tests';
 
+  String get anotherPackageName => 'another';
+  String get _anotherPackageDir => 'another';
+
+  String get _packagesPath => _absoluteNormalizedPath('/.packages');
   void _createPubspecYamlFile() {
     newFile('/pubspec.yaml', '''
 name: $packageName
 version: 1.0.0
 environment:
   sdk: '>=2.12.0 <3.0.0'
+''');
+  }
+
+  void _createPackagesFile() {
+    _resourceProvider.newFile(_packagesPath, '''
+$packageName:$_packageDir/lib/
+$anotherPackageName:$_anotherPackageDir/lib/
 ''');
   }
 
@@ -34,6 +46,7 @@ environment:
   void setUp() {
     _createSdkFolder();
     _createPubspecYamlFile();
+    _createPackagesFile();
     createMockSdk(
       resourceProvider: _resourceProvider,
       root: _sdkRoot,
