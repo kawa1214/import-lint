@@ -26,7 +26,7 @@ import_lint:
     example_rule:
       target: "package:example/target/*_target.dart"
       from: "package:example/from/*.dart"
-      expect: ["package:example/target/expect.dart"]
+      except: ["package:example/target/except.dart"]
 ''');
 
     final context = buildContext();
@@ -62,7 +62,7 @@ import_lint:
     final exampleRule =
         rules['example_rule']! as UnmodifiableMapView<String, Object>;
     expect(exampleRule.length, 3);
-    expect(exampleRule.keys, ['target', 'from', 'expect']);
+    expect(exampleRule.keys, ['target', 'from', 'except']);
 
     expect(exampleRule['target'].runtimeType, String);
     final exampleRuleTarget = exampleRule['target']! as String;
@@ -72,10 +72,10 @@ import_lint:
     final exampleRuleFrom = exampleRule['from']! as String;
     expect(exampleRuleFrom, 'package:example/from/*.dart');
 
-    expect(exampleRule['expect'].runtimeType, List<String>);
-    final exampleRuleExpect = exampleRule['expect']! as List<String>;
-    expect(exampleRuleExpect.length, 1);
-    expect(exampleRuleExpect[0], 'package:example/target/expect.dart');
+    expect(exampleRule['except'].runtimeType, List<String>);
+    final except = exampleRule['except']! as List<String>;
+    expect(except.length, 1);
+    expect(except[0], 'package:example/target/except.dart');
   }
 
   void test_empty() {

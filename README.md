@@ -34,19 +34,19 @@ import_lint:
     example_rule:
       target: "package:example/target/*_target.dart"
       from: "package:example/from/*.dart"
-      expect: ["package:example/from/expect.dart"]
+      except: ["package:example/from/except.dart"]
     self_rule:
       target: "package:example/self/*.dart"
       from: "package:example/self/*.dart"
-      expect: []
+      except: []
     only_rule:
       target: "package:example/only/*.dart"
       from: "package:example/[^only_from]**/*.dart"
-      expect: []
+      except: []
     package_rule:
       target: "package:import_lint/import_lint.dart"
       from: "package:example/**/*.dart"
-      expect: []
+      except: []
     # add custom rules...
 ```
 
@@ -80,19 +80,19 @@ import_lint:
     example_rule:
       target: "package:example/target/*_target.dart"
       from: "package:example/from/*.dart"
-      expect: ["package:example/from/expect.dart"]
+      except: ["package:example/from/except.dart"]
     self_rule:
       target: "package:example/self/*.dart"
       from: "package:example/self/*.dart"
-      expect: []
+      except: []
     only_rule:
       target: "package:example/[!only]**/*.dart"
       from: "package:example/only_from/*.dart"
-      expect: []
+      except: []
     package_rule:
       target: "package:example/**/*.dart"
       from: "package:import_lint/import_lint.dart"
-      expect: []
+      except: []
 ```
 
 `files`

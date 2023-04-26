@@ -21,8 +21,8 @@ class RuleTest {
       'example': {
         'target': 'package:example/target/*_target.dart',
         'from': 'package:example/from/*.dart',
-        'expect': [
-          'package:example/target/expect.dart',
+        'except': [
+          'package:example/target/except.dart',
         ]
       }
     }

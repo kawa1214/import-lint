@@ -5,13 +5,13 @@ import 'package:import_lint/src/exceptions/argument_exception.dart';
 ///
 /// - [target] Define the file paths of the targets to be restricted
 /// - [from] Define the paths that are not allowed to be used in imports
-/// - [expect] Define the exception paths for the 'from' rule
+/// - [except] Define the exception paths for the 'from' rule
 class Rule {
   const Rule({
     required this.name,
     required this.target,
     required this.from,
-    required this.expect,
+    required this.except,
   });
 
   factory Rule.fromMap(Object? name, Object? value) {
@@ -36,28 +36,28 @@ class Rule {
     final target = RulePath.fromString(value['target']);
     final from = RulePath.fromString(value['from']);
 
-    final expect = value['expect'];
-    if (expect is! List<String>) {
+    final except = value['except'];
+    if (except is! List<String>) {
       throw ArgumentException(
-        'expect must be a List<String>',
+        'except must be a List<String>',
       );
     }
-    final expectRulePaths = <RulePath>[];
-    for (final expectRulePath in expect) {
-      final rulePath = RulePath.fromString(expectRulePath);
-      expectRulePaths.add(rulePath);
+    final exceptRulePaths = <RulePath>[];
+    for (final exceptRulePath in except) {
+      final rulePath = RulePath.fromString(exceptRulePath);
+      exceptRulePaths.add(rulePath);
     }
 
     return Rule(
       name: name,
       target: target,
       from: from,
-      expect: expectRulePaths,
+      except: exceptRulePaths,
     );
   }
 
   final String name;
   final RulePath target;
   final RulePath from;
-  final List<RulePath> expect;
+  final List<RulePath> except;
 }

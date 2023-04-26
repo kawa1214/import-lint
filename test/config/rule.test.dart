@@ -22,9 +22,9 @@ class RuleTest {
     'from': 'package:example/from/*.dart',
   };
 
-  static const _expect = {
-    'expect': [
-      'package:example/target/expect.dart',
+  static const _except = {
+    'except': [
+      'package:example/target/except.dart',
     ]
   };
 
@@ -33,7 +33,7 @@ class RuleTest {
       _name: {
         ..._target,
         ..._from,
-        ..._expect,
+        ..._except,
       }
     };
     final rule = Rule.fromMap(_name, map[_name]);
@@ -53,12 +53,12 @@ class RuleTest {
       Glob('from/*.dart', recursive: true, caseSensitive: false).pattern,
     );
 
-    expect(rule.expect.length, _expect.length);
-    final firstExpect = rule.expect[0];
-    expect(firstExpect.package, 'example');
+    expect(rule.except.length, _except.length);
+    final except = rule.except[0];
+    expect(except.package, 'example');
     expect(
-      firstExpect.path.pattern,
-      Glob('target/expect.dart', recursive: true, caseSensitive: false).pattern,
+      except.path.pattern,
+      Glob('target/except.dart', recursive: true, caseSensitive: false).pattern,
     );
   }
 
@@ -87,7 +87,7 @@ class RuleTest {
     final map = {
       _name: {
         ..._from,
-        ..._expect,
+        ..._except,
       }
     };
     expect(
@@ -100,7 +100,7 @@ class RuleTest {
     final map = {
       _name: {
         ..._target,
-        ..._expect,
+        ..._except,
       }
     };
     expect(
@@ -109,7 +109,7 @@ class RuleTest {
     );
   }
 
-  void test_invalidExpect() {
+  void test_invalidExcept() {
     final map = {
       _name: {
         ..._target,

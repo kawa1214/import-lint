@@ -5,6 +5,7 @@ import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
 import 'package:analyzer/src/dart/element/element.dart'
     show DirectiveUriWithLibraryImpl, DirectiveUriWithRelativeUriImpl;
 import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
+import 'package:import_lint/src/config/rule.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 import 'package:import_lint/src/exceptions/internal_exception.dart';
 
@@ -80,6 +81,11 @@ class FilePath implements Path {
       package: package,
       path: path,
     );
+  }
+
+  bool matchTarget(Rule rule) {
+    final target = rule.target;
+    return package == target.package && target.path.matches(path);
   }
 
   final String package;
