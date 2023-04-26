@@ -16,12 +16,24 @@ mixin BaseResourceProviderMixin {
     newFolder('/sdk');
   }
 
+  String get packageName => 'example';
+
+  void _createPubspecYamlFile() {
+    newFile('/pubspec.yaml', '''
+name: $packageName
+version: 1.0.0
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+''');
+  }
+
   Folder get _sdkRoot => getFolder('/sdk');
 
   String get _includedPaths => _absoluteNormalizedPath('./');
 
   void setUp() {
     _createSdkFolder();
+    _createPubspecYamlFile();
     createMockSdk(
       resourceProvider: _resourceProvider,
       root: _sdkRoot,

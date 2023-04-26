@@ -3,7 +3,7 @@ import 'package:import_lint/src/exceptions/argument_exception.dart';
 
 /// Define package name and Glob pattern.
 class RulePath {
-  const RulePath(this.package, this.pattern);
+  const RulePath(this.package, this.path);
 
   factory RulePath.fromString(Object? value) {
     if (value is! String) {
@@ -20,11 +20,11 @@ class RulePath {
     }
 
     final path = value.replaceFirst('package:$package/', '');
-    final pattern = Glob(path, recursive: true, caseSensitive: false);
+    final glob = Glob(path, recursive: true, caseSensitive: false);
 
-    return RulePath(package, pattern);
+    return RulePath(package, glob);
   }
 
   final String package;
-  final Glob pattern;
+  final Glob path;
 }

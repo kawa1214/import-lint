@@ -42,14 +42,14 @@ class RuleTest {
 
     expect(rule.target.package, 'example');
     expect(
-      rule.target.pattern.pattern,
+      rule.target.path.pattern,
       Glob('target/*_target.dart', recursive: true, caseSensitive: false)
           .pattern,
     );
 
     expect(rule.from.package, 'example');
     expect(
-      rule.from.pattern.pattern,
+      rule.from.path.pattern,
       Glob('from/*.dart', recursive: true, caseSensitive: false).pattern,
     );
 
@@ -57,7 +57,7 @@ class RuleTest {
     final firstExpect = rule.expect[0];
     expect(firstExpect.package, 'example');
     expect(
-      firstExpect.pattern.pattern,
+      firstExpect.path.pattern,
       Glob('target/expect.dart', recursive: true, caseSensitive: false).pattern,
     );
   }
