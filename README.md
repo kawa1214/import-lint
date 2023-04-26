@@ -34,7 +34,7 @@ import_lint:
     example_rule:
       target: "package:example/target/*_target.dart"
       from: "package:example/from/*.dart"
-      expect: ["package:example/target/expect.dart"]
+      expect: ["package:example/from/expect.dart"]
     self_rule:
       target: "package:example/self/*.dart"
       from: "package:example/self/*.dart"
@@ -80,7 +80,7 @@ import_lint:
     example_rule:
       target: "package:example/target/*_target.dart"
       from: "package:example/from/*.dart"
-      expect: ["package:example/target/expect.dart"]
+      expect: ["package:example/from/expect.dart"]
     self_rule:
       target: "package:example/self/*.dart"
       from: "package:example/self/*.dart"
@@ -101,7 +101,7 @@ import_lint:
 - lib
     // example_rule
     - from
-        - except_from.dart
+        - except.dart
 
             class ExceptFrom {}
 
@@ -112,7 +112,7 @@ import_lint:
     - target
         - test_target.dart
 
-            import 'package:example/from/except_from.dart';
+            import 'package:example/from/except.dart';
             import 'package:example/from/test_from.dart';
 
             class TestTarget {}
@@ -191,3 +191,5 @@ You can develop locally by setting the path to an absolute path as shown below.
 dependencies:
   import_lint: ^x.x.x → import_lint:/Users/xxx/import-lint
 ```
+
+/Users/ryo/.pub-cache/hosted/pub.dartlang.org/analyzer-5.2.0/lib/src/test_utilities/resource_provider_mixin.dart
