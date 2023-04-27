@@ -22,7 +22,7 @@ class RuleTest {
         'target': 'package:example/target/*_target.dart',
         'from': 'package:example/from/*.dart',
         'except': [
-          'package:example/target/except.dart',
+          'package:example/from/except.dart',
         ]
       }
     }

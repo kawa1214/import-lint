@@ -1,9 +1,10 @@
 import 'package:glob/glob.dart';
+import 'package:import_lint/src/analyzer/path.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 
 /// Define package name and Glob pattern.
 class RulePath {
-  const RulePath(this.package, this.path);
+  const RulePath(this.package, this.glob);
 
   factory RulePath.fromString(Object? value) {
     if (value is! String) {
@@ -25,6 +26,10 @@ class RulePath {
     return RulePath(package, glob);
   }
 
+  bool isMatch(Path path) {
+    return package == path.package && glob.matches(path.path);
+  }
+
   final String package;
-  final Glob path;
+  final Glob glob;
 }

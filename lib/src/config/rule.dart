@@ -1,3 +1,4 @@
+import 'package:import_lint/src/analyzer/path.dart';
 import 'package:import_lint/src/config/rule_path.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 
@@ -54,6 +55,21 @@ class Rule {
       from: from,
       except: exceptRulePaths,
     );
+  }
+
+  /// Determine if the target file path is subject to import restrictions.
+  bool matchTarget(FilePath path) => target.isMatch(path);
+
+  /// Determine if the import source is restricted.
+  bool matchFrom(SourcePath path) => from.isMatch(path);
+
+  /// Determine if the import source is an exception to the restriction.
+  bool matchExcept(SourcePath path) {
+    final match = except.map((e) {
+      return e.isMatch(path);
+    }).contains(true);
+
+    return match;
   }
 
   final String name;

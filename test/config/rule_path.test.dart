@@ -20,7 +20,7 @@ class RulePathTest {
 
     expect(rulePath.package, _package);
     expect(
-      rulePath.path.pattern,
+      rulePath.glob.pattern,
       Glob(_pattern, recursive: true, caseSensitive: false).pattern,
     );
   }
