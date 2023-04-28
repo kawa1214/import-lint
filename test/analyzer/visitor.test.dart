@@ -1,8 +1,8 @@
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
-import 'package:analyzer_plugin/protocol/protocol_common.dart' show Location;
+import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:glob/glob.dart';
-import 'package:import_lint/src/analyzer/lint.dart';
 import 'package:import_lint/src/analyzer/path.dart';
+import 'package:import_lint/src/analyzer/visitor.dart';
 import 'package:import_lint/src/config/rule.dart';
 import 'package:import_lint/src/config/rule_path.dart';
 import 'package:test/expect.dart';
@@ -12,13 +12,13 @@ import '../helper/base_resource_provider_mixin.dart';
 
 main() {
   defineReflectiveSuite(() {
-    defineReflectiveTests(LintTest);
+    defineReflectiveTests(VisitorTest);
   });
 }
 
 @reflectiveTest
-class LintTest with BaseResourceProviderMixin {
-  LintTest() {
+class VisitorTest with BaseResourceProviderMixin {
+  VisitorTest() {
     setUp();
   }
 
@@ -61,35 +61,15 @@ import 'package:example/from/test.dart';
 
     final filePath = FilePath.fromResolvedUnitResult(context, result);
 
-    Location? location;
+    ImportDirective? directive;
     result.unit.visitChildren(ImportLintVisitor(
       rule,
       filePath,
-      (directive) {
-        final lineInfo = result.unit.lineInfo;
-        final loc = lineInfo.getLocation(directive.uri.offset);
-        final locEnd = lineInfo.getLocation(directive.uri.end);
-        location = Location(
-          path,
-          directive.offset,
-          directive.length,
-          loc.lineNumber,
-          loc.columnNumber,
-          endLine: locEnd.lineNumber,
-          endColumn: locEnd.columnNumber,
-        );
+      (d) {
+        directive = d;
       },
     ));
 
-    expect(location?.file, path);
-
-    expect(location?.offset, 43);
-    expect(location?.length, 40);
-
-    expect(location?.startLine, 2);
-    expect(location?.endLine, 2);
-
-    expect(location?.startColumn, 8);
-    expect(location?.endColumn, 40);
+    expect(directive?.uri.stringValue, 'package:example/from/test.dart');
   }
 }
