@@ -1,19 +1,8 @@
-import 'package:import_lint/src/analyzer/path.dart';
-import 'package:import_lint/src/config/rule_path.dart';
+import 'package:import_lint/src/config/constraint.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 
-/// The Rule class defines a lint rule.
-///
-/// - [target] Define the file paths of the targets to be restricted
-/// - [from] Define the paths that are not allowed to be used in imports
-/// - [except] Define the exception paths for the 'from' rule
 class Rule {
-  const Rule({
-    required this.name,
-    required this.target,
-    required this.from,
-    required this.except,
-  });
+  const Rule(this.name, this.constraints);
 
   factory Rule.fromMap(Object? name, Object? value) {
     if (name is! String) {
@@ -34,42 +23,32 @@ class Rule {
       );
     }
 
-    final target = RulePath.fromString(value['target']);
-    final from = RulePath.fromString(value['from']);
+    final constraints = <Constraint>[];
 
-    final except = value['except'];
+    final target = Constraint.fromString(
+        ConstraintType.target, value[ConstraintType.target.key]);
+    constraints.add(target);
+
+    final from = Constraint.fromString(
+        ConstraintType.from, value[ConstraintType.from.key]);
+    constraints.add(from);
+
+    final except = value[ConstraintType.except.key];
     if (except is! List<String>) {
       throw ArgumentException(
         'except must be a List<String>',
       );
     }
-    final exceptRulePaths = except.map((e) => RulePath.fromString(e));
+    final exceptRulePaths =
+        except.map((e) => Constraint.fromString(ConstraintType.except, e));
+    constraints.addAll(exceptRulePaths);
 
     return Rule(
-      name: name,
-      target: target,
-      from: from,
-      except: exceptRulePaths,
+      name,
+      constraints,
     );
   }
 
-  /// Determine if the target file path is subject to import restrictions.
-  bool matchTarget(FilePath path) => target.isMatch(path);
-
-  /// Determine if the import source is restricted.
-  bool matchFrom(SourcePath path) => from.isMatch(path);
-
-  /// Determine if the import source is an exception to the restriction.
-  bool matchExcept(SourcePath path) {
-    final match = except.map((e) {
-      return e.isMatch(path);
-    }).contains(true);
-
-    return match;
-  }
-
   final String name;
-  final RulePath target;
-  final RulePath from;
-  final Iterable<RulePath> except;
+  final Iterable<Constraint> constraints;
 }

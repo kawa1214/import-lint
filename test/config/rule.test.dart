@@ -40,21 +40,25 @@ class RuleTest {
 
     expect(rule.name, _name);
 
-    expect(rule.target.package, 'example');
+    final constraints = rule.constraints.toList();
+    expect(constraints.length, 3);
+
+    final target = constraints[0];
+    expect(target.package, 'example');
     expect(
-      rule.target.glob.pattern,
+      target.glob.pattern,
       Glob('target/*_target.dart', recursive: true, caseSensitive: false)
           .pattern,
     );
 
-    expect(rule.from.package, 'example');
+    final from = constraints[1];
+    expect(from.package, 'example');
     expect(
-      rule.from.glob.pattern,
+      from.glob.pattern,
       Glob('from/*.dart', recursive: true, caseSensitive: false).pattern,
     );
 
-    expect(rule.except.length, _except.length);
-    final except = rule.except.first;
+    final except = constraints[2];
     expect(except.package, 'example');
     expect(
       except.glob.pattern,

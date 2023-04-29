@@ -3,8 +3,8 @@ import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/analyzer/path.dart';
 import 'package:import_lint/src/analyzer/visitor.dart';
+import 'package:import_lint/src/config/constraint.dart';
 import 'package:import_lint/src/config/rule.dart';
-import 'package:import_lint/src/config/rule_path.dart';
 import 'package:test/expect.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
@@ -36,23 +36,20 @@ import 'package:example/from/except.dart';
 import 'package:example/from/test.dart';
 ''');
 
-    final rule = Rule(
-      name: 'example',
-      target: RulePath(
+    final rule = Rule('example', [
+      TargetConstraint(
         'example',
         Glob('target/*.dart', recursive: true, caseSensitive: false),
       ),
-      from: RulePath(
+      FromConstraint(
         'example',
         Glob('from/*.dart', recursive: true, caseSensitive: false),
       ),
-      except: [
-        RulePath(
-          'example',
-          Glob('from/except.dart', recursive: true, caseSensitive: false),
-        )
-      ],
-    );
+      ExceptConstraint(
+        'example',
+        Glob('from/except.dart', recursive: true, caseSensitive: false),
+      )
+    ]);
 
     final path = '/lib/target/test.dart';
     final context = buildContext();
