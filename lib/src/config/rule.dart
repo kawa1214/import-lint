@@ -43,11 +43,7 @@ class Rule {
         'except must be a List<String>',
       );
     }
-    final exceptRulePaths = <RulePath>[];
-    for (final exceptRulePath in except) {
-      final rulePath = RulePath.fromString(exceptRulePath);
-      exceptRulePaths.add(rulePath);
-    }
+    final exceptRulePaths = except.map((e) => RulePath.fromString(e));
 
     return Rule(
       name: name,
@@ -75,5 +71,5 @@ class Rule {
   final String name;
   final RulePath target;
   final RulePath from;
-  final List<RulePath> except;
+  final Iterable<RulePath> except;
 }

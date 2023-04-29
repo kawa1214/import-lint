@@ -26,8 +26,7 @@ class Config {
         '$_rulesKey is required',
       );
     }
-    final rules =
-        rulesMap.entries.map((e) => Rule.fromMap(e.key, e.value)).toList();
+    final rules = rulesMap.entries.map((e) => Rule.fromMap(e.key, e.value));
 
     return Config(
       severity: severity,
@@ -40,5 +39,5 @@ class Config {
   static const _rulesKey = 'rules';
 
   final Severity severity;
-  final List<Rule> rules;
+  final Iterable<Rule> rules;
 }

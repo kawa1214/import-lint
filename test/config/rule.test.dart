@@ -54,7 +54,7 @@ class RuleTest {
     );
 
     expect(rule.except.length, _except.length);
-    final except = rule.except[0];
+    final except = rule.except.first;
     expect(except.package, 'example');
     expect(
       except.glob.pattern,
