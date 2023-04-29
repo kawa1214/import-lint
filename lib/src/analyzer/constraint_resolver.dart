@@ -1,22 +1,25 @@
-import 'package:import_lint/src/analyzer/path.dart';
+import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/config/constraint.dart';
 
 class ConstraintResolver {
   const ConstraintResolver(this.constraints);
   final Iterable<Constraint> constraints;
 
-  bool isViolated(FilePath file, SourcePath source) {
+  bool isViolated(
+    FilePathResourceLocator filePathResourceLocator,
+    ImportLineResourceLocator importLineResourceLocator,
+  ) {
     for (final constraint in constraints) {
       if (constraint is TargetConstraint) {
-        if (!_matchTarget(constraint, file)) {
+        if (!_matchTarget(constraint, filePathResourceLocator)) {
           return false;
         }
       } else if (constraint is ExceptConstraint) {
-        if (_matchExcept(constraint, source)) {
+        if (_matchExcept(constraint, importLineResourceLocator)) {
           return false;
         }
       } else if (constraint is FromConstraint) {
-        if (_matchFrom(constraint, source)) {
+        if (_matchFrom(constraint, importLineResourceLocator)) {
           return true;
         }
       }
@@ -24,17 +27,20 @@ class ConstraintResolver {
     return false;
   }
 
-  bool _matchTarget(TargetConstraint constraint, FilePath path) =>
-      _match(constraint, path);
+  bool _matchTarget(TargetConstraint constraint,
+          FilePathResourceLocator filePathResourceLocator) =>
+      _match(constraint, filePathResourceLocator);
 
-  bool _matchFrom(FromConstraint constraint, SourcePath path) =>
-      _match(constraint, path);
+  bool _matchFrom(FromConstraint constraint,
+          ImportLineResourceLocator importLineResourceLocator) =>
+      _match(constraint, importLineResourceLocator);
 
-  bool _matchExcept(ExceptConstraint constraint, SourcePath path) =>
-      _match(constraint, path);
+  bool _matchExcept(ExceptConstraint constraint,
+          ImportLineResourceLocator filePathResourceLocator) =>
+      _match(constraint, filePathResourceLocator);
 
-  bool _match(Constraint constraint, Path path) {
-    return constraint.package == path.package &&
-        constraint.glob.matches(path.path);
+  bool _match(Constraint constraint, ResourceLocator resourceLocator) {
+    return constraint.package == resourceLocator.package &&
+        constraint.glob.matches(resourceLocator.path);
   }
 }

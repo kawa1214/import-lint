@@ -1,6 +1,6 @@
 import 'package:glob/glob.dart';
 import 'package:import_lint/src/analyzer/constraint_resolver.dart';
-import 'package:import_lint/src/analyzer/path.dart';
+import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/config/constraint.dart';
 import 'package:test/expect.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
@@ -35,12 +35,15 @@ class ConstraintResolverTest with BaseResourceProviderMixin {
       )
     ];
 
-    final filePath = FilePath(package: 'example', path: 'target/test.dart');
-    final importPath = SourcePath(package: 'example', path: 'from/test.dart');
+    final filePathResourceLocator =
+        FilePathResourceLocator(package: 'example', path: 'target/test.dart');
+    final importLineResourceLocator =
+        ImportLineResourceLocator(package: 'example', path: 'from/test.dart');
 
     final resolver = ConstraintResolver(constraints);
 
-    final isViolated = resolver.isViolated(filePath, importPath);
+    final isViolated =
+        resolver.isViolated(filePathResourceLocator, importLineResourceLocator);
     expect(isViolated, true);
   }
 }

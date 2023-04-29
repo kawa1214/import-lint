@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:glob/glob.dart';
-import 'package:import_lint/src/analyzer/path.dart';
+import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/analyzer/visitor.dart';
 import 'package:import_lint/src/config/constraint.dart';
 import 'package:import_lint/src/config/rule.dart';
@@ -56,12 +56,13 @@ import 'package:example/from/test.dart';
     final result = await context.currentSession.getResolvedUnit(path)
         as ResolvedUnitResult;
 
-    final filePath = FilePath.fromResolvedUnitResult(context, result);
+    final filePathResourceLocator =
+        FilePathResourceLocator.fromResolvedUnitResult(context, result);
 
     ImportDirective? directive;
     result.unit.visitChildren(ImportLintVisitor(
       [rule],
-      filePath,
+      filePathResourceLocator,
       (d, rule) {
         directive = d;
       },

@@ -8,15 +8,15 @@ import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 import 'package:import_lint/src/exceptions/internal_exception.dart';
 
-class SourcePath implements Path {
-  const SourcePath({
+class ImportLineResourceLocator implements ResourceLocator {
+  const ImportLineResourceLocator({
     required this.package,
     required this.path,
   });
 
-  factory SourcePath.fromImportDirective(
+  factory ImportLineResourceLocator.fromImportDirective(
     ImportDirective directive,
-    FilePath filePath,
+    FilePathResourceLocator filePath,
   ) {
     final uri = directive.element?.uri;
 
@@ -28,7 +28,7 @@ class SourcePath implements Path {
         throw InternalException('path is null');
       }
 
-      return SourcePath(package: filePath.package, path: path);
+      return ImportLineResourceLocator(package: filePath.package, path: path);
     } else if (uri is DirectiveUriWithRelativeUriImpl) {
       // uri is import 'package:import_lint/import_lint.dart';
       final relativeUri = uri.relativeUriString;
@@ -40,7 +40,7 @@ class SourcePath implements Path {
 
       final path = relativeUri.replaceFirst('package:$package/', '');
 
-      return SourcePath(package: package, path: path);
+      return ImportLineResourceLocator(package: package, path: path);
     }
 
     throw InternalException('Unsupported ImportDirective');
@@ -50,13 +50,13 @@ class SourcePath implements Path {
   final String path;
 }
 
-class FilePath implements Path {
-  const FilePath({
+class FilePathResourceLocator implements ResourceLocator {
+  const FilePathResourceLocator({
     required this.package,
     required this.path,
   });
 
-  factory FilePath.fromResolvedUnitResult(
+  factory FilePathResourceLocator.fromResolvedUnitResult(
     DriverBasedAnalysisContext context,
     ResolvedUnitResult result,
   ) {
@@ -76,7 +76,7 @@ class FilePath implements Path {
       throw ArgumentException('lib path is required');
     }
 
-    return FilePath(
+    return FilePathResourceLocator(
       package: package,
       path: path,
     );
@@ -86,8 +86,8 @@ class FilePath implements Path {
   final String path;
 }
 
-abstract class Path {
-  const Path({required this.package, required this.path});
+abstract class ResourceLocator {
+  const ResourceLocator({required this.package, required this.path});
   final String package;
   final String path;
 }
