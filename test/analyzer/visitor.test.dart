@@ -60,9 +60,9 @@ import 'package:example/from/test.dart';
 
     ImportDirective? directive;
     result.unit.visitChildren(ImportLintVisitor(
-      rule,
+      [rule],
       filePath,
-      (d) {
+      (d, rule) {
         directive = d;
       },
     ));

@@ -6,35 +6,24 @@ import 'package:import_lint/src/config/rule.dart';
 
 class ImportLintVisitor extends SimpleAstVisitor<void> {
   ImportLintVisitor(
-    this.rule,
+    this.rules,
     this.filePath,
     this.onError,
   );
 
-  final Rule rule;
+  final Iterable<Rule> rules;
   final FilePath filePath;
-  final Function(ImportDirective directive) onError;
+  final Function(ImportDirective directive, Rule rule) onError;
 
   @override
   void visitImportDirective(ImportDirective directive) {
     final sourcePath = SourcePath.fromImportDirective(directive, filePath);
 
-    final resolver = ConstraintResolver(rule.constraints);
-
-    if (resolver.isViolated(filePath, sourcePath)) {
-      onError(directive);
+    for (final rule in rules) {
+      final resolver = ConstraintResolver(rule.constraints);
+      if (resolver.isViolated(filePath, sourcePath)) {
+        onError(directive, rule);
+      }
     }
-
-    // if (!rule.matchTarget(filePath)) {
-    //   return;
-    // }
-    // if (rule.matchExcept(sourcePath)) {
-    //   return;
-    // }
-    // if (!rule.matchFrom(sourcePath)) {
-    //   return;
-    // }
-
-    // onError(directive);
   }
 }
