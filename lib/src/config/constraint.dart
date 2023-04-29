@@ -42,7 +42,7 @@ extension ConstraintTypeExtension on ConstraintType {
 }
 
 abstract class Constraint {
-  const Constraint(this.package, this.glob);
+  const Constraint(this.package, this.glob); // coverage:ignore-line
 
   factory Constraint.fromString(ConstraintType type, Object? value) {
     if (value is! String) {
