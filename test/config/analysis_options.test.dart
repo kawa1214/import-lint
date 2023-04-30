@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:import_lint/src/config/analysis_options.dart';
+import 'package:import_lint/src/exceptions/base_exception.dart';
 import 'package:test/expect.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
 
@@ -32,7 +33,7 @@ import_lint:
     final context = buildContext();
     final file = context.contextRoot.optionsFile!;
 
-    final analysisOptions = AnalysisOptions.fromYaml(file);
+    final analysisOptions = AnalysisOptions.fromFile(file);
 
     final options = analysisOptions.options;
     expect(options.runtimeType, UnmodifiableMapView<String, Object>);
@@ -85,9 +86,16 @@ import_lint:
     final context = buildContext();
     final file = context.contextRoot.optionsFile!;
 
-    final analysisOptions = AnalysisOptions.fromYaml(file);
+    final analysisOptions = AnalysisOptions.fromFile(file);
     final options = analysisOptions.options;
 
     expect(options.length, 0);
+  }
+
+  void test_invalidFile() {
+    expect(
+      () => AnalysisOptions.fromFile(null),
+      throwsA(isA<BaseException>()),
+    );
   }
 }

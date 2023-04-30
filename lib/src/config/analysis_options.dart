@@ -1,11 +1,16 @@
 import 'package:analyzer/file_system/file_system.dart' show File;
+import 'package:import_lint/src/exceptions/argument_exception.dart';
 import 'package:yaml/yaml.dart' show YamlMap, YamlList, loadYamlNode;
 
 /// Parse analysis_options.yaml file.
 class AnalysisOptions {
   const AnalysisOptions(this.options);
 
-  factory AnalysisOptions.fromYaml(File file) {
+  factory AnalysisOptions.fromFile(Object? file) {
+    if (file is! File) {
+      throw ArgumentException('must be a File');
+    }
+
     final value = file.readAsStringSync();
 
     final node = loadYamlNode(value);
