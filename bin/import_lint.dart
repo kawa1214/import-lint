@@ -3,6 +3,6 @@ import 'package:import_lint/src/cli/runner.dart';
 
 void main(List<String> args) async {
   final logger = Logger.standard();
-  final runnner = Runner(logger);
-  runnner.run(args);
+  final runner = Runner(logger);
+  runner.run(args);
 }
