@@ -9,7 +9,7 @@ build/
 coverage/
 
 # Files and directories created by test.
-test/helper/generated_project/**
+test/helper/coverage_test.dart
 
 example2
 .fvm
