@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:analyzer/dart/analysis/analysis_context.dart'
     show AnalysisContext;
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart'
