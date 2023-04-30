@@ -9,20 +9,27 @@ class ConstraintResolver {
     FilePathResourceLocator filePathResourceLocator,
     ImportLineResourceLocator importLineResourceLocator,
   ) {
+    bool isTarget = false;
+    bool isExcept = false;
+    bool isFrom = false;
     for (final constraint in constraints) {
       if (constraint is TargetConstraint) {
-        if (!_matchTarget(constraint, filePathResourceLocator)) {
-          return false;
+        if (_matchTarget(constraint, filePathResourceLocator)) {
+          isTarget = true;
         }
       } else if (constraint is ExceptConstraint) {
         if (_matchExcept(constraint, importLineResourceLocator)) {
-          return false;
+          isExcept = true;
         }
       } else if (constraint is FromConstraint) {
         if (_matchFrom(constraint, importLineResourceLocator)) {
-          return true;
+          isFrom = true;
         }
       }
+    }
+
+    if (isTarget && isFrom && !isExcept) {
+      return true;
     }
     return false;
   }
