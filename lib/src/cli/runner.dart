@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show exit;
 
 import 'package:analyzer/file_system/file_system.dart' show File;
 import 'package:analyzer/file_system/physical_file_system.dart'
@@ -10,7 +10,7 @@ import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
 import 'package:cli_util/cli_logging.dart' show Logger;
 import 'package:import_lint/src/analyzer/analyzer.dart';
 import 'package:import_lint/src/analyzer/issue.dart';
-import 'package:import_lint/src/analyzer/reporter.dart';
+import 'package:import_lint/src/cli/reporter.dart';
 import 'package:import_lint/src/config/analysis_options.dart';
 import 'package:import_lint/src/config/config.dart';
 import 'package:import_lint/src/config/severity.dart';
