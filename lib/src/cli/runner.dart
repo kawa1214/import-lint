@@ -15,8 +15,6 @@ import 'package:import_lint/src/config/analysis_options.dart';
 import 'package:import_lint/src/config/config.dart';
 import 'package:import_lint/src/config/severity.dart';
 
-typedef HasError = bool;
-
 class Runner {
   const Runner(this._logger);
   final Logger _logger;
