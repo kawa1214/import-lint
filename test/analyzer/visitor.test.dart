@@ -57,7 +57,7 @@ import 'package:example/from/test.dart';
         as ResolvedUnitResult;
 
     final filePathResourceLocator =
-        FilePathResourceLocator.fromResolvedUnitResult(context, result);
+        FilePathResourceLocator.fromFilePath(packageName, result.path, '');
 
     ImportDirective? directive;
     result.unit.visitChildren(ImportLintVisitor(

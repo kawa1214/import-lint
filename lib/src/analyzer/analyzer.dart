@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
     show DriverBasedAnalysisContext;
+import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 import 'package:import_lint/src/analyzer/issue.dart';
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/analyzer/visitor.dart';
@@ -20,8 +21,12 @@ class Analyzer {
     if (result is! ResolvedUnitResult) {
       throw InternalException('result is not ResolvedUnitResult');
     }
+
+    final package = this._package(context, path);
+    final rootPath = this._rootDirectoryPath(context);
+
     final filePathResourceLocator =
-        FilePathResourceLocator.fromResolvedUnitResult(context, result);
+        FilePathResourceLocator.fromFilePath(package, result.path, rootPath);
 
     final issues = <Issue>[];
     result.unit.visitChildren(ImportLintVisitor(
@@ -42,7 +47,28 @@ class Analyzer {
   ) async {
     final tasks = paths.map((e) => analyzeFile(context, e));
     final results = await Future.wait(tasks);
-    final issues = results.toList().expand((e) => e);
+    final issues = results.expand((e) => e);
     return issues;
+  }
+
+  String _rootDirectoryPath(DriverBasedAnalysisContext context) {
+    return context.contextRoot.root.parent.path;
+  }
+
+  String _package(
+    DriverBasedAnalysisContext context,
+    String path,
+  ) {
+    final workspacePackage = context.contextRoot.workspace.findPackageFor(path);
+    if (workspacePackage is! PubWorkspacePackage) {
+      throw InternalException('workspacePackage is not PubWorkspacePackage');
+    }
+
+    final package = workspacePackage.pubspec?.name?.value.text;
+    if (package == null) {
+      throw InternalException('workspacePackage is not PubWorkspacePackage');
+    }
+
+    return package;
   }
 }

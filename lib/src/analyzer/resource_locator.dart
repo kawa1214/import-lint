@@ -1,10 +1,6 @@
-import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
-import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
-    show DriverBasedAnalysisContext;
+import 'package:analyzer/dart/element/element.dart' show DirectiveUri;
 import 'package:analyzer/src/dart/element/element.dart'
     show DirectiveUriWithLibraryImpl, DirectiveUriWithRelativeUriImpl;
-import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 import 'package:import_lint/src/exceptions/internal_exception.dart';
 
@@ -14,14 +10,22 @@ class ImportLineResourceLocator implements ResourceLocator {
     required this.path,
   });
 
-  factory ImportLineResourceLocator.fromImportDirective(
-    ImportDirective directive,
+  factory ImportLineResourceLocator.fromUri(
+    DirectiveUri? uri,
     FilePathResourceLocator filePath,
   ) {
-    final uri = directive.element?.uri;
-
     if (uri is DirectiveUriWithLibraryImpl) {
       // uri is import '../../import_lint.dart';
+      final relativeUri = uri.relativeUriString;
+      if (relativeUri.startsWith('dart:')) {
+        final reg = RegExp('(?<=dart:).*');
+        final path = reg.firstMatch(relativeUri)?.group(0);
+        if (path == null) {
+          throw InternalException('path is null');
+        }
+        return ImportLineResourceLocator(package: 'dart', path: path);
+      }
+
       final fullUri = uri.source.fullName;
       final path = RegExp('\/lib\/(.*)').firstMatch(fullUri)?.group(1);
       if (path == null) {
@@ -56,22 +60,15 @@ class FilePathResourceLocator implements ResourceLocator {
     required this.path,
   });
 
-  factory FilePathResourceLocator.fromResolvedUnitResult(
-    DriverBasedAnalysisContext context,
-    ResolvedUnitResult result,
+  factory FilePathResourceLocator.fromFilePath(
+    String package,
+    String filePath,
+    String rootPath,
   ) {
-    final workspacePackage =
-        context.contextRoot.workspace.findPackageFor(result.path);
-    if (workspacePackage is! PubWorkspacePackage) {
-      throw InternalException('workspacePackage is not PubWorkspacePackage');
-    }
-    final package = workspacePackage.pubspec?.name?.value.text;
-    if (package == null) {
-      throw InternalException('workspacePackage is not PubWorkspacePackage');
-    }
+    final relativePath = filePath.replaceFirst(rootPath, '');
 
     final reg = RegExp('\/lib\/(.*)');
-    final path = reg.firstMatch(result.path)?.group(1);
+    final path = reg.firstMatch(relativePath)?.group(1);
     if (path == null) {
       throw ArgumentException('lib path is required');
     }
@@ -87,7 +84,13 @@ class FilePathResourceLocator implements ResourceLocator {
 }
 
 abstract class ResourceLocator {
-  const ResourceLocator({required this.package, required this.path});
+  // coverage:ignore-start
+  const ResourceLocator({
+    required this.package,
+    required this.path,
+  });
+  // coverage:ignore-end
+
   final String package;
   final String path;
 }

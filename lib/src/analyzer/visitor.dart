@@ -17,9 +17,10 @@ class ImportLintVisitor extends SimpleAstVisitor<void> {
 
   @override
   void visitImportDirective(ImportDirective directive) {
-    final importLineResourceLocator =
-        ImportLineResourceLocator.fromImportDirective(
-            directive, filePathResourceLocator);
+    final importLineResourceLocator = ImportLineResourceLocator.fromUri(
+      directive.element?.uri,
+      filePathResourceLocator,
+    );
 
     for (final rule in rules) {
       final resolver = ConstraintResolver(rule.constraints);
