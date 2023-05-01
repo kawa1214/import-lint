@@ -3,6 +3,7 @@ import 'analyzer/constraint_resolver.test.dart' as constraint_resolver;
 import 'analyzer/issue.test.dart' as issue;
 import 'analyzer/resource_locator.test.dart' as resource_locator;
 import 'analyzer/visitor.test.dart' as visitor;
+import 'cli/reporter.test.dart' as reporter;
 import 'config/analysis_options.test.dart' as analysis_options;
 import 'config/config.test.dart' as config;
 import 'config/constraint.test.dart' as constraint;
@@ -29,4 +30,7 @@ void main() {
   visitor.main();
   issue.main();
   analyzer.main();
+
+  // cli
+  reporter.main();
 }

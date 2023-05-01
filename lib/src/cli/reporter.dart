@@ -42,6 +42,6 @@ class Reporter {
     return result.toString();
   }
 
-  static const _backslash = 0x5c;
-  static const _pipe = 0x7c;
+  static const _backslash = 0x5c; // '\'
+  static const _pipe = 0x7c; // '|'
 }
