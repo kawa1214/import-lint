@@ -2,6 +2,7 @@
 import 'package:test/test.dart';
 
 import 'analyzer/constraint_resolver.test.dart' as constraint_resolver;
+import 'analyzer/issue.test.dart' as issue;
 import 'analyzer/resource_locator.test.dart' as resource_locator;
 import 'analyzer/visitor.test.dart' as visitor;
 import 'config/analysis_options.test.dart' as analysis_options;
@@ -24,4 +25,5 @@ void main() {
   resource_locator.main();
   constraint_resolver.main();
   visitor.main();
+  issue.main();
 }
