@@ -27,7 +27,7 @@ class ImportLineResourceLocator implements ResourceLocator {
       }
 
       final fullUri = uri.source.fullName;
-      final path = RegExp('\/lib\/(.*)').firstMatch(fullUri)?.group(1);
+      final path = RegExp('lib\/(.*)').firstMatch(fullUri)?.group(1);
       if (path == null) {
         throw InternalException('path is null');
       }
@@ -67,7 +67,7 @@ class FilePathResourceLocator implements ResourceLocator {
   ) {
     final relativePath = filePath.replaceFirst(rootPath, '');
 
-    final reg = RegExp('\/lib\/(.*)');
+    final reg = RegExp('lib\/(.*)');
     final path = reg.firstMatch(relativePath)?.group(1);
     if (path == null) {
       throw ArgumentException('lib path is required');
