@@ -14,6 +14,9 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Install lcov, genhtml
-        run: apt-get update && apt-get install lcov && apt-get install genhtml
+        run: |
+          apt-get update -y &&
+          apt-get install lcov -y &&
+          apt-get install genhtml -y
       - name: run tool/test.sh
         run: bash tool/test.sh
