@@ -27,6 +27,7 @@ class ReporterTest {
       Issue(
         Rule('example_rule', []),
         ImportSource(
+          content: 'example.dart',
           path: 'example.dart',
           length: 4,
           offset: 5,
@@ -40,7 +41,7 @@ class ReporterTest {
 
     reporter.writeIssues(issues);
     expect(
-      '   error • example.dart:1:3 • example_rule\n\n1 issues found.',
+      '   error • example.dart:1:3 • example.dart • example_rule\n\n1 issues found.',
       buf.toString(),
     );
   }
@@ -73,6 +74,7 @@ class ReporterTest {
       Issue(
         Rule('\\example_rule', []),
         ImportSource(
+          content: 'example.dart',
           path: 'example.dart',
           length: 4,
           offset: 5,
@@ -85,7 +87,7 @@ class ReporterTest {
     ];
     reporter.writeIssues(issues);
     expect(
-      '   error • example.dart:1:3 • \\\\example_rule\n\n1 issues found.',
+      '   error • example.dart:1:3 • example.dart • \\\\example_rule\n\n1 issues found.',
       buf.toString(),
     );
   }

@@ -28,6 +28,8 @@ class Reporter {
       ..write(_escapePipe(source.path))
       ..write(':${source.startLine}:${source.startColumn}')
       ..write(' • ')
+      ..write(_escapePipe(source.content))
+      ..write(' • ')
       ..writeln(_escapePipe(issue.rule.name));
   }
 
