@@ -15,5 +15,7 @@ jobs:
         run: dart pub get
       - name: Install lcov
         run: sudo apt-get install lcov
+      - name: Install genhtml
+        run: sudo apt-get install genhtml
       - name: run tool/test.sh
         run: bash tool/test.sh
