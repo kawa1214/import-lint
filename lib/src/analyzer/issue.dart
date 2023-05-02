@@ -13,6 +13,7 @@ class Issue {
 
 class ImportSource {
   const ImportSource({
+    required this.content,
     required this.path,
     required this.offset,
     required this.length,
@@ -31,6 +32,7 @@ class ImportSource {
     final endLocation = lineInfo.getLocation(directive.uri.end);
 
     return ImportSource(
+      content: directive.uri.stringValue ?? '',
       path: result.path,
       offset: directive.offset,
       length: directive.length,
@@ -41,6 +43,7 @@ class ImportSource {
     );
   }
 
+  final String content;
   final String path;
   final int offset;
   final int length;
