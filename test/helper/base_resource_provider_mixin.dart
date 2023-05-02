@@ -41,8 +41,6 @@ $anotherPackageName:$_anotherPackageDir/lib/
 
   Folder get _sdkRoot => getFolder('/sdk');
 
-  String get _includedPaths => _absoluteNormalizedPath('./');
-
   void setUp() {
     _createSdkFolder();
     _createPubspecYamlFile();
@@ -56,7 +54,7 @@ $anotherPackageName:$_anotherPackageDir/lib/
   DriverBasedAnalysisContext buildContext() {
     final roots = ContextLocatorImpl(
       resourceProvider: _resourceProvider,
-    ).locateRoots(includedPaths: [_includedPaths]);
+    ).locateRoots(includedPaths: ['/lib']);
 
     return ContextBuilderImpl(
       resourceProvider: _resourceProvider,
