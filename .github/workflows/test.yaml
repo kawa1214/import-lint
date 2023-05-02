@@ -16,7 +16,6 @@ jobs:
       - name: Install lcov, genhtml
         run: |
           apt-get update -y &&
-          apt-get install lcov -y &&
-          apt-get install genhtml -y
+          apt-get install lcov -y
       - name: run tool/test.sh
         run: bash tool/test.sh
