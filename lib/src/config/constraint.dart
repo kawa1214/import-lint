@@ -22,29 +22,10 @@ class ExceptConstraint implements Constraint {
   final Glob glob;
 }
 
-enum ConstraintType {
-  target,
-  from,
-  except,
-}
-
-extension ConstraintTypeExtension on ConstraintType {
-  String get key {
-    switch (this) {
-      case ConstraintType.target:
-        return 'target';
-      case ConstraintType.from:
-        return 'from';
-      case ConstraintType.except:
-        return 'except';
-    }
-  }
-}
-
 abstract class Constraint {
   const Constraint(this.package, this.glob); // coverage:ignore-line
 
-  factory Constraint.fromString(ConstraintType type, Object? value) {
+  factory Constraint.fromString(Type type, Object? value) {
     if (value is! String) {
       throw ArgumentException(
         'must be a String',
@@ -62,12 +43,16 @@ abstract class Constraint {
     final glob = Glob(path, recursive: true, caseSensitive: false);
 
     switch (type) {
-      case ConstraintType.target:
+      case TargetConstraint:
         return TargetConstraint(package, glob);
-      case ConstraintType.from:
+      case FromConstraint:
         return FromConstraint(package, glob);
-      case ConstraintType.except:
+      case ExceptConstraint:
         return ExceptConstraint(package, glob);
+      default:
+        throw ArgumentException(
+          'Unsupported ConstraintType',
+        );
     }
   }
 

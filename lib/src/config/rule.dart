@@ -25,22 +25,20 @@ class Rule {
 
     final constraints = <Constraint>[];
 
-    final target = Constraint.fromString(
-        ConstraintType.target, value[ConstraintType.target.key]);
+    final target = Constraint.fromString(TargetConstraint, value[_targetKey]);
     constraints.add(target);
 
-    final from = Constraint.fromString(
-        ConstraintType.from, value[ConstraintType.from.key]);
+    final from = Constraint.fromString(FromConstraint, value[_fromKey]);
     constraints.add(from);
 
-    final except = value[ConstraintType.except.key];
+    final except = value[_exceptKey];
     if (except is! List<String>) {
       throw ArgumentException(
         'except must be a List<String>',
       );
     }
     final exceptRulePaths =
-        except.map((e) => Constraint.fromString(ConstraintType.except, e));
+        except.map((e) => Constraint.fromString(ExceptConstraint, e));
     constraints.addAll(exceptRulePaths);
 
     return Rule(
@@ -51,4 +49,8 @@ class Rule {
 
   final String name;
   final Iterable<Constraint> constraints;
+
+  static const _targetKey = 'target';
+  static const _fromKey = 'from';
+  static const _exceptKey = 'except';
 }
