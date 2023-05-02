@@ -19,3 +19,12 @@ jobs:
           apt-get install lcov -y
       - name: run tool/test.sh
         run: bash tool/test.sh
+      - name: Upload codecov
+        uses: codecov/codecov-action@v2
+        with:
+          coverage-files: coverage/lcov/coverage.info
+          minimum-coverage: 70
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./
+          token: ${{secrets.CODECOV_TOKEN}}
