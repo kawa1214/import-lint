@@ -13,5 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
+      - name: Install lcov
+        run: sudo apt-get install lcov
       - name: run tool/test.sh
         run: bash tool/test.sh
