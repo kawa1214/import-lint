@@ -54,6 +54,13 @@ class ConstrainthTest {
     );
   }
 
+  void test_invalid_type() {
+    expect(
+      () => Constraint.fromString(Type, 'package:${_package}/${_pattern}'),
+      throwsA(isA<BaseException>()),
+    );
+  }
+
   void test_null() {
     expect(
       () => Constraint.fromString(TargetConstraint, null),
