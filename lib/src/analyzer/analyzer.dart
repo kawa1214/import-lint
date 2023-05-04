@@ -25,8 +25,11 @@ class Analyzer {
     final package = this._package(context, path);
     final rootPath = this._rootDirectoryPath(context);
 
-    final filePathResourceLocator =
-        FilePathResourceLocator.fromFilePath(package, result.path, rootPath);
+    final filePathResourceLocator = FilePathResourceLocator.fromUri(
+      package,
+      Uri.file(result.path),
+      Uri.directory(rootPath),
+    );
 
     final issues = <Issue>[];
     result.unit.visitChildren(ImportLintVisitor(

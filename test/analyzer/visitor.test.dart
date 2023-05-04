@@ -23,14 +23,6 @@ class VisitorTest with BaseResourceProviderMixin {
   }
 
   void test_correctFormat() async {
-    newFile('/lib/from/except.dart', '''
-class ExceptFrom {}
-''');
-
-    newFile('/lib/from/test.dart', '''
-class TestFrom {}
-''');
-
     newFile('/lib/target/test.dart', '''
 import 'package:example/from/except.dart';
 import 'package:example/from/test.dart';
@@ -56,8 +48,8 @@ import 'package:example/from/test.dart';
     final result = await context.currentSession.getResolvedUnit(path)
         as ResolvedUnitResult;
 
-    final filePathResourceLocator =
-        FilePathResourceLocator.fromFilePath(packageName, result.path, '');
+    final filePathResourceLocator = FilePathResourceLocator.fromUri(
+        packageName, Uri.file(result.path), Uri.directory('/'));
 
     ImportDirective? directive;
     result.unit.visitChildren(ImportLintVisitor(

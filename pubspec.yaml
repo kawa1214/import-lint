@@ -13,6 +13,7 @@ dependencies:
   analyzer_plugin: ">=0.11.0 <0.13.0"
   args: ^2.3.0
   cli_util: ^0.3.5
+  collection: ^1.17.1
   glob: ^2.0.2
   path: ^1.8.0
   yaml: ^3.1.0

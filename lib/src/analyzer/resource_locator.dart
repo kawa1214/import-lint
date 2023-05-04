@@ -1,8 +1,5 @@
-import 'package:analyzer/dart/element/element.dart' show DirectiveUri;
-import 'package:analyzer/src/dart/element/element.dart'
-    show DirectiveUriWithLibraryImpl, DirectiveUriWithRelativeUriImpl;
+import 'package:collection/collection.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
-import 'package:import_lint/src/exceptions/internal_exception.dart';
 
 class ImportLineResourceLocator implements ResourceLocator {
   const ImportLineResourceLocator({
@@ -11,43 +8,34 @@ class ImportLineResourceLocator implements ResourceLocator {
   });
 
   factory ImportLineResourceLocator.fromUri(
-    DirectiveUri? uri,
-    FilePathResourceLocator filePath,
+    Uri uri,
+    FilePathResourceLocator filePathResourceLocator,
   ) {
-    if (uri is DirectiveUriWithLibraryImpl) {
-      // uri is import '../../import_lint.dart';
-      final relativeUri = uri.relativeUriString;
-      if (relativeUri.startsWith('dart:')) {
-        final reg = RegExp('(?<=dart:).*');
-        final path = reg.firstMatch(relativeUri)?.group(0);
-        if (path == null) {
-          throw InternalException('path is null');
-        }
-        return ImportLineResourceLocator(package: 'dart', path: path);
-      }
+    if (uri.scheme == 'dart') {
+      final pathSegments = uri.pathSegments.skip(0);
+      final path = pathSegments.join('/');
+      return ImportLineResourceLocator(package: 'dart', path: path);
+    }
 
-      final fullUri = uri.source.fullName;
-      final path = RegExp('lib\/(.*)').firstMatch(fullUri)?.group(1);
-      if (path == null) {
-        throw InternalException('path is null');
-      }
-
-      return ImportLineResourceLocator(package: filePath.package, path: path);
-    } else if (uri is DirectiveUriWithRelativeUriImpl) {
-      // uri is import 'package:import_lint/import_lint.dart';
-      final relativeUri = uri.relativeUriString;
-
-      final package = RegExp('(?<=package:).*?(?=\/)').stringMatch(relativeUri);
-      if (package == null) {
-        throw InternalException('package is null');
-      }
-
-      final path = relativeUri.replaceFirst('package:$package/', '');
-
+    if (uri.scheme == 'package') {
+      final package = uri.pathSegments.first;
+      final pathSegments = uri.pathSegments.skip(1);
+      final path = pathSegments.join('/');
       return ImportLineResourceLocator(package: package, path: path);
     }
 
-    throw InternalException('Unsupported ImportDirective');
+    if (!uri.isAbsolute) {
+      final relativeUri = filePathResourceLocator.relativeUri.resolveUri(uri);
+      final pathSegments = relativeUri.pathSegments.skip(1);
+      final path = pathSegments.join('/');
+
+      return ImportLineResourceLocator(
+        package: filePathResourceLocator.package,
+        path: path,
+      );
+    }
+
+    throw ArgumentException('Unsupported uri');
   }
 
   final String package;
@@ -60,23 +48,41 @@ class FilePathResourceLocator implements ResourceLocator {
     required this.path,
   });
 
-  factory FilePathResourceLocator.fromFilePath(
+  factory FilePathResourceLocator.fromUri(
     String package,
-    String filePath,
-    String rootPath,
+    Uri fileUri,
+    Uri directoryUri,
   ) {
-    final relativePath = filePath.replaceFirst(rootPath, '');
+    if (fileUri.scheme != 'file') {
+      throw ArgumentException('Input URI must have "file" scheme');
+    }
+    if (directoryUri.scheme != 'file') {
+      throw ArgumentException('Input URI must have "file" scheme');
+    }
+
+    final filePathSegments = fileUri.pathSegments;
+
+    final matchingPrefixLength =
+        IterableZip([filePathSegments, directoryUri.pathSegments])
+            .takeWhile((pair) => pair.first == pair.last)
+            .length;
+    final relativePathSegments = filePathSegments.skip(matchingPrefixLength);
 
     final reg = RegExp('lib\/(.*)');
-    final path = reg.firstMatch(relativePath)?.group(1);
-    if (path == null) {
+    final relativePath =
+        reg.firstMatch(relativePathSegments.join('/'))?.group(1);
+    if (relativePath == null) {
       throw ArgumentException('lib path is required');
     }
 
     return FilePathResourceLocator(
       package: package,
-      path: path,
+      path: relativePath,
     );
+  }
+
+  Uri get relativeUri {
+    return Uri.parse('package:$package/${path}');
   }
 
   final String package;

@@ -29,8 +29,10 @@ class ConstraintResolverTest {
       )
     ];
 
-    final filePathResourceLocator =
-        FilePathResourceLocator(package: 'example', path: 'target/test.dart');
+    final filePathResourceLocator = FilePathResourceLocator(
+      package: 'example',
+      path: 'target/test.dart',
+    );
     final importLineResourceLocator =
         ImportLineResourceLocator(package: 'example', path: 'from/test.dart');
 
