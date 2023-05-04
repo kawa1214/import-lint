@@ -33,15 +33,18 @@ import '../from/test.dart';
     final path = '/lib/target/test.dart';
     final config = Config(severity: Severity.info, rules: [
       Rule('example', [
-        TargetConstraint(
+        Constraint(
+          ConstraintType.target,
           'example',
           Glob('target/*.dart', recursive: true, caseSensitive: false),
         ),
-        FromConstraint(
+        Constraint(
+          ConstraintType.from,
           'example',
           Glob('from/*.dart', recursive: true, caseSensitive: false),
         ),
-        ExceptConstraint(
+        Constraint(
+          ConstraintType.except,
           'example',
           Glob('from/except.dart', recursive: true, caseSensitive: false),
         )
@@ -77,15 +80,18 @@ import '../from/test.dart';
     final context = buildContext();
     final config = Config(severity: Severity.info, rules: [
       Rule('example', [
-        TargetConstraint(
+        Constraint(
+          ConstraintType.target,
           'example',
           Glob('target/*.dart', recursive: true, caseSensitive: false),
         ),
-        FromConstraint(
+        Constraint(
+          ConstraintType.from,
           'example',
           Glob('from/*.dart', recursive: true, caseSensitive: false),
         ),
-        ExceptConstraint(
+        Constraint(
+          ConstraintType.except,
           'example',
           Glob('from/except.dart', recursive: true, caseSensitive: false),
         )

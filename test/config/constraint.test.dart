@@ -17,7 +17,7 @@ class ConstrainthTest {
 
   void test_target() {
     final target = Constraint.fromString(
-      TargetConstraint,
+      ConstraintType.target,
       'package:${_package}/${_pattern}',
     );
 
@@ -30,7 +30,7 @@ class ConstrainthTest {
 
   void test_from() {
     final target = Constraint.fromString(
-      FromConstraint,
+      ConstraintType.from,
       'package:${_package}/${_pattern}',
     );
 
@@ -43,7 +43,7 @@ class ConstrainthTest {
 
   void test_except() {
     final target = Constraint.fromString(
-      ExceptConstraint,
+      ConstraintType.except,
       'package:${_package}/${_pattern}',
     );
 
@@ -54,23 +54,16 @@ class ConstrainthTest {
     );
   }
 
-  void test_invalid_type() {
-    expect(
-      () => Constraint.fromString(Type, 'package:${_package}/${_pattern}'),
-      throwsA(isA<BaseException>()),
-    );
-  }
-
   void test_null() {
     expect(
-      () => Constraint.fromString(TargetConstraint, null),
+      () => Constraint.fromString(ConstraintType.target, null),
       throwsA(isA<BaseException>()),
     );
   }
 
   void test_empty() {
     expect(
-      () => Constraint.fromString(FromConstraint, ''),
+      () => Constraint.fromString(ConstraintType.target, ''),
       throwsA(isA<BaseException>()),
     );
   }
@@ -78,7 +71,7 @@ class ConstrainthTest {
   void test_invalidPackage() {
     expect(
       () => Constraint.fromString(
-          TargetConstraint, 'error:${_package}/${_pattern}'),
+          ConstraintType.target, 'error:${_package}/${_pattern}'),
       throwsA(isA<BaseException>()),
     );
   }

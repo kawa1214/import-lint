@@ -13,18 +13,22 @@ class ConstraintResolver {
     bool isExcept = false;
     bool isFrom = false;
     for (final constraint in constraints) {
-      if (constraint is TargetConstraint) {
-        if (_matchTarget(constraint, filePathResourceLocator)) {
-          isTarget = true;
-        }
-      } else if (constraint is ExceptConstraint) {
-        if (_matchExcept(constraint, importLineResourceLocator)) {
-          isExcept = true;
-        }
-      } else if (constraint is FromConstraint) {
-        if (_matchFrom(constraint, importLineResourceLocator)) {
-          isFrom = true;
-        }
+      switch (constraint.type) {
+        case ConstraintType.target:
+          if (_matchTarget(constraint, filePathResourceLocator)) {
+            isTarget = true;
+          }
+          break;
+        case ConstraintType.from:
+          if (_matchFrom(constraint, importLineResourceLocator)) {
+            isFrom = true;
+          }
+          break;
+        case ConstraintType.except:
+          if (_matchExcept(constraint, importLineResourceLocator)) {
+            isExcept = true;
+          }
+          break;
       }
     }
 
@@ -34,15 +38,15 @@ class ConstraintResolver {
     return false;
   }
 
-  bool _matchTarget(TargetConstraint constraint,
+  bool _matchTarget(Constraint constraint,
           FilePathResourceLocator filePathResourceLocator) =>
       _match(constraint, filePathResourceLocator);
 
-  bool _matchFrom(FromConstraint constraint,
+  bool _matchFrom(Constraint constraint,
           ImportLineResourceLocator importLineResourceLocator) =>
       _match(constraint, importLineResourceLocator);
 
-  bool _matchExcept(ExceptConstraint constraint,
+  bool _matchExcept(Constraint constraint,
           ImportLineResourceLocator filePathResourceLocator) =>
       _match(constraint, filePathResourceLocator);
 

@@ -25,10 +25,11 @@ class Rule {
 
     final constraints = <Constraint>[];
 
-    final target = Constraint.fromString(TargetConstraint, value[_targetKey]);
+    final target =
+        Constraint.fromString(ConstraintType.target, value[_targetKey]);
     constraints.add(target);
 
-    final from = Constraint.fromString(FromConstraint, value[_fromKey]);
+    final from = Constraint.fromString(ConstraintType.from, value[_fromKey]);
     constraints.add(from);
 
     final except = value[_exceptKey];
@@ -38,7 +39,7 @@ class Rule {
       );
     }
     final exceptRulePaths =
-        except.map((e) => Constraint.fromString(ExceptConstraint, e));
+        except.map((e) => Constraint.fromString(ConstraintType.except, e));
     constraints.addAll(exceptRulePaths);
 
     return Rule(

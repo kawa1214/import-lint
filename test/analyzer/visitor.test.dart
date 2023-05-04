@@ -29,15 +29,18 @@ import 'package:example/from/test.dart';
 ''');
 
     final rule = Rule('example', [
-      TargetConstraint(
+      Constraint(
+        ConstraintType.target,
         'example',
         Glob('target/*.dart', recursive: true, caseSensitive: false),
       ),
-      FromConstraint(
+      Constraint(
+        ConstraintType.from,
         'example',
         Glob('from/*.dart', recursive: true, caseSensitive: false),
       ),
-      ExceptConstraint(
+      Constraint(
+        ConstraintType.except,
         'example',
         Glob('from/except.dart', recursive: true, caseSensitive: false),
       )
