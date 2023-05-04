@@ -12,7 +12,7 @@ enum ConstraintType {
 }
 
 class Constraint {
-  const Constraint(this.type, this.package, this.glob); // coverage:ignore-line
+  const Constraint(this.type, this.package, this.glob);
 
   factory Constraint.fromString(ConstraintType type, Object? value) {
     if (value is! String) {
