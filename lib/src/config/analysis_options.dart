@@ -6,8 +6,8 @@ import 'package:yaml/yaml.dart' show YamlMap, YamlList, loadYamlNode;
 class AnalysisOptions {
   const AnalysisOptions(this.options);
 
-  factory AnalysisOptions.fromFile(Object? file) {
-    if (file is! File) {
+  factory AnalysisOptions.fromFile(File? file) {
+    if (file == null) {
       throw ArgumentException('must be a File');
     }
 

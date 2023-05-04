@@ -28,7 +28,7 @@ class RuleTest {
     ]
   };
 
-  void test_correctFormat() {
+  void test_rule_parseCorrectFormat() {
     final map = {
       _name: {
         ..._target,
@@ -66,28 +66,28 @@ class RuleTest {
     );
   }
 
-  void test_emptyName() {
+  void test_rule_parseEmptyName() {
     expect(
       () => Rule.fromMap('', {}),
       throwsA(isA<BaseException>()),
     );
   }
 
-  void test_nullName() {
+  void test_rule_parseNullName() {
     expect(
       () => Rule.fromMap(null, {}),
       throwsA(isA<BaseException>()),
     );
   }
 
-  void test_nullMap() {
+  void test_rule_parseNullMap() {
     expect(
       () => Rule.fromMap(_name, null),
       throwsA(isA<BaseException>()),
     );
   }
 
-  void test_invalidTarget() {
+  void test_rule_parseInvalidTarget() {
     final map = {
       _name: {
         ..._from,
@@ -100,7 +100,7 @@ class RuleTest {
     );
   }
 
-  void test_invalidFrom() {
+  void test_rule_parseInvalidFrom() {
     final map = {
       _name: {
         ..._target,
@@ -113,7 +113,7 @@ class RuleTest {
     );
   }
 
-  void test_invalidExcept() {
+  void test_rule_parseInvalidExcept() {
     final map = {
       _name: {
         ..._target,

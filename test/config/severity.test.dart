@@ -12,7 +12,7 @@ main() {
 
 @reflectiveTest
 class SeverityTest {
-  void test_fromString() {
+  void test_severity_parseFromString() {
     expect(SeverityExtension.fromString('error'), Severity.error);
     expect(SeverityExtension.fromString('warning'), Severity.warning);
     expect(SeverityExtension.fromString('info'), Severity.info);
@@ -21,7 +21,7 @@ class SeverityTest {
     expect(SeverityExtension.fromString('unknown'), Severity.warning);
   }
 
-  void test_toAnalysisErrorSeverity() {
+  void test_severity_convertToAnalysisErrorSeverity() {
     expect(Severity.error.toAnalysisErrorSeverity, AnalysisErrorSeverity.ERROR);
     expect(Severity.warning.toAnalysisErrorSeverity,
         AnalysisErrorSeverity.WARNING);

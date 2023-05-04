@@ -19,7 +19,7 @@ class AnalysisOptionsTest with BaseResourceProviderMixin {
     setUp();
   }
 
-  void test_correctFormat() {
+  void test_analysisOptions_parseCorrectFormat() {
     newFile('/analysis_options.yaml', '''
 import_lint:
   severity: error
@@ -36,27 +36,17 @@ import_lint:
     final analysisOptions = AnalysisOptions.fromFile(file);
 
     final options = analysisOptions.options;
-    expect(options.runtimeType, UnmodifiableMapView<String, Object>);
     expect(options.length, 1);
     expect(options.keys, ['import_lint']);
 
-    expect(
-      options['import_lint'].runtimeType,
-      UnmodifiableMapView<String, Object>,
-    );
     final importLint =
         options['import_lint']! as UnmodifiableMapView<String, Object>;
     expect(importLint.length, 2);
     expect(importLint.keys, ['severity', 'rules']);
 
-    expect(importLint['severity'].runtimeType, String);
     final severity = importLint['severity']! as String;
     expect(severity, 'error');
 
-    expect(
-      importLint['rules'].runtimeType,
-      UnmodifiableMapView<String, Object>,
-    );
     final rules = importLint['rules']! as Map<String, Object>;
     expect(rules.length, 1);
 
@@ -65,21 +55,18 @@ import_lint:
     expect(exampleRule.length, 3);
     expect(exampleRule.keys, ['target', 'from', 'except']);
 
-    expect(exampleRule['target'].runtimeType, String);
     final exampleRuleTarget = exampleRule['target']! as String;
     expect(exampleRuleTarget, 'package:example/target/*_target.dart');
 
-    expect(exampleRule['from'].runtimeType, String);
     final exampleRuleFrom = exampleRule['from']! as String;
     expect(exampleRuleFrom, 'package:example/from/*.dart');
 
-    expect(exampleRule['except'].runtimeType, List<String>);
     final except = exampleRule['except']! as List<String>;
     expect(except.length, 1);
     expect(except[0], 'package:example/target/except.dart');
   }
 
-  void test_empty() {
+  void test_analysisOptions_parseEmptyFile() {
     newFile('/analysis_options.yaml', '''
 ''');
 
@@ -92,7 +79,7 @@ import_lint:
     expect(options.length, 0);
   }
 
-  void test_invalidFile() {
+  void test_analysisOptions_parseInvalidFile() {
     expect(
       () => AnalysisOptions.fromFile(null),
       throwsA(isA<BaseException>()),

@@ -6,16 +6,16 @@ import 'package:test_reflective_loader/test_reflective_loader.dart';
 
 main() {
   defineReflectiveSuite(() {
-    defineReflectiveTests(ConstrainthTest);
+    defineReflectiveTests(ConstraintTest);
   });
 }
 
 @reflectiveTest
-class ConstrainthTest {
+class ConstraintTest {
   static const _package = 'example';
   static const _pattern = 'target/*.dart';
 
-  void test_target() {
+  void test_constraint_parseTarget() {
     final target = Constraint.fromString(
       ConstraintType.target,
       'package:${_package}/${_pattern}',
@@ -28,7 +28,7 @@ class ConstrainthTest {
     );
   }
 
-  void test_from() {
+  void test_constraint_parseFrom() {
     final target = Constraint.fromString(
       ConstraintType.from,
       'package:${_package}/${_pattern}',
@@ -41,7 +41,7 @@ class ConstrainthTest {
     );
   }
 
-  void test_except() {
+  void test_constraint_parseExcept() {
     final target = Constraint.fromString(
       ConstraintType.except,
       'package:${_package}/${_pattern}',
@@ -54,21 +54,21 @@ class ConstrainthTest {
     );
   }
 
-  void test_null() {
+  void test_constraint_parseNull() {
     expect(
       () => Constraint.fromString(ConstraintType.target, null),
       throwsA(isA<BaseException>()),
     );
   }
 
-  void test_empty() {
+  void test_constraint_parseEmpty() {
     expect(
       () => Constraint.fromString(ConstraintType.target, ''),
       throwsA(isA<BaseException>()),
     );
   }
 
-  void test_invalidPackage() {
+  void test_constraint_parseInvalidPackage() {
     expect(
       () => Constraint.fromString(
           ConstraintType.target, 'error:${_package}/${_pattern}'),

@@ -13,7 +13,6 @@ enum ConstraintType {
 
 class Constraint {
   const Constraint(this.type, this.package, this.glob);
-
   factory Constraint.fromString(ConstraintType type, Object? value) {
     if (value is! String) {
       throw ArgumentException(
@@ -21,7 +20,7 @@ class Constraint {
       );
     }
 
-    final package = RegExp('(?<=package:).*?(?=\/)').stringMatch(value);
+    final package = _packageRegExp.stringMatch(value);
     if (package == null) {
       throw ArgumentException(
         'package is required',
@@ -32,6 +31,8 @@ class Constraint {
     final glob = Glob(path, recursive: true, caseSensitive: false);
     return Constraint(type, package, glob);
   }
+
+  static final _packageRegExp = RegExp('(?<=package:).*?(?=\/)');
 
   final ConstraintType type;
   final String package;

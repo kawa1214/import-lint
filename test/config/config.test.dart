@@ -28,7 +28,7 @@ class RuleTest {
     }
   };
 
-  void test_correctFormat() {
+  void test_config_parseCorrectFormat() {
     final map = {
       _rootKey: {
         ..._severity,
@@ -41,7 +41,7 @@ class RuleTest {
     expect(config.rules.length, _rules[_rulesKey]?.length);
   }
 
-  void test_nullRootKey() {
+  void test_config_parseNullRootKey() {
     final map = {
       ..._severity,
       ..._rules,
@@ -53,7 +53,7 @@ class RuleTest {
     );
   }
 
-  void test_nullRulesKey() {
+  void test_config_parseNullRulesKey() {
     final map = {
       _rootKey: {
         ..._severity,
