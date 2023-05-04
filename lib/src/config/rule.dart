@@ -1,6 +1,7 @@
 import 'package:import_lint/src/config/constraint.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 
+/// Defines a single lint rule with its associated constraints in the import lint configuration.
 class Rule {
   const Rule(this.name, this.constraints);
 

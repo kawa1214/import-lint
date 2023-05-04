@@ -4,6 +4,7 @@ import 'package:import_lint/src/exceptions/argument_exception.dart';
 
 import 'rule.dart';
 
+/// Represents the configuration for the import lint tool.
 class Config {
   const Config({
     required this.severity,

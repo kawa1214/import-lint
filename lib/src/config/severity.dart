@@ -1,7 +1,7 @@
 import 'package:analyzer_plugin/protocol/protocol_common.dart'
     show AnalysisErrorSeverity;
 
-/// Severity to be reported in linter.
+/// Defines the possible severity levels for the import lint tool.
 enum Severity {
   error,
   warning,

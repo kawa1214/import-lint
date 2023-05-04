@@ -2,7 +2,7 @@ import 'package:analyzer/file_system/file_system.dart' show File;
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 import 'package:yaml/yaml.dart' show YamlMap, YamlList, loadYamlNode;
 
-/// Parse analysis_options.yaml file.
+/// Provides a wrapper around the `analysis_options.yaml` file for easier access to its contents.
 class AnalysisOptions {
   const AnalysisOptions(this.options);
 

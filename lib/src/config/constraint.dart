@@ -11,6 +11,7 @@ enum ConstraintType {
   except,
 }
 
+/// A constraint that specifies conditions for a lint rule, such as a target or a source.
 class Constraint {
   const Constraint(this.type, this.package, this.glob);
   factory Constraint.fromString(ConstraintType type, Object? value) {
