@@ -1,5 +1,10 @@
 ![cover](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/cover.png)
 
+<p>
+  <img src="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml/badge.svg">
+  <img src="https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP" />
+</p>
+
 # Why import_lint?
 
 The [import_lint package](https://pub.dev/packages/import_lint) defines rules to restrict imports and performs static analysis. It was inspired by [eslint/no-restricted-paths](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-restricted-paths.md).
@@ -32,7 +37,7 @@ analyzer:
 import_lint:
   rules:
     example_rule:
-      target: "package:example/target/*_target.dart"
+      target: "package:example/target/*.dart"
       from: "package:example/from/*.dart"
       except: ["package:example/from/except.dart"]
     self_rule:
@@ -40,12 +45,12 @@ import_lint:
       from: "package:example/self/*.dart"
       except: []
     only_rule:
-      target: "package:example/only/*.dart"
-      from: "package:example/[^only_from]**/*.dart"
+      target: "package:example/*[!only]/*.dart"
+      from: "package:example/only_from/*.dart"
       except: []
     package_rule:
-      target: "package:import_lint/import_lint.dart"
-      from: "package:example/**/*.dart"
+      target: "package:example/**/*.dart"
+      from: "package:import_lint/*.dart"
       except: []
     # add custom rules...
 ```
@@ -68,7 +73,7 @@ dart run import_lint
 
 ## Example
 
-`analysis_options.yaml`
+[example/analysis_options.yaml](https://github.com/kawa1214/import-lint/blob/main/example/analysis_options.yaml)
 
 ```yaml
 analyzer:
@@ -78,7 +83,7 @@ analyzer:
 import_lint:
   rules:
     example_rule:
-      target: "package:example/target/*_target.dart"
+      target: "package:example/target/*.dart"
       from: "package:example/from/*.dart"
       except: ["package:example/from/except.dart"]
     self_rule:
@@ -86,83 +91,31 @@ import_lint:
       from: "package:example/self/*.dart"
       except: []
     only_rule:
-      target: "package:example/[!only]**/*.dart"
+      target: "package:example/*[!only]/*.dart"
       from: "package:example/only_from/*.dart"
       except: []
     package_rule:
       target: "package:example/**/*.dart"
-      from: "package:import_lint/import_lint.dart"
+      from: "package:import_lint/*.dart"
       except: []
 ```
 
 `files`
 
-```dart
-- lib
-    // example_rule
-    - from
-        - except.dart
-
-            class ExceptFrom {}
-
-        - test_from.dart
-
-            class TestFrom {}
-
-    - target
-        - test_target.dart
-
-            import 'package:example/from/except.dart';
-            import 'package:example/from/test_from.dart';
-
-            class TestTarget {}
-
-    // self_rule
-    - self
-        - self1.dart
-
-            import 'package:example/self/self2.dart';
-            import 'package:example/only_from/only_from.dart';
-
-            class Self1 {}
-
-        - self2.dart
-
-            class Self2 {}
-
-    // only_rule
-    - only_from
-        - only_from.dart
-
-            class OnlyFrom {}
-
-    - only
-        - only.dart
-            import 'package:example/only_from/only_from.dart';
-
-    // package_rule
-    - package
-        - package.dart
-
-            import 'package:import_lint/import_lint.dart';
-            class Package {}
-```
+[example/lib](https://github.com/kawa1214/import-lint/tree/main/example/lib)
 
 `output`
 
-```{dart}
+```dart
+$ dart run import_lint
 
-example_rule
-target > test_target.dart > import 'package:example/from/test_from.dart'
+Analyzing...
+   warning • /example/lib/not/1.dart:1:8 • package:example/only_from/1.dart • only_rule
+   warning • /example/lib/target/1.dart:2:8 • package:example/from/test.dart • example_rule
+   warning • /example/lib/self/1.dart:1:8 • package:example/self/2.dart • self_rule
+   warning • /example/lib/package/1.dart:1:8 • package:import_lint/import_lint.dart • package_rule
 
-self_rule
-self > slef1.dart > import 'package:example/self/self2.dart'
-
-only_rule
-self > self.dart >  import 'package:example/only_from/only_from.dart'
-
-package_rule
-package > package.dart > import 'package:import_lint/import_lint.dart'
+4 issues found.
 ```
 
 ## Option
@@ -185,6 +138,7 @@ import_lint:
 Welcome PRs!
 
 You can develop locally by setting the path to an absolute path as shown below.
+
 `tools/analyzer_plugin/pubspec.yaml`
 
 ```
