@@ -14,7 +14,7 @@ main() {
 class FilePathResourceLocatorTest {
   static const _packageName = 'example';
 
-  void test_correctFormat() async {
+  void test_resourceLocator_checkCorrectFormat() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.directory('/users/project/');
 
@@ -28,7 +28,7 @@ class FilePathResourceLocatorTest {
     expect(filePathResourceLocator.path, 'src/1.dart');
   }
 
-  void test_invalid_fileUri() async {
+  void test_resourceLocator_handleInvalidFileUri() async {
     final fileUri = Uri.http('example.com');
     final directoryUri = Uri.directory('/users/project/');
 
@@ -42,7 +42,7 @@ class FilePathResourceLocatorTest {
     );
   }
 
-  void test_invalid_directoryUri() async {
+  void test_resourceLocator_handleInvalidDirectoryUri() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.http('example.com');
 
@@ -56,7 +56,7 @@ class FilePathResourceLocatorTest {
     );
   }
 
-  void test_invalid_fileUriPath() async {
+  void test_resourceLocator_handleInvalidFileUriPath() async {
     final fileUri = Uri.file('/users/project/src/1.dart');
     final directoryUri = Uri.directory('/users/project/');
 
@@ -75,7 +75,7 @@ class FilePathResourceLocatorTest {
 class ImportLineResourceLocatorTest {
   static const _packageName = 'example';
 
-  void test_packageUri() async {
+  void test_resourceLocator_handlePackageUri() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.directory('/users/project');
     final filePathResourceLocator = FilePathResourceLocator.fromUri(
@@ -94,7 +94,7 @@ class ImportLineResourceLocatorTest {
     expect(importLineResourceLocator.path, 'src/2.dart');
   }
 
-  void test_dartUri() async {
+  void test_resourceLocator_handleDartUri() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.directory('/users/project');
     final filePathResourceLocator = FilePathResourceLocator.fromUri(
@@ -113,7 +113,7 @@ class ImportLineResourceLocatorTest {
     expect(importLineResourceLocator.path, 'io');
   }
 
-  void test_relativeUri() async {
+  void test_resourceLocator_handleRelativeUri() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.directory('/users/project');
     final filePathResourceLocator = FilePathResourceLocator.fromUri(
@@ -132,7 +132,7 @@ class ImportLineResourceLocatorTest {
     expect(importLineResourceLocator.path, '2.dart');
   }
 
-  void test_invalid_uri() async {
+  void test_resourceLocator_handleInvalidUri() async {
     final fileUri = Uri.file('/users/project/lib/src/1.dart');
     final directoryUri = Uri.directory('/users/project/');
 

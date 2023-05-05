@@ -1,13 +1,18 @@
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/config/constraint.dart';
 
+/// [ConstraintResolver] class is used to determine if a particular import line
+/// violates the configured constraints.
+///
+/// It has methods for matching target, from, and except constraints.
+/// If the file path or import line matches these constraints, it is considered as violation.
 class ConstraintResolver {
   const ConstraintResolver(this.constraints);
   final Iterable<Constraint> constraints;
 
   bool isViolated(
-    FilePathResourceLocator filePathResourceLocator,
-    ImportLineResourceLocator importLineResourceLocator,
+    ResourceLocator filePathResourceLocator,
+    ResourceLocator importLineResourceLocator,
   ) {
     bool isTarget = false;
     bool isExcept = false;
@@ -15,40 +20,19 @@ class ConstraintResolver {
     for (final constraint in constraints) {
       switch (constraint.type) {
         case ConstraintType.target:
-          if (_matchTarget(constraint, filePathResourceLocator)) {
-            isTarget = true;
-          }
+          isTarget = isTarget || _match(constraint, filePathResourceLocator);
           break;
         case ConstraintType.from:
-          if (_matchFrom(constraint, importLineResourceLocator)) {
-            isFrom = true;
-          }
+          isFrom = isFrom || _match(constraint, importLineResourceLocator);
           break;
         case ConstraintType.except:
-          if (_matchExcept(constraint, importLineResourceLocator)) {
-            isExcept = true;
-          }
+          isExcept = isExcept || _match(constraint, importLineResourceLocator);
           break;
       }
     }
 
-    if (isTarget && isFrom && !isExcept) {
-      return true;
-    }
-    return false;
+    return isTarget && isFrom && !isExcept;
   }
-
-  bool _matchTarget(Constraint constraint,
-          FilePathResourceLocator filePathResourceLocator) =>
-      _match(constraint, filePathResourceLocator);
-
-  bool _matchFrom(Constraint constraint,
-          ImportLineResourceLocator importLineResourceLocator) =>
-      _match(constraint, importLineResourceLocator);
-
-  bool _matchExcept(Constraint constraint,
-          ImportLineResourceLocator filePathResourceLocator) =>
-      _match(constraint, filePathResourceLocator);
 
   bool _match(Constraint constraint, ResourceLocator resourceLocator) {
     return constraint.package == resourceLocator.package &&

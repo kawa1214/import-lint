@@ -18,7 +18,7 @@ class IssueTest with BaseResourceProviderMixin {
     setUp();
   }
 
-  void test_correctFormat_importSource() async {
+  void test_issue_checkCorrectFormatOfImportSource() async {
     newFile('/lib/src/1.dart', '''
 import 'dart:io';
 ''');

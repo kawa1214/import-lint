@@ -13,7 +13,7 @@ main() {
 
 @reflectiveTest
 class ConstraintResolverTest {
-  void test_violated() async {
+  void test_constraintResolver_handleViolated() async {
     final constraints = [
       Constraint(
         ConstraintType.target,
@@ -46,7 +46,7 @@ class ConstraintResolverTest {
     expect(isViolated, true);
   }
 
-  void test_except() async {
+  void test_constraintResolver_handleExcept() async {
     final constraints = [
       Constraint(
         ConstraintType.target,

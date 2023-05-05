@@ -2,6 +2,8 @@ import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:import_lint/src/config/rule.dart';
 
+/// It contains the [Rule] that was violated and [ImportSource]
+/// which provides detailed information about the import directive that caused the violation.
 class Issue {
   const Issue(
     this.rule,

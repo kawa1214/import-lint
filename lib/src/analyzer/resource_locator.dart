@@ -89,6 +89,7 @@ class FilePathResourceLocator implements ResourceLocator {
   final String path;
 }
 
+/// [ResourceLocator] is an abstract class that represents a way to locate resources based on their package and path.
 abstract class ResourceLocator {
   // coverage:ignore-start
   const ResourceLocator({

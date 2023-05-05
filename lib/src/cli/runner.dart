@@ -49,7 +49,7 @@ $s
     }
   }
 
-  int _exitCode(Severity severity, Iterable<Issue> issues) {
+  ExitCode _exitCode(Severity severity, Iterable<Issue> issues) {
     final hasError = issues.length > 0 && severity == Severity.error;
     if (hasError) {
       return 1;

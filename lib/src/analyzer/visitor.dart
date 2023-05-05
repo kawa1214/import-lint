@@ -1,11 +1,13 @@
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:analyzer/dart/ast/visitor.dart' show SimpleAstVisitor;
 import 'package:analyzer/src/dart/element/element.dart'
-    show DirectiveUriWithLibraryImpl, DirectiveUriWithRelativeUriImpl;
+    show DirectiveUriWithRelativeUriImpl;
 import 'package:import_lint/src/analyzer/constraint_resolver.dart';
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/config/rule.dart';
 
+/// file examining import statements. When it identifies an import statement
+/// that violates a rule, it invokes the [onError] callback with the violating
 class ImportLintVisitor extends SimpleAstVisitor<void> {
   ImportLintVisitor(
     this.rules,

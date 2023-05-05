@@ -22,7 +22,7 @@ class AnalyzerTest with BaseResourceProviderMixin {
     setUp();
   }
 
-  void test_analyzeFile() async {
+  void test_analyzer_analyzeFile() async {
     newFile('/lib/target/test.dart', '''
 import 'package:${packageName}/from/test.dart';
 import 'package:${packageName}/from/except.dart';
@@ -64,7 +64,7 @@ import '../from/test.dart';
     expect(secondIssue.source.path, '/lib/target/test.dart');
   }
 
-  void test_analyzeFiles() async {
+  void test_analyzer_analyzeFiles() async {
     newFile('/lib/target/1.dart', '''
 import 'package:${packageName}/from/test.dart';
 import 'package:${packageName}/from/except.dart';
@@ -106,7 +106,7 @@ import '../from/test.dart';
     expect(issues.length, 4);
   }
 
-  void test_InvalidPathResult() async {
+  void test_analyzer_handleInvalidPathResult() async {
     final context = buildContext();
     final config = Config(severity: Severity.info, rules: []);
     final analyzer = Analyzer(config);

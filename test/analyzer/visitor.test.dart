@@ -22,7 +22,7 @@ class VisitorTest with BaseResourceProviderMixin {
     setUp();
   }
 
-  void test_correctFormat() async {
+  void test_visitor_visitChildren() async {
     newFile('/lib/target/test.dart', '''
 import 'package:example/from/except.dart';
 import 'package:example/from/test.dart';

@@ -8,6 +8,11 @@ import 'package:import_lint/src/analyzer/visitor.dart';
 import 'package:import_lint/src/config/config.dart';
 import 'package:import_lint/src/exceptions/internal_exception.dart';
 
+/// [Analyzer] class is responsible for analyzing given file(s)
+/// and finding issues based on configured rules.
+///
+/// It uses [DriverBasedAnalysisContext] and path(s) to analyze file(s),
+/// and generates [Issue] objects if any violations are found.
 class Analyzer {
   const Analyzer(this.config);
 
