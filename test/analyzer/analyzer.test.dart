@@ -241,7 +241,7 @@ import 'package:${packageName}/only_from/1.dart';
   }
 
   void test_integration_packageRule() async {
-    final path = '/lib/target/test.dart';
+    final path = '/lib/package/test.dart';
     newFile('/analysis_options.yaml', '''
 import_lint:
   severity: error
