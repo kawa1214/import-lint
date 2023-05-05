@@ -1,52 +1,31 @@
-import 'package:analyzer/file_system/file_system.dart' show File;
-import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
-    show DriverBasedAnalysisContext;
 import 'package:cli_util/cli_logging.dart' show Logger;
 import 'package:import_lint/src/analyzer/analyzer.dart';
 import 'package:import_lint/src/analyzer/issue.dart';
 import 'package:import_lint/src/cli/reporter.dart';
-import 'package:import_lint/src/config/analysis_options.dart';
-import 'package:import_lint/src/config/config.dart';
 import 'package:import_lint/src/config/severity.dart';
 
 typedef ExitCode = int;
 
 class Runner {
-  const Runner(this._logger, this._context);
+  const Runner(this._logger, this._analyzer);
   final Logger _logger;
-  final DriverBasedAnalysisContext _context;
+  final Analyzer _analyzer;
 
   Future<ExitCode> run(Iterable<String> args) async {
-    try {
-      final progress = _logger.progress('Analyzing');
+    final progress = _logger.progress('Analyzing');
 
-      final paths = _dartFilePaths();
+    final paths = _analyzer.analyzedFiles();
+    final issues = await _analyzer.analyzeFiles(paths);
 
-      final analysisOptions = AnalysisOptions.fromFile(_analysisOptionsFile());
-      final config = Config.fromAnalysisOptions(analysisOptions);
+    final buf = StringBuffer();
+    final reporter = Reporter(_analyzer.config, buf);
+    reporter.writeIssues(issues);
+    _logger.write(buf.toString());
 
-      final analyzer = Analyzer(config);
-      final issues = await analyzer.analyzeFiles(_context, paths);
+    progress.finish(showTiming: true);
 
-      final buf = StringBuffer();
-      final reporter = Reporter(config, buf);
-      reporter.writeIssues(issues);
-      _logger.write(buf.toString());
-
-      progress.finish(showTiming: true);
-
-      final code = _exitCode(config.severity, issues);
-      return code;
-    } catch (e, s) {
-      _logger.write('${e.toString()}\n');
-      _logger.write('''
-An error occurred while linting
-Please report it at: github.com/kawa1214/import-lint/issues
-$e
-$s
-''');
-      return 1;
-    }
+    final code = _exitCode(_analyzer.config.severity, issues);
+    return code;
   }
 
   ExitCode _exitCode(Severity severity, Iterable<Issue> issues) {
@@ -56,11 +35,4 @@ $s
     }
     return 0;
   }
-
-  Iterable<String> _dartFilePaths() {
-    final paths = _context.contextRoot.analyzedFiles();
-    return paths.where((path) => path.endsWith('.dart'));
-  }
-
-  File? _analysisOptionsFile() => _context.contextRoot.optionsFile;
 }

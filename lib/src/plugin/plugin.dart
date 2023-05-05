@@ -8,13 +8,11 @@ import 'package:analyzer_plugin/plugin/plugin.dart' show ServerPlugin;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart'
     show AnalysisErrorsParams, PluginErrorParams;
 import 'package:import_lint/src/analyzer/analyzer.dart';
-import 'package:import_lint/src/config/analysis_options.dart';
-import 'package:import_lint/src/config/config.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin({required super.resourceProvider});
 
-  Analyzer? analyzer;
+  DriverBasedAnalysisContextAnalyzer? analyzer;
 
   @override
   List<String> get fileGlobsToAnalyze => <String>['**/*.dart'];
@@ -35,8 +33,7 @@ class ImportLintPlugin extends ServerPlugin {
     required String path,
   }) async {
     try {
-      final context = analysisContext as DriverBasedAnalysisContext;
-      final issues = await analyzer?.analyzeFile(context, path);
+      final issues = await analyzer?.analyzeFile(path);
       if (issues == null) {
         return;
       }
@@ -74,10 +71,8 @@ class ImportLintPlugin extends ServerPlugin {
 
   Future<void> _initOptions(AnalysisContext context) async {
     try {
-      final file = context.contextRoot.optionsFile;
-      final analysisOptions = AnalysisOptions.fromFile(file);
-      final config = Config.fromAnalysisOptions(analysisOptions);
-      analyzer = Analyzer(config);
+      final driverBasedContext = context as DriverBasedAnalysisContext;
+      analyzer = DriverBasedAnalysisContextAnalyzer(driverBasedContext);
     } catch (e, s) {
       channel.sendNotification(
         PluginErrorParams(
