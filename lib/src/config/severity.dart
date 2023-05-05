@@ -9,7 +9,7 @@ enum Severity {
 }
 
 extension SeverityExtension on Severity {
-  AnalysisErrorSeverity get toAnalysisErrorSeverity {
+  AnalysisErrorSeverity get analysisErrorSeverity {
     switch (this) {
       case Severity.error:
         return AnalysisErrorSeverity.ERROR;

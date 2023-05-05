@@ -22,9 +22,9 @@ class SeverityTest {
   }
 
   void test_severity_convertToAnalysisErrorSeverity() {
-    expect(Severity.error.toAnalysisErrorSeverity, AnalysisErrorSeverity.ERROR);
-    expect(Severity.warning.toAnalysisErrorSeverity,
-        AnalysisErrorSeverity.WARNING);
-    expect(Severity.info.toAnalysisErrorSeverity, AnalysisErrorSeverity.INFO);
+    expect(Severity.error.analysisErrorSeverity, AnalysisErrorSeverity.ERROR);
+    expect(
+        Severity.warning.analysisErrorSeverity, AnalysisErrorSeverity.WARNING);
+    expect(Severity.info.analysisErrorSeverity, AnalysisErrorSeverity.INFO);
   }
 }

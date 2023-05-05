@@ -1,6 +1,9 @@
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
+import 'package:analyzer_plugin/protocol/protocol_common.dart'
+    show AnalysisError, AnalysisErrorType, Location;
 import 'package:import_lint/src/config/rule.dart';
+import 'package:import_lint/src/config/severity.dart';
 
 /// It contains the [Rule] that was violated and [ImportSource]
 /// which provides detailed information about the import directive that caused the violation.
@@ -11,6 +14,28 @@ class Issue {
   );
   final Rule rule;
   final ImportSource source;
+
+  AnalysisError analysisError(Severity severity) {
+    final loc = Location(
+      source.path,
+      source.offset,
+      source.length,
+      source.startLine,
+      source.startColumn,
+      endLine: source.endLine,
+      endColumn: source.endColumn,
+    );
+
+    return AnalysisError(
+      severity.analysisErrorSeverity,
+      AnalysisErrorType.LINT,
+      loc,
+      'Found Import Lint Error: ${rule.name}',
+      'import_lint',
+      correction: 'Try removing the import.',
+      hasFix: false,
+    );
+  }
 }
 
 class ImportSource {

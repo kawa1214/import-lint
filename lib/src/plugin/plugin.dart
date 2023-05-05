@@ -5,15 +5,11 @@ import 'package:analyzer/dart/analysis/analysis_context_collection.dart'
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
     show DriverBasedAnalysisContext;
 import 'package:analyzer_plugin/plugin/plugin.dart' show ServerPlugin;
-import 'package:analyzer_plugin/protocol/protocol_common.dart'
-    show AnalysisError, AnalysisErrorType, Location;
 import 'package:analyzer_plugin/protocol/protocol_generated.dart'
     show AnalysisErrorsParams, PluginErrorParams;
 import 'package:import_lint/src/analyzer/analyzer.dart';
-import 'package:import_lint/src/analyzer/issue.dart';
 import 'package:import_lint/src/config/analysis_options.dart';
 import 'package:import_lint/src/config/config.dart';
-import 'package:import_lint/src/config/severity.dart';
 
 class ImportLintPlugin extends ServerPlugin {
   ImportLintPlugin({required super.resourceProvider});
@@ -38,10 +34,6 @@ class ImportLintPlugin extends ServerPlugin {
     required AnalysisContext analysisContext,
     required String path,
   }) async {
-    if (analyzer == null) {
-      return;
-    }
-
     try {
       final context = analysisContext as DriverBasedAnalysisContext;
       final issues = await analyzer?.analyzeFile(context, path);
@@ -49,8 +41,12 @@ class ImportLintPlugin extends ServerPlugin {
         return;
       }
 
-      final errors =
-          issues.map(_toAnalysisError).whereType<AnalysisError>().toList();
+      final severity = analyzer?.config.severity;
+      if (severity == null) {
+        return;
+      }
+
+      final errors = issues.map((e) => e.analysisError(severity)).toList();
       channel.sendNotification(
         AnalysisErrorsParams(
           path,
@@ -74,33 +70,6 @@ class ImportLintPlugin extends ServerPlugin {
 
     return super
         .afterNewContextCollection(contextCollection: contextCollection);
-  }
-
-  AnalysisError? _toAnalysisError(Issue info) {
-    if (analyzer == null) {
-      return null;
-    }
-
-    final source = info.source;
-    final loc = Location(
-      source.path,
-      source.offset,
-      source.length,
-      source.startLine,
-      source.startColumn,
-      endLine: source.endLine,
-      endColumn: source.endColumn,
-    );
-
-    return AnalysisError(
-      analyzer!.config.severity.toAnalysisErrorSeverity,
-      AnalysisErrorType.LINT,
-      loc,
-      'Found Import Lint Error: ${info.rule.name}',
-      'import_lint',
-      correction: 'Try removing the import.',
-      hasFix: false,
-    );
   }
 
   Future<void> _initOptions(AnalysisContext context) async {
