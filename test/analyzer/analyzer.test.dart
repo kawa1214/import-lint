@@ -8,7 +8,7 @@ import '../helper/base_resource_provider_mixin.dart';
 main() {
   defineReflectiveSuite(() {
     defineReflectiveTests(DriverBasedAnalysisContextAnalyzerTest);
-    defineReflectiveTests(RuleTest);
+    defineReflectiveTests(AnalyzerRuleTest);
   });
 }
 
@@ -137,7 +137,7 @@ import_lint:
 }
 
 @reflectiveTest
-class RuleTest with BaseResourceProviderMixin {
+class AnalyzerRuleTest with BaseResourceProviderMixin {
   VisitorTest() {
     setUp();
   }
