@@ -103,3 +103,15 @@ import_lint:
       target: "package:example/target/*.dart"
       from: "package:example/from/*.dart"
       except: ["package:example/from/except.dart"]
+    self_rule:
+      target: "package:example/self/*.dart"
+      from: "package:example/self/*.dart"
+      except: []
+    only_rule:
+      target: "package:example/*[!only]/*.dart"
+      from: "package:example/only_from/*.dart"
+      except: []
+    package_rule:
+      target: "package:example/**/*.dart"
+      from: "package:import_lint/*.dart"
+      except: []
