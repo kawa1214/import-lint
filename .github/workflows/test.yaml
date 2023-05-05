@@ -7,11 +7,21 @@ jobs:
     name: Dart Test
     runs-on: ubuntu-latest
     container:
-      image: dart:stable
+      image: dart:2.18.4
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: dart pub get
+      - name: Install lcov, genhtml
+        run: |
+          apt-get update -y &&
+          apt-get install lcov -y
       - name: run tool/test.sh
         run: bash tool/test.sh
+      - name: Upload codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: coverage/lcov/coverage.info
+          directory: ./

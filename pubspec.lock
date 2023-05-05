@@ -51,12 +51,12 @@ packages:
     source: hosted
     version: "0.3.5"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.1"
   convert:
     dependency: transitive
     description:
