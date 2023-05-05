@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
+import 'package:analyzer/source/line_info.dart';
 import 'package:analyzer_plugin/protocol/protocol_common.dart'
     show AnalysisErrorType, AnalysisErrorSeverity;
 import 'package:import_lint/src/analyzer/issue.dart';
@@ -33,10 +34,9 @@ import 'dart:io';
 
     final directives = result.unit.directives;
     final directive = directives[0] as ImportDirective;
+    final lineInfo = LineInfo.fromContent('import \'dart:io\';');
+    final importSource = ImportSource.fromImportDirective(lineInfo, directive);
 
-    final importSource = ImportSource.fromImportDirective(result, directive);
-
-    expect(importSource.path, '/lib/src/1.dart');
     expect(importSource.offset, 0);
     expect(importSource.length, 17);
     expect(importSource.startLine, 1);
@@ -48,7 +48,6 @@ import 'dart:io';
   void test_issue_convertToAnalysisError() async {
     final importSource = ImportSource(
       content: 'dart:io',
-      path: '/lib/src/1.dart',
       offset: 0,
       length: 17,
       startLine: 1,
@@ -57,7 +56,7 @@ import 'dart:io';
       endColumn: 17,
     );
     final rule = Rule('example', []);
-    final issue = Issue(rule, importSource);
+    final issue = Issue('/lib/src/1.dart', rule, importSource);
 
     final analysisError = issue.analysisError(Severity.error);
 

@@ -25,10 +25,10 @@ class ReporterTest {
 
     final issues = [
       Issue(
+        'example.dart',
         Rule('example_rule', []),
         ImportSource(
           content: 'example.dart',
-          path: 'example.dart',
           length: 4,
           offset: 5,
           startLine: 1,
@@ -72,10 +72,10 @@ class ReporterTest {
 
     final issues = [
       Issue(
+        'example.dart',
         Rule('\\example_rule', []),
         ImportSource(
           content: 'example.dart',
-          path: 'example.dart',
           length: 4,
           offset: 5,
           startLine: 1,

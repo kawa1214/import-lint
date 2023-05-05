@@ -43,11 +43,11 @@ import '../from/test.dart';
 
     final firstIssue = issues[0];
     expect(firstIssue.rule.name, 'example');
-    expect(firstIssue.source.path, '/lib/target/test.dart');
+    expect(firstIssue.path, '/lib/target/test.dart');
 
     final secondIssue = issues[1];
     expect(secondIssue.rule.name, 'example');
-    expect(secondIssue.source.path, '/lib/target/test.dart');
+    expect(secondIssue.path, '/lib/target/test.dart');
   }
 
   void test_analyzer_analyzeFiles() async {

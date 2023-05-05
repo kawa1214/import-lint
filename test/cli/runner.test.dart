@@ -43,10 +43,10 @@ class RunnerTest {
     final analyzer = _FakeAnalyzer(
       [
         Issue(
+          '/lib/src/example.dart',
           rule,
           ImportSource(
             content: '',
-            path: '',
             offset: 0,
             length: 0,
             startLine: 0,
@@ -88,10 +88,10 @@ class RunnerTest {
     final analyzer = _FakeAnalyzer(
       [
         Issue(
+          '/lib/src/example.dart',
           rule,
           ImportSource(
             content: '',
-            path: '',
             offset: 0,
             length: 0,
             startLine: 0,

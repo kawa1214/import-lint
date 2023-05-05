@@ -25,7 +25,7 @@ class Reporter {
       ..write('   ')
       ..write(_escapePipe(config.severity.name))
       ..write(' • ')
-      ..write(_escapePipe(source.path))
+      ..write(_escapePipe(issue.path))
       ..write(':${source.startLine}:${source.startColumn}')
       ..write(' • ')
       ..write(_escapePipe(source.content))

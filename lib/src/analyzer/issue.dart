@@ -1,5 +1,5 @@
-import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
+import 'package:analyzer/source/line_info.dart' show LineInfo;
 import 'package:analyzer_plugin/protocol/protocol_common.dart'
     show AnalysisError, AnalysisErrorType, Location;
 import 'package:import_lint/src/config/rule.dart';
@@ -9,15 +9,17 @@ import 'package:import_lint/src/config/severity.dart';
 /// which provides detailed information about the import directive that caused the violation.
 class Issue {
   const Issue(
+    this.path,
     this.rule,
     this.source,
   );
+  final String path;
   final Rule rule;
   final ImportSource source;
 
   AnalysisError analysisError(Severity severity) {
     final loc = Location(
-      source.path,
+      path,
       source.offset,
       source.length,
       source.startLine,
@@ -41,7 +43,6 @@ class Issue {
 class ImportSource {
   const ImportSource({
     required this.content,
-    required this.path,
     required this.offset,
     required this.length,
     required this.startLine,
@@ -51,16 +52,14 @@ class ImportSource {
   });
 
   factory ImportSource.fromImportDirective(
-    ResolvedUnitResult result,
+    LineInfo lineInfo,
     ImportDirective directive,
   ) {
-    final lineInfo = result.unit.lineInfo;
     final startLocation = lineInfo.getLocation(directive.uri.offset);
     final endLocation = lineInfo.getLocation(directive.uri.end);
 
     return ImportSource(
       content: directive.uri.stringValue ?? '',
-      path: result.path,
       offset: directive.offset,
       length: directive.length,
       startLine: startLocation.lineNumber,
@@ -71,7 +70,6 @@ class ImportSource {
   }
 
   final String content;
-  final String path;
   final int offset;
   final int length;
   final int startLine;

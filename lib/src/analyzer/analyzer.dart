@@ -46,8 +46,9 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
       config.rules,
       filePathResourceLocator,
       (directive, rule) {
-        final source = ImportSource.fromImportDirective(result, directive);
-        issues.add(Issue(rule, source));
+        final source =
+            ImportSource.fromImportDirective(result.unit.lineInfo, directive);
+        issues.add(Issue(result.path, rule, source));
       },
     ));
 
