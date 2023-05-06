@@ -1,8 +1,12 @@
 ![cover](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/cover.png)
 
 <p>
-  <img src="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml/badge.svg?branch=main">
-  <img src="https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP" />
+  <a href="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml">
+    <img src="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml/badge.svg?branch=main">
+  </a>
+  <a href="https://codecov.io/gh/kawa1214/import-lint" > 
+    <img src="https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP"/> 
+  </a>
 </p>
 
 # Why import_lint?
