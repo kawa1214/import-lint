@@ -1,3 +1,7 @@
+## 1.0.1
+
+- bump dart 3.4.4
+
 ## 1.0.0
 
 - Breaking change
