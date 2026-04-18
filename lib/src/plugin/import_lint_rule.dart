@@ -35,10 +35,9 @@ class ImportLintRule extends AnalysisRule {
   @override
   DiagnosticCode get diagnosticCode => code;
 
-  // TODO: invalidate cached configs when analysis_options.yaml changes
-  //       (e.g., key by (path, mtime) or hook into file-watch events).
   /// Cached configs keyed by `analysis_options.yaml` absolute path.
-  final Map<String, Config> _configCache = {};
+  /// Invalidated when the file's modification stamp changes.
+  final Map<String, _CachedConfig> _configCache = {};
 
   @override
   void registerNodeProcessors(
@@ -87,10 +86,16 @@ class ImportLintRule extends AnalysisRule {
         package.root.getChildAssumingFile('analysis_options.yaml');
     if (!optionsFile.exists) return null;
 
-    return _configCache.putIfAbsent(optionsFile.path, () {
-      final options = AnalysisOptions.fromFile(optionsFile);
-      return Config.fromAnalysisOptions(options);
-    });
+    final cached = _configCache[optionsFile.path];
+    final currentStamp = optionsFile.modificationStamp;
+    if (cached != null && cached.modificationStamp == currentStamp) {
+      return cached.config;
+    }
+
+    final options = AnalysisOptions.fromFile(optionsFile);
+    final config = Config.fromAnalysisOptions(options);
+    _configCache[optionsFile.path] = _CachedConfig(currentStamp, config);
+    return config;
   }
 
   /// Reads the package name from the given [pubspecFile].
@@ -105,5 +110,11 @@ class ImportLintRule extends AnalysisRule {
     if (name is! String) return null;
     return name;
   }
+}
+
+class _CachedConfig {
+  _CachedConfig(this.modificationStamp, this.config);
+  final int modificationStamp;
+  final Config config;
 }
 

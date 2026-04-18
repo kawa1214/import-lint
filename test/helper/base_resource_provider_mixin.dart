@@ -4,6 +4,7 @@ import 'package:analyzer/src/dart/analysis/context_builder.dart';
 import 'package:analyzer/src/dart/analysis/context_locator.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
 import 'package:analyzer/src/test_utilities/mock_sdk.dart';
+import 'package:path/path.dart' as p;
 
 /// A mixin that provides a [MemoryResourceProvider] and some helper methods.
 ///
@@ -71,8 +72,7 @@ environment:
 
   DriverBasedAnalysisContext buildContext() {
     final roots = locateContextRoots(
-      // ignore: deprecated_member_use
-      includedPaths: [_resourceProvider.convertPath('/lib')],
+      includedPaths: [_convertPath('/lib')],
       resourceProvider: _resourceProvider,
     );
 
@@ -85,8 +85,19 @@ environment:
     );
   }
 
-  // ignore: deprecated_member_use
-  String _convertPath(String path) => _resourceProvider.convertPath(path);
+  /// Converts a posix-style [path] to the resource provider's path style.
+  ///
+  /// Inlined here instead of calling the deprecated `convertPath` on
+  /// `MemoryResourceProvider` so we don't need the analyzer_testing package.
+  String _convertPath(String path) {
+    final ctx = _resourceProvider.pathContext;
+    if (ctx.style != p.windows.style) return path;
+    var result = path;
+    if (result.startsWith(p.posix.separator)) {
+      result = r'C:' + result;
+    }
+    return result.replaceAll(p.posix.separator, p.windows.separator);
+  }
 
   Folder newFolder(String path) {
     final convertedPath = _convertPath(path);
