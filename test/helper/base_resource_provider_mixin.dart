@@ -1,6 +1,5 @@
 import 'package:analyzer/file_system/file_system.dart';
 import 'package:analyzer/file_system/memory_file_system.dart';
-import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:analyzer/src/dart/analysis/context_builder.dart';
 import 'package:analyzer/src/dart/analysis/context_locator.dart';
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart';
@@ -43,13 +42,13 @@ environment:
       "name": "$packageName",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "$anotherPackageName",
       "rootUri": "../$_anotherPackageDir",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     }
   ],
   "generated": "2024-01-01T00:00:00.000000Z",
@@ -87,13 +86,6 @@ environment:
   }
 
   String _convertPath(String path) => _resourceProvider.convertPath(path);
-
-  String _absoluteNormalizedPath(String path) {
-    final pathContext = PhysicalResourceProvider.INSTANCE.pathContext;
-    return pathContext.normalize(
-      pathContext.absolute(path),
-    );
-  }
 
   Folder newFolder(String path) {
     final convertedPath = _convertPath(path);
