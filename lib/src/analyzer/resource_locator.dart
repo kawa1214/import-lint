@@ -2,10 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:import_lint/src/exceptions/argument_exception.dart';
 
 class ImportLineResourceLocator implements ResourceLocator {
-  const ImportLineResourceLocator({
-    required this.package,
-    required this.path,
-  });
+  const ImportLineResourceLocator({required this.package, required this.path});
 
   factory ImportLineResourceLocator.fromUri(
     Uri uri,
@@ -43,10 +40,7 @@ class ImportLineResourceLocator implements ResourceLocator {
 }
 
 class FilePathResourceLocator implements ResourceLocator {
-  const FilePathResourceLocator({
-    required this.package,
-    required this.path,
-  });
+  const FilePathResourceLocator({required this.package, required this.path});
 
   factory FilePathResourceLocator.fromUri(
     String package,
@@ -62,23 +56,21 @@ class FilePathResourceLocator implements ResourceLocator {
 
     final filePathSegments = fileUri.pathSegments;
 
-    final matchingPrefixLength =
-        IterableZip([filePathSegments, directoryUri.pathSegments])
-            .takeWhile((pair) => pair.first == pair.last)
-            .length;
+    final matchingPrefixLength = IterableZip([
+      filePathSegments,
+      directoryUri.pathSegments,
+    ]).takeWhile((pair) => pair.first == pair.last).length;
     final relativePathSegments = filePathSegments.skip(matchingPrefixLength);
 
     final reg = RegExp('lib\/(.*)');
-    final relativePath =
-        reg.firstMatch(relativePathSegments.join('/'))?.group(1);
+    final relativePath = reg
+        .firstMatch(relativePathSegments.join('/'))
+        ?.group(1);
     if (relativePath == null) {
       throw ArgumentException('lib path is required');
     }
 
-    return FilePathResourceLocator(
-      package: package,
-      path: relativePath,
-    );
+    return FilePathResourceLocator(package: package, path: relativePath);
   }
 
   Uri get relativeUri {
@@ -92,10 +84,7 @@ class FilePathResourceLocator implements ResourceLocator {
 /// [ResourceLocator] is an abstract class that represents a way to locate resources based on their package and path.
 abstract class ResourceLocator {
   // coverage:ignore-start
-  const ResourceLocator({
-    required this.package,
-    required this.path,
-  });
+  const ResourceLocator({required this.package, required this.path});
   // coverage:ignore-end
 
   final String package;

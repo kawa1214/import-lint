@@ -21,19 +21,14 @@ class RuleTest {
       'example': {
         'target': 'package:example/target/*_target.dart',
         'from': 'package:example/from/*.dart',
-        'except': [
-          'package:example/from/except.dart',
-        ]
-      }
-    }
+        'except': ['package:example/from/except.dart'],
+      },
+    },
   };
 
   void test_config_parseCorrectFormat() {
     final map = {
-      _rootKey: {
-        ..._severity,
-        ..._rules,
-      }
+      _rootKey: {..._severity, ..._rules},
     };
     final config = Config.fromAnalysisOptions(AnalysisOptions(map));
 
@@ -42,10 +37,7 @@ class RuleTest {
   }
 
   void test_config_parseNullRootKey() {
-    final map = {
-      ..._severity,
-      ..._rules,
-    };
+    final map = {..._severity, ..._rules};
 
     expect(
       () => Config.fromAnalysisOptions(AnalysisOptions(map)),
@@ -55,9 +47,7 @@ class RuleTest {
 
   void test_config_parseNullRulesKey() {
     final map = {
-      _rootKey: {
-        ..._severity,
-      }
+      _rootKey: {..._severity},
     };
 
     expect(

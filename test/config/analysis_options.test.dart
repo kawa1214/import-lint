@@ -80,9 +80,6 @@ import_lint:
   }
 
   void test_analysisOptions_parseInvalidFile() {
-    expect(
-      () => AnalysisOptions.fromFile(null),
-      throwsA(isA<BaseException>()),
-    );
+    expect(() => AnalysisOptions.fromFile(null), throwsA(isA<BaseException>()));
   }
 }

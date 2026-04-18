@@ -8,10 +8,7 @@ import 'rule.dart';
 class Config {
   /// Creates a config explicitly. Prefer [Config.fromAnalysisOptions]
   /// for the common case of reading from `analysis_options.yaml`.
-  const Config({
-    required this.severity,
-    required this.rules,
-  });
+  const Config({required this.severity, required this.rules});
 
   /// Builds a [Config] from the `import_lint:` section of a parsed
   /// [analysisOptions]. Throws [ArgumentException] when the section
@@ -19,25 +16,18 @@ class Config {
   factory Config.fromAnalysisOptions(AnalysisOptions analysisOptions) {
     final root = analysisOptions.options[_rootKey];
     if (root is! Map<String, Object>) {
-      throw ArgumentException(
-        '$_rootKey is required',
-      );
+      throw ArgumentException('$_rootKey is required');
     }
 
     final severity = SeverityExtension.fromString(root[_severityKey]);
 
     final rulesMap = root[_rulesKey];
     if (rulesMap is! Map<String, Object>) {
-      throw ArgumentException(
-        '$_rulesKey is required',
-      );
+      throw ArgumentException('$_rulesKey is required');
     }
     final rules = rulesMap.entries.map((e) => Rule.fromMap(e.key, e.value));
 
-    return Config(
-      severity: severity,
-      rules: rules,
-    );
+    return Config(severity: severity, rules: rules);
   }
 
   static const _rootKey = 'import_lint';

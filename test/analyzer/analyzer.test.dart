@@ -128,9 +128,7 @@ import_lint:
     final analyzer = DriverBasedAnalysisContextAnalyzer(context);
 
     expect(
-      () => analyzer.analyzeFile(
-        'empty.dart',
-      ),
+      () => analyzer.analyzeFile('empty.dart'),
       throwsA(isA<BaseException>()),
     );
   }
@@ -236,8 +234,10 @@ import 'package:${packageName}/only_from/1.dart';
     final path2Issues = (await analyzer.analyzeFile(path2)).toList();
 
     expect(path2Issues.length, 1);
-    expect(path2Issues[0].source.content,
-        'package:${packageName}/only_from/1.dart');
+    expect(
+      path2Issues[0].source.content,
+      'package:${packageName}/only_from/1.dart',
+    );
   }
 
   void test_integration_packageRule() async {
@@ -264,9 +264,6 @@ import 'package:${anotherPackageName}/1.dart';
     expect(issues.length, 1);
 
     final firstIssue = issues[0];
-    expect(
-      firstIssue.source.content,
-      'package:${anotherPackageName}/1.dart',
-    );
+    expect(firstIssue.source.content, 'package:${anotherPackageName}/1.dart');
   }
 }

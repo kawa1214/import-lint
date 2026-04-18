@@ -29,20 +29,24 @@ class ConstraintResolverTest {
         ConstraintType.except,
         'example',
         Glob('from/except.dart', recursive: true, caseSensitive: false),
-      )
+      ),
     ];
 
     final filePathResourceLocator = FilePathResourceLocator(
       package: 'example',
       path: 'target/test.dart',
     );
-    final importLineResourceLocator =
-        ImportLineResourceLocator(package: 'example', path: 'from/test.dart');
+    final importLineResourceLocator = ImportLineResourceLocator(
+      package: 'example',
+      path: 'from/test.dart',
+    );
 
     final resolver = ConstraintResolver(constraints);
 
-    final isViolated =
-        resolver.isViolated(filePathResourceLocator, importLineResourceLocator);
+    final isViolated = resolver.isViolated(
+      filePathResourceLocator,
+      importLineResourceLocator,
+    );
     expect(isViolated, true);
   }
 
@@ -62,18 +66,24 @@ class ConstraintResolverTest {
         ConstraintType.except,
         'example',
         Glob('from/except.dart', recursive: true, caseSensitive: false),
-      )
+      ),
     ];
 
-    final filePathResourceLocator =
-        FilePathResourceLocator(package: 'example', path: 'target/test.dart');
-    final importLineResourceLocator =
-        ImportLineResourceLocator(package: 'example', path: 'from/except.dart');
+    final filePathResourceLocator = FilePathResourceLocator(
+      package: 'example',
+      path: 'target/test.dart',
+    );
+    final importLineResourceLocator = ImportLineResourceLocator(
+      package: 'example',
+      path: 'from/except.dart',
+    );
 
     final resolver = ConstraintResolver(constraints);
 
-    final isViolated =
-        resolver.isViolated(filePathResourceLocator, importLineResourceLocator);
+    final isViolated = resolver.isViolated(
+      filePathResourceLocator,
+      importLineResourceLocator,
+    );
     expect(isViolated, false);
   }
 }

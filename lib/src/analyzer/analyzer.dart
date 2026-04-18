@@ -19,16 +19,13 @@ import 'package:yaml/yaml.dart' show YamlMap, loadYamlNode;
 /// It uses [DriverBasedAnalysisContext] and path(s) to analyze file(s),
 /// and generates [Issue] objects if any violations are found.
 class DriverBasedAnalysisContextAnalyzer implements Analyzer {
-  DriverBasedAnalysisContextAnalyzer(
-    this._context,
-  ) : config = _createConfig(_context);
+  DriverBasedAnalysisContextAnalyzer(this._context)
+    : config = _createConfig(_context);
   final AnalysisContext _context;
   final Config config;
 
   @override
-  Future<Iterable<Issue>> analyzeFile(
-    String path,
-  ) async {
+  Future<Iterable<Issue>> analyzeFile(String path) async {
     final result = await _context.currentSession.getResolvedUnit(path);
     if (result is! ResolvedUnitResult) {
       throw InternalException('result is not ResolvedUnitResult');
@@ -44,15 +41,18 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
     );
 
     final issues = <Issue>[];
-    result.unit.visitChildren(ImportLintVisitor(
-      config.rules,
-      filePathResourceLocator,
-      (directive, rule) {
-        final source =
-            ImportSource.fromImportDirective(result.unit.lineInfo, directive);
+    result.unit.visitChildren(
+      ImportLintVisitor(config.rules, filePathResourceLocator, (
+        directive,
+        rule,
+      ) {
+        final source = ImportSource.fromImportDirective(
+          result.unit.lineInfo,
+          directive,
+        );
         issues.add(Issue(result.path, rule, source));
-      },
-    ));
+      }),
+    );
 
     return issues;
   }
@@ -71,9 +71,7 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
     return paths.where((path) => path.endsWith('.dart'));
   }
 
-  String _packageFromPath(
-    String path,
-  ) {
+  String _packageFromPath(String path) {
     final found = _context.contextRoot.workspace.findPackageFor(path);
     if (found is! WorkspacePackage) {
       throw InternalException('workspacePackage is not WorkspacePackage');
@@ -84,8 +82,7 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
       workspacePackage.root.getChildAssumingFile('pubspec.yaml'),
     );
     if (packageName == null) {
-      throw InternalException(
-          'pubspec.yaml not found or missing "name" field');
+      throw InternalException('pubspec.yaml not found or missing "name" field');
     }
 
     return packageName;

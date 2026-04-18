@@ -14,9 +14,7 @@ void main(List<String> args) async {
   final collection = AnalysisContextCollectionImpl(
     resourceProvider: instance,
     includedPaths: [
-      instance.pathContext.normalize(
-        instance.pathContext.absolute('./lib'),
-      ),
+      instance.pathContext.normalize(instance.pathContext.absolute('./lib')),
     ],
   );
   final context = collection.contexts.take(1).first;

@@ -7,11 +7,7 @@ import 'package:import_lint/src/config/rule.dart';
 class Issue {
   /// Creates an issue for the given file [path], the matched [rule],
   /// and the offending import [source].
-  const Issue(
-    this.path,
-    this.rule,
-    this.source,
-  );
+  const Issue(this.path, this.rule, this.source);
 
   /// Absolute path of the Dart file in which the violation was
   /// reported.

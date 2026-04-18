@@ -12,27 +12,23 @@ class Rule {
   /// and `except`. Throws [ArgumentException] on malformed input.
   factory Rule.fromMap(Object? name, Object? value) {
     if (name is! String) {
-      throw ArgumentException(
-        'name must be a String',
-      );
+      throw ArgumentException('name must be a String');
     }
 
     if (name.isEmpty) {
-      throw ArgumentException(
-        'name must not be empty',
-      );
+      throw ArgumentException('name must not be empty');
     }
 
     if (value is! Map<String, Object>) {
-      throw ArgumentException(
-        'must be a Map<String, Object>',
-      );
+      throw ArgumentException('must be a Map<String, Object>');
     }
 
     final constraints = <Constraint>[];
 
-    final target =
-        Constraint.fromString(ConstraintType.target, value[_targetKey]);
+    final target = Constraint.fromString(
+      ConstraintType.target,
+      value[_targetKey],
+    );
     constraints.add(target);
 
     final from = Constraint.fromString(ConstraintType.from, value[_fromKey]);
@@ -40,18 +36,14 @@ class Rule {
 
     final except = value[_exceptKey];
     if (except is! List<String>) {
-      throw ArgumentException(
-        'except must be a List<String>',
-      );
+      throw ArgumentException('except must be a List<String>');
     }
-    final exceptRulePaths =
-        except.map((e) => Constraint.fromString(ConstraintType.except, e));
+    final exceptRulePaths = except.map(
+      (e) => Constraint.fromString(ConstraintType.except, e),
+    );
     constraints.addAll(exceptRulePaths);
 
-    return Rule(
-      name,
-      constraints,
-    );
+    return Rule(name, constraints);
   }
 
   /// User-facing name for the rule (the YAML key under

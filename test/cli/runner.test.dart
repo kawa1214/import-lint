@@ -40,24 +40,21 @@ class RunnerTest {
         Glob('from/except.dart', recursive: true, caseSensitive: false),
       ),
     ]);
-    final analyzer = _FakeAnalyzer(
-      [
-        Issue(
-          '/lib/src/example.dart',
-          rule,
-          ImportSource(
-            content: '',
-            offset: 0,
-            length: 0,
-            startLine: 0,
-            endLine: 0,
-            startColumn: 0,
-            endColumn: 0,
-          ),
+    final analyzer = _FakeAnalyzer([
+      Issue(
+        '/lib/src/example.dart',
+        rule,
+        ImportSource(
+          content: '',
+          offset: 0,
+          length: 0,
+          startLine: 0,
+          endLine: 0,
+          startColumn: 0,
+          endColumn: 0,
         ),
-      ],
-      Config(severity: Severity.warning, rules: [rule]),
-    );
+      ),
+    ], Config(severity: Severity.warning, rules: [rule]));
     final runner = Runner(logger, analyzer);
 
     final code = await runner.run([]);
@@ -85,24 +82,21 @@ class RunnerTest {
         Glob('from/except.dart', recursive: true, caseSensitive: false),
       ),
     ]);
-    final analyzer = _FakeAnalyzer(
-      [
-        Issue(
-          '/lib/src/example.dart',
-          rule,
-          ImportSource(
-            content: '',
-            offset: 0,
-            length: 0,
-            startLine: 0,
-            endLine: 0,
-            startColumn: 0,
-            endColumn: 0,
-          ),
+    final analyzer = _FakeAnalyzer([
+      Issue(
+        '/lib/src/example.dart',
+        rule,
+        ImportSource(
+          content: '',
+          offset: 0,
+          length: 0,
+          startLine: 0,
+          endLine: 0,
+          startColumn: 0,
+          endColumn: 0,
         ),
-      ],
-      Config(severity: Severity.error, rules: [rule]),
-    );
+      ),
+    ], Config(severity: Severity.error, rules: [rule]));
 
     final runner = Runner(logger, analyzer);
     final code = await runner.run([]);

@@ -64,10 +64,7 @@ environment:
     _createSdkFolder();
     _createPubspecYamlFile();
     _createPackageConfigFile();
-    createMockSdk(
-      resourceProvider: _resourceProvider,
-      root: _sdkRoot,
-    );
+    createMockSdk(resourceProvider: _resourceProvider, root: _sdkRoot);
   }
 
   DriverBasedAnalysisContext buildContext() {
