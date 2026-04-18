@@ -22,7 +22,6 @@ mixin BaseResourceProviderMixin {
   String get anotherPackageName => 'another';
   String get _anotherPackageDir => 'another';
 
-  String get _packagesPath => _absoluteNormalizedPath('/.packages');
   void _createPubspecYamlFile() {
     newFile('/pubspec.yaml', '''
 name: $packageName
@@ -32,10 +31,31 @@ environment:
 ''');
   }
 
-  void _createPackagesFile() {
-    _resourceProvider.newFile(_packagesPath, '''
-$packageName:$_packageDir/lib/
-$anotherPackageName:$_anotherPackageDir/lib/
+  /// Create a package_config.json so the analyzer recognises this as a
+  /// [PackageConfigWorkspace] (required by analyzer ≥ 12 which no longer
+  /// reads legacy `.packages` files).
+  void _createPackageConfigFile() {
+    newFile('/.dart_tool/package_config.json', '''
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "$packageName",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "$anotherPackageName",
+      "rootUri": "../$_anotherPackageDir",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    }
+  ],
+  "generated": "2024-01-01T00:00:00.000000Z",
+  "generator": "pub",
+  "generatorVersion": "3.0.0"
+}
 ''');
   }
 
@@ -44,7 +64,7 @@ $anotherPackageName:$_anotherPackageDir/lib/
   void setUp() {
     _createSdkFolder();
     _createPubspecYamlFile();
-    _createPackagesFile();
+    _createPackageConfigFile();
     createMockSdk(
       resourceProvider: _resourceProvider,
       root: _sdkRoot,
@@ -52,15 +72,17 @@ $anotherPackageName:$_anotherPackageDir/lib/
   }
 
   DriverBasedAnalysisContext buildContext() {
-    final roots = ContextLocatorImpl(
+    final roots = locateContextRoots(
+      includedPaths: [_resourceProvider.convertPath('/lib')],
       resourceProvider: _resourceProvider,
-    ).locateRoots(includedPaths: ['/lib']);
+    );
 
     return ContextBuilderImpl(
       resourceProvider: _resourceProvider,
     ).createContext(
       contextRoot: roots.single,
       sdkPath: _sdkRoot.path,
+      withFineDependencies: false,
     );
   }
 
