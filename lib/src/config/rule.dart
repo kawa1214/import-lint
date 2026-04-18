@@ -17,7 +17,7 @@ class Rule {
       );
     }
 
-    if (name.length == 0) {
+    if (name.isEmpty) {
       throw ArgumentException(
         'name must not be empty',
       );
