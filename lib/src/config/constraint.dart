@@ -13,7 +13,13 @@ enum ConstraintType {
 
 /// A constraint that specifies conditions for a lint rule, such as a target or a source.
 class Constraint {
+  /// Builds a constraint explicitly. Use [Constraint.fromString] when
+  /// parsing a `package:foo/bar/*.dart`-style path from YAML.
   const Constraint(this.type, this.package, this.glob);
+
+  /// Parses a `package:foo/bar/*.dart` string into a [Constraint].
+  /// Throws [ArgumentException] when the input is not a string or
+  /// does not contain a `package:` prefix.
   factory Constraint.fromString(ConstraintType type, Object? value) {
     if (value is! String) {
       throw ArgumentException(
@@ -35,7 +41,15 @@ class Constraint {
 
   static final _packageRegExp = RegExp('(?<=package:).*?(?=\/)');
 
+  /// Whether this constraint matches the import target, source, or
+  /// an exception to the source.
   final ConstraintType type;
+
+  /// The Dart package name extracted from the original
+  /// `package:<name>/...` string.
   final String package;
+
+  /// Glob compiled from the path portion (after `package:<name>/`).
+  /// Used to match individual file paths within [package].
   final Glob glob;
 }

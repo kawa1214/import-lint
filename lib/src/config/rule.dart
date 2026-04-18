@@ -3,8 +3,13 @@ import 'package:import_lint/src/exceptions/argument_exception.dart';
 
 /// Defines a single lint rule with its associated constraints in the import lint configuration.
 class Rule {
+  /// Builds a rule explicitly. Most callers should use
+  /// [Rule.fromMap] instead, which validates input from YAML.
   const Rule(this.name, this.constraints);
 
+  /// Parses one entry from the `import_lint.rules` map. [name] is the
+  /// YAML key; [value] is the inner map containing `target`, `from`,
+  /// and `except`. Throws [ArgumentException] on malformed input.
   factory Rule.fromMap(Object? name, Object? value) {
     if (name is! String) {
       throw ArgumentException(
@@ -49,7 +54,12 @@ class Rule {
     );
   }
 
+  /// User-facing name for the rule (the YAML key under
+  /// `import_lint.rules`).
   final String name;
+
+  /// Constraints that make up the rule (`target`, `from`, and one
+  /// `except` per excluded path).
   final Iterable<Constraint> constraints;
 
   static const _targetKey = 'target';
