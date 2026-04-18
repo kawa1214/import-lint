@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
 import 'package:analyzer/dart/ast/visitor.dart' show SimpleAstVisitor;
-import 'package:analyzer/src/dart/element/element.dart'
-    show DirectiveUriWithRelativeUriImpl;
+import 'package:analyzer/dart/element/element.dart'
+    show DirectiveUriWithRelativeUri;
 import 'package:import_lint/src/analyzer/constraint_resolver.dart';
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/config/rule.dart';
@@ -21,9 +21,10 @@ class ImportLintVisitor extends SimpleAstVisitor<void> {
 
   @override
   void visitImportDirective(ImportDirective directive) {
-    final uri = directive.element?.uri;
+    // ignore: experimental_member_use
+    final uri = directive.libraryImport?.uri;
 
-    if (uri is! DirectiveUriWithRelativeUriImpl) {
+    if (uri is! DirectiveUriWithRelativeUri) {
       return;
     }
 
