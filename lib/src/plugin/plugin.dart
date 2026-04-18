@@ -8,6 +8,6 @@ class ImportLintPlugin extends Plugin {
 
   @override
   void register(PluginRegistry registry) {
-    registry.registerLintRule(ImportLintRule());
+    registry.registerWarningRule(ImportLintRule());
   }
 }
