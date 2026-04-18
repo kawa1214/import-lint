@@ -58,11 +58,20 @@ class ImportLintRule extends AnalysisRule {
     final filePath = context.definingUnit.file.path;
     final rootPath = package.root.parent.path;
 
-    final filePathResourceLocator = FilePathResourceLocator.fromUri(
-      packageName,
-      Uri.file(filePath),
-      Uri.directory(rootPath),
-    );
+    // Skip files outside `lib/` (e.g. `bin/`, `test/`, `example/bin/`):
+    // the rule's resource locator only understands `package:` URIs, which
+    // only address `lib/` files. Without this guard the analyzer would
+    // throw "lib path is required" and crash the analysis server.
+    final FilePathResourceLocator filePathResourceLocator;
+    try {
+      filePathResourceLocator = FilePathResourceLocator.fromUri(
+        packageName,
+        Uri.file(filePath),
+        Uri.directory(rootPath),
+      );
+    } on Object {
+      return;
+    }
 
     final visitor = ImportLintVisitor(
       config.rules,
