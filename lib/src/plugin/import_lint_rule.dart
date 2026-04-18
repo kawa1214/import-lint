@@ -2,8 +2,6 @@ import 'package:analysis_server_plugin/registry.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
 import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
-import 'package:analyzer/dart/ast/ast.dart' show ImportDirective;
-import 'package:analyzer/dart/ast/visitor.dart' show SimpleAstVisitor;
 import 'package:analyzer/error/error.dart' show DiagnosticCode, LintCode;
 import 'package:analyzer/file_system/file_system.dart' show File;
 import 'package:import_lint/src/analyzer/resource_locator.dart';
@@ -38,6 +36,8 @@ class ImportLintRule extends AnalysisRule {
   @override
   DiagnosticCode get diagnosticCode => code;
 
+  // TODO: invalidate cached configs when analysis_options.yaml changes
+  //       (e.g., key by (path, mtime) or hook into file-watch events).
   /// Cached configs keyed by `analysis_options.yaml` absolute path.
   final Map<String, Config> _configCache = {};
 
@@ -66,10 +66,16 @@ class ImportLintRule extends AnalysisRule {
       Uri.directory(rootPath),
     );
 
-    final visitor = _RuleVisitor(
-      rule: this,
-      config: config,
-      filePathResourceLocator: filePathResourceLocator,
+    final visitor = ImportLintVisitor(
+      config.rules,
+      filePathResourceLocator,
+      (directive, matchedRule) {
+        reportAtOffset(
+          directive.offset,
+          directive.length,
+          arguments: [matchedRule.name],
+        );
+      },
     );
     registry.addImportDirective(this, visitor);
   }
@@ -102,29 +108,3 @@ class ImportLintRule extends AnalysisRule {
   }
 }
 
-class _RuleVisitor extends SimpleAstVisitor<void> {
-  _RuleVisitor({
-    required this.rule,
-    required this.config,
-    required this.filePathResourceLocator,
-  });
-
-  final ImportLintRule rule;
-  final Config config;
-  final FilePathResourceLocator filePathResourceLocator;
-
-  @override
-  void visitImportDirective(ImportDirective directive) {
-    ImportLintVisitor(
-      config.rules,
-      filePathResourceLocator,
-      (d, matchedRule) {
-        rule.reportAtOffset(
-          d.offset,
-          d.length,
-          arguments: [matchedRule.name],
-        );
-      },
-    ).visitImportDirective(directive);
-  }
-}
