@@ -11,6 +11,8 @@ import 'config/constraint.test.dart' as constraint;
 import 'config/rule.test.dart' as rule;
 import 'config/severity.test.dart' as severity;
 import 'exceptions/base_exception.test.dart' as exception;
+import 'plugin/import_lint_rule.test.dart' as import_lint_rule;
+import 'plugin/plugin.test.dart' as plugin;
 
 export 'helper/coverage_test.dart';
 
@@ -31,6 +33,10 @@ void main() {
   visitor.main();
   issue.main();
   analyzer.main();
+
+  // plugin
+  import_lint_rule.main();
+  plugin.main();
 
   // cli
   reporter.main();
