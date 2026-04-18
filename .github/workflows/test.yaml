@@ -16,6 +16,8 @@ jobs:
           sdk: "3.10.0"
       - name: Install dependencies
         run: dart pub get
+      - name: Generate coverage helper
+        run: bash tool/helper/dart_coverage_helper.sh
       - name: Analyze
         run: dart analyze
       - name: Run tests
