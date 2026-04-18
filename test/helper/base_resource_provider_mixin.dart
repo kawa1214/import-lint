@@ -16,7 +16,6 @@ mixin BaseResourceProviderMixin {
   }
 
   String get packageName => 'example';
-  String get _packageDir => 'tests';
 
   String get anotherPackageName => 'another';
   String get _anotherPackageDir => 'another';
@@ -72,6 +71,7 @@ environment:
 
   DriverBasedAnalysisContext buildContext() {
     final roots = locateContextRoots(
+      // ignore: deprecated_member_use
       includedPaths: [_resourceProvider.convertPath('/lib')],
       resourceProvider: _resourceProvider,
     );
@@ -85,6 +85,7 @@ environment:
     );
   }
 
+  // ignore: deprecated_member_use
   String _convertPath(String path) => _resourceProvider.convertPath(path);
 
   Folder newFolder(String path) {
