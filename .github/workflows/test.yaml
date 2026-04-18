@@ -1,31 +1,22 @@
-name: dart test
+name: Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  build:
-    name: Dart Test
+  test:
     runs-on: ubuntu-latest
-    container:
-      image: dart:2.18.4
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "3.10.0"
       - name: Install dependencies
         run: dart pub get
-      - name: Install lcov, genhtml
-        run: |
-          apt-get update -y &&
-          apt-get install lcov -y
-      - name: run tool/test.sh
-        run: bash tool/test.sh
-      - name: Upload codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          files: coverage/lcov/coverage.info
-          directory: ./
+      - name: Analyze
+        run: dart analyze
+      - name: Run tests
+        run: dart test
