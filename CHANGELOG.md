@@ -1,3 +1,12 @@
+## 2.0.0
+
+- Breaking change
+  - Migrated from `analyzer_plugin` to `analysis_server_plugin`
+  - Dart SDK `>=3.10.0 <4.0.0` required (was `>=2.12.0`)
+  - Plugin is now declared under the top-level `plugins:` section of `analysis_options.yaml` (no longer under `analyzer:`)
+- Registered as a warning rule so the plugin is enabled by default (no `diagnostics:` block required)
+- Updated `example/` and README for the new plugin system
+
 ## 1.0.1
 
 - bump dart 3.4.4
