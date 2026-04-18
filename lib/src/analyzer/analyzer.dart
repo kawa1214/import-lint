@@ -112,11 +112,31 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
   }
 }
 
+/// High-level façade for analyzing Dart source files against the
+/// configured import rules.
+///
+/// Implementations are responsible for resolving Dart sources, walking
+/// the AST for `import` directives, and producing [Issue] objects for
+/// every violation. The default implementation is
+/// [DriverBasedAnalysisContextAnalyzer], which adapts the analyzer
+/// package's `AnalysisContext`.
 abstract class Analyzer {
+  /// Subclasses must call this constructor with the parsed [config]
+  /// that drives the lint checks.
   const Analyzer(this.config); // coverage:ignore-line
+
+  /// The parsed `import_lint:` block from `analysis_options.yaml`.
   final Config config;
 
+  /// Analyzes a single Dart file at the given absolute [path] and
+  /// returns the issues that were found.
   Future<Iterable<Issue>> analyzeFile(String path);
+
+  /// Analyzes every absolute path in [paths] (concurrently) and
+  /// returns a flat sequence of issues across all files.
   Future<Iterable<Issue>> analyzeFiles(Iterable<String> paths);
+
+  /// Returns every Dart file the underlying analysis context is
+  /// configured to analyze.
   Iterable<String> analyzedFiles();
 }
