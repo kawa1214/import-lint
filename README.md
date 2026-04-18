@@ -137,15 +137,29 @@ import_lint:
   rules: ...
 ```
 
+> **Note on IDE severity:** The `severity: "error"` setting is honored by
+> `dart run import_lint` (exit code 1). In the IDE, `analysis_server_plugin`
+> registers a fixed `warning` severity. To see import_lint errors as errors
+> in the IDE, add this to `analysis_options.yaml`:
+>
+> ```yaml
+> analyzer:
+>   errors:
+>     import_lint: error
+> ```
+
 ## Contribution
 
 Welcome PRs!
 
-You can develop locally by setting the path to an absolute path as shown below.
+To develop locally, clone the repo and point your host project's
+`pubspec.yaml` at your working copy:
 
-`tools/analyzer_plugin/pubspec.yaml`
+```yaml
+dev_dependencies:
+  import_lint:
+    path: /path/to/your/import-lint
+```
 
-```
-dependencies:
-  import_lint: ^x.x.x → import_lint:/Users/xxx/import-lint
-```
+Then run `dart pub get` in the host project. No separate `tools/analyzer_plugin`
+directory is needed — the plugin entry point is `lib/main.dart` in this package.
