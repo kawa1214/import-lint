@@ -1,5 +1,3 @@
-import 'package:analyzer_plugin/protocol/protocol_common.dart'
-    show AnalysisErrorSeverity;
 import 'package:import_lint/src/config/severity.dart';
 import 'package:test/expect.dart';
 import 'package:test_reflective_loader/test_reflective_loader.dart';
@@ -19,12 +17,5 @@ class SeverityTest {
     expect(SeverityExtension.fromString(null), Severity.warning);
     expect(SeverityExtension.fromString(''), Severity.warning);
     expect(SeverityExtension.fromString('unknown'), Severity.warning);
-  }
-
-  void test_severity_convertToAnalysisErrorSeverity() {
-    expect(Severity.error.analysisErrorSeverity, AnalysisErrorSeverity.ERROR);
-    expect(
-        Severity.warning.analysisErrorSeverity, AnalysisErrorSeverity.WARNING);
-    expect(Severity.info.analysisErrorSeverity, AnalysisErrorSeverity.INFO);
   }
 }

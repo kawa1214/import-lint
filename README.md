@@ -4,9 +4,6 @@
   <a href="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml">
     <img src="https://github.com/kawa1214/import-lint/actions/workflows/test.yaml/badge.svg?branch=main">
   </a>
-  <a href="https://codecov.io/gh/kawa1214/import-lint" > 
-    <img src="https://codecov.io/gh/kawa1214/import-lint/branch/main/graph/badge.svg?token=H5PJUT9ZTP"/> 
-  </a>
 </p>
 
 # Why import_lint?
@@ -34,9 +31,8 @@ dart pub add --dev import_lint
 Example of `analysis_options.yaml`
 
 ```yaml
-analyzer:
-  plugins:
-    - import_lint
+plugins:
+  import_lint: <version number>
 
 import_lint:
   rules:
@@ -59,6 +55,12 @@ import_lint:
     # add custom rules...
 ```
 
+> **Note:** `import_lint` requires Dart 3.10 or later (analyzer plugin support
+> was added in Dart 3.10 / Flutter 3.38). The top-level `plugins:` section is
+> the new analyzer plugin system. After any change to the `plugins:` section,
+> the Dart Analysis Server must be restarted to see the effects
+> (VS Code: *Dart: Restart Analysis Server*).
+
 By adding import_lint plugin to get the warnings directly in your IDE by configuring.
 
 ![vscode](https://raw.githubusercontent.com/kawa1214/import-lint/main/resources/vscode.png)
@@ -80,9 +82,9 @@ dart run import_lint
 [example/analysis_options.yaml](https://github.com/kawa1214/import-lint/blob/main/example/analysis_options.yaml)
 
 ```yaml
-analyzer:
-  plugins:
-    - import_lint
+plugins:
+  import_lint:
+    path: ..
 
 import_lint:
   rules:
@@ -137,15 +139,40 @@ import_lint:
   rules: ...
 ```
 
+> **Note on IDE severity:** The `severity: "error"` setting is honored by
+> `dart run import_lint` (exit code 1). In the IDE, `analysis_server_plugin`
+> registers a fixed `warning` severity. To see import_lint errors as errors
+> in the IDE, add this to `analysis_options.yaml`:
+>
+> ```yaml
+> analyzer:
+>   errors:
+>     import_lint: error
+> ```
+
 ## Contribution
 
 Welcome PRs!
 
-You can develop locally by setting the path to an absolute path as shown below.
+To develop locally, clone the repo and enable the plugin from a local path in
+your host project's `analysis_options.yaml`:
 
-`tools/analyzer_plugin/pubspec.yaml`
+```yaml
+plugins:
+  import_lint:
+    path: /path/to/your/import-lint
+    diagnostics:
+      import_lint: true
+```
 
+For CLI use (`dart run import_lint`), also add it under `dev_dependencies`:
+
+```yaml
+dev_dependencies:
+  import_lint:
+    path: /path/to/your/import-lint
 ```
-dependencies:
-  import_lint: ^x.x.x → import_lint:/Users/xxx/import-lint
-```
+
+Then run `dart pub get` in the host project and restart the Dart Analysis
+Server. No separate `tools/analyzer_plugin` directory is needed — the plugin
+entry point is `lib/main.dart` in this package.

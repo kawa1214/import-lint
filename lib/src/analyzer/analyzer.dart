@@ -3,13 +3,15 @@ import 'package:analyzer/dart/analysis/analysis_context.dart'
 import 'package:analyzer/dart/analysis/results.dart' show ResolvedUnitResult;
 import 'package:analyzer/src/dart/analysis/driver_based_analysis_context.dart'
     show DriverBasedAnalysisContext;
-import 'package:analyzer/src/workspace/pub.dart' show PubWorkspacePackage;
+import 'package:analyzer/file_system/file_system.dart' show File;
+import 'package:analyzer/workspace/workspace.dart' show WorkspacePackage;
 import 'package:import_lint/src/analyzer/issue.dart';
 import 'package:import_lint/src/analyzer/resource_locator.dart';
 import 'package:import_lint/src/analyzer/visitor.dart';
 import 'package:import_lint/src/config/analysis_options.dart';
 import 'package:import_lint/src/config/config.dart';
 import 'package:import_lint/src/exceptions/internal_exception.dart';
+import 'package:yaml/yaml.dart' show YamlMap, loadYamlNode;
 
 /// [DriverBasedAnalysisContextAnalyzer] class is responsible for analyzing given file(s)
 /// and finding issues based on configured rules.
@@ -72,18 +74,31 @@ class DriverBasedAnalysisContextAnalyzer implements Analyzer {
   String _packageFromPath(
     String path,
   ) {
-    final workspacePackage =
-        _context.contextRoot.workspace.findPackageFor(path);
-    if (workspacePackage is! PubWorkspacePackage) {
-      throw InternalException('workspacePackage is not PubWorkspacePackage');
+    final found = _context.contextRoot.workspace.findPackageFor(path);
+    if (found is! WorkspacePackage) {
+      throw InternalException('workspacePackage is not WorkspacePackage');
+    }
+    final workspacePackage = found as WorkspacePackage;
+
+    final packageName = _readPackageName(
+      workspacePackage.root.getChildAssumingFile('pubspec.yaml'),
+    );
+    if (packageName == null) {
+      throw InternalException(
+          'pubspec.yaml not found or missing "name" field');
     }
 
-    final package = workspacePackage.pubspec?.name?.value.text;
-    if (package == null) {
-      throw InternalException('workspacePackage is not PubWorkspacePackage');
-    }
+    return packageName;
+  }
 
-    return package;
+  static String? _readPackageName(File pubspecFile) {
+    if (!pubspecFile.exists) return null;
+    final content = pubspecFile.readAsStringSync();
+    final node = loadYamlNode(content);
+    if (node is! YamlMap) return null;
+    final name = node['name'];
+    if (name is! String) return null;
+    return name;
   }
 
   String _rootDirectoryPath() {
