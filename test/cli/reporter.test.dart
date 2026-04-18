@@ -15,10 +15,7 @@ main() {
 @reflectiveTest
 class ReporterTest {
   void test_writeIssues() async {
-    final config = Config(
-      severity: Severity.error,
-      rules: [],
-    );
+    final config = Config(severity: Severity.error, rules: []);
 
     final buf = StringBuffer();
     final reporter = Reporter(config, buf);
@@ -47,10 +44,7 @@ class ReporterTest {
   }
 
   void test_writeIssues_empty() async {
-    final config = Config(
-      severity: Severity.error,
-      rules: [],
-    );
+    final config = Config(severity: Severity.error, rules: []);
 
     final buf = StringBuffer();
     final reporter = Reporter(config, buf);
@@ -62,10 +56,7 @@ class ReporterTest {
   }
 
   void test_writeIssues_escape() async {
-    final config = Config(
-      severity: Severity.error,
-      rules: [],
-    );
+    final config = Config(severity: Severity.error, rules: []);
 
     final buf = StringBuffer();
     final reporter = Reporter(config, buf);

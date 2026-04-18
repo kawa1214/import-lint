@@ -43,25 +43,27 @@ import 'package:example/from/test.dart';
         ConstraintType.except,
         'example',
         Glob('from/except.dart', recursive: true, caseSensitive: false),
-      )
+      ),
     ]);
 
     final path = '/lib/target/test.dart';
     final context = buildContext();
-    final result = await context.currentSession.getResolvedUnit(path)
-        as ResolvedUnitResult;
+    final result =
+        await context.currentSession.getResolvedUnit(path)
+            as ResolvedUnitResult;
 
     final filePathResourceLocator = FilePathResourceLocator.fromUri(
-        packageName, Uri.file(result.path), Uri.directory('/'));
+      packageName,
+      Uri.file(result.path),
+      Uri.directory('/'),
+    );
 
     ImportDirective? directive;
-    result.unit.visitChildren(ImportLintVisitor(
-      [rule],
-      filePathResourceLocator,
-      (d, rule) {
+    result.unit.visitChildren(
+      ImportLintVisitor([rule], filePathResourceLocator, (d, rule) {
         directive = d;
-      },
-    ));
+      }),
+    );
 
     expect(directive?.uri.stringValue, 'package:example/from/test.dart');
   }

@@ -7,11 +7,7 @@ import 'package:import_lint/src/config/rule.dart';
 /// file examining import statements. When it identifies an import statement
 /// that violates a rule, it invokes the [onError] callback with the violating
 class ImportLintVisitor extends SimpleAstVisitor<void> {
-  ImportLintVisitor(
-    this.rules,
-    this.filePathResourceLocator,
-    this.onError,
-  );
+  ImportLintVisitor(this.rules, this.filePathResourceLocator, this.onError);
 
   final Iterable<Rule> rules;
   final FilePathResourceLocator filePathResourceLocator;

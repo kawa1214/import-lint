@@ -14,27 +14,17 @@ main() {
 class RuleTest {
   static const _name = 'example';
 
-  static const _target = {
-    'target': 'package:example/target/*_target.dart',
-  };
+  static const _target = {'target': 'package:example/target/*_target.dart'};
 
-  static const _from = {
-    'from': 'package:example/from/*.dart',
-  };
+  static const _from = {'from': 'package:example/from/*.dart'};
 
   static const _except = {
-    'except': [
-      'package:example/target/except.dart',
-    ]
+    'except': ['package:example/target/except.dart'],
   };
 
   void test_rule_parseCorrectFormat() {
     final map = {
-      _name: {
-        ..._target,
-        ..._from,
-        ..._except,
-      }
+      _name: {..._target, ..._from, ..._except},
     };
     final rule = Rule.fromMap(_name, map[_name]);
 
@@ -47,8 +37,11 @@ class RuleTest {
     expect(target.package, 'example');
     expect(
       target.glob.pattern,
-      Glob('target/*_target.dart', recursive: true, caseSensitive: false)
-          .pattern,
+      Glob(
+        'target/*_target.dart',
+        recursive: true,
+        caseSensitive: false,
+      ).pattern,
     );
 
     final from = constraints[1];
@@ -67,32 +60,20 @@ class RuleTest {
   }
 
   void test_rule_parseEmptyName() {
-    expect(
-      () => Rule.fromMap('', {}),
-      throwsA(isA<BaseException>()),
-    );
+    expect(() => Rule.fromMap('', {}), throwsA(isA<BaseException>()));
   }
 
   void test_rule_parseNullName() {
-    expect(
-      () => Rule.fromMap(null, {}),
-      throwsA(isA<BaseException>()),
-    );
+    expect(() => Rule.fromMap(null, {}), throwsA(isA<BaseException>()));
   }
 
   void test_rule_parseNullMap() {
-    expect(
-      () => Rule.fromMap(_name, null),
-      throwsA(isA<BaseException>()),
-    );
+    expect(() => Rule.fromMap(_name, null), throwsA(isA<BaseException>()));
   }
 
   void test_rule_parseInvalidTarget() {
     final map = {
-      _name: {
-        ..._from,
-        ..._except,
-      }
+      _name: {..._from, ..._except},
     };
     expect(
       () => Rule.fromMap(_name, map[_name]),
@@ -102,10 +83,7 @@ class RuleTest {
 
   void test_rule_parseInvalidFrom() {
     final map = {
-      _name: {
-        ..._target,
-        ..._except,
-      }
+      _name: {..._target, ..._except},
     };
     expect(
       () => Rule.fromMap(_name, map[_name]),
@@ -115,10 +93,7 @@ class RuleTest {
 
   void test_rule_parseInvalidExcept() {
     final map = {
-      _name: {
-        ..._target,
-        ..._from,
-      }
+      _name: {..._target, ..._from},
     };
     expect(
       () => Rule.fromMap(_name, map[_name]),

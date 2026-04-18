@@ -15,11 +15,7 @@ import 'package:yaml/yaml.dart' show YamlMap, loadYamlNode;
 /// Configuration (`import_lint:` block in `analysis_options.yaml`) is loaded
 /// lazily per context-root and cached for subsequent file analyses in that root.
 class ImportLintRule extends AnalysisRule {
-  ImportLintRule()
-      : super(
-          name: lintName,
-          description: _description,
-        );
+  ImportLintRule() : super(name: lintName, description: _description);
 
   static const String lintName = 'import_lint';
   static const String _description =
@@ -58,23 +54,31 @@ class ImportLintRule extends AnalysisRule {
     final filePath = context.definingUnit.file.path;
     final rootPath = package.root.parent.path;
 
-    final filePathResourceLocator = FilePathResourceLocator.fromUri(
-      packageName,
-      Uri.file(filePath),
-      Uri.directory(rootPath),
-    );
+    // Skip files outside `lib/` (e.g. `bin/`, `test/`, `example/bin/`):
+    // the rule's resource locator only understands `package:` URIs, which
+    // only address `lib/` files. Without this guard the analyzer would
+    // throw "lib path is required" and crash the analysis server.
+    final FilePathResourceLocator filePathResourceLocator;
+    try {
+      filePathResourceLocator = FilePathResourceLocator.fromUri(
+        packageName,
+        Uri.file(filePath),
+        Uri.directory(rootPath),
+      );
+    } on Object {
+      return;
+    }
 
-    final visitor = ImportLintVisitor(
-      config.rules,
-      filePathResourceLocator,
-      (directive, matchedRule) {
-        reportAtOffset(
-          directive.offset,
-          directive.length,
-          arguments: [matchedRule.name],
-        );
-      },
-    );
+    final visitor = ImportLintVisitor(config.rules, filePathResourceLocator, (
+      directive,
+      matchedRule,
+    ) {
+      reportAtOffset(
+        directive.offset,
+        directive.length,
+        arguments: [matchedRule.name],
+      );
+    });
     registry.addImportDirective(this, visitor);
   }
 
@@ -82,8 +86,9 @@ class ImportLintRule extends AnalysisRule {
     final package = context.package;
     if (package == null) return null;
 
-    final optionsFile =
-        package.root.getChildAssumingFile('analysis_options.yaml');
+    final optionsFile = package.root.getChildAssumingFile(
+      'analysis_options.yaml',
+    );
     if (!optionsFile.exists) return null;
 
     final cached = _configCache[optionsFile.path];
@@ -117,4 +122,3 @@ class _CachedConfig {
   final int modificationStamp;
   final Config config;
 }
-

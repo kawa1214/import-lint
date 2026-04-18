@@ -71,7 +71,9 @@ class ConstraintTest {
   void test_constraint_parseInvalidPackage() {
     expect(
       () => Constraint.fromString(
-          ConstraintType.target, 'error:${_package}/${_pattern}'),
+        ConstraintType.target,
+        'error:${_package}/${_pattern}',
+      ),
       throwsA(isA<BaseException>()),
     );
   }

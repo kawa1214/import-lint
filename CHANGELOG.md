@@ -5,6 +5,9 @@
   - Dart SDK `>=3.10.0 <4.0.0` required (was `>=2.12.0`)
   - Plugin is now declared under the top-level `plugins:` section of `analysis_options.yaml` (no longer under `analyzer:`)
 - Registered as a warning rule so the plugin is enabled by default (no `diagnostics:` block required)
+- Skip files outside `lib/` so the plugin no longer crashes the analysis server when a package's `bin/` or `test/` directory is analyzed
+- Documented the public API (`AnalysisOptions`, `Analyzer`, `Config`, `Rule`, `Constraint`, `Severity`, `Issue`)
+- Excluded dev-only files from the published archive via `.pubignore`
 - Updated `example/` and README for the new plugin system
 
 ## 1.0.1

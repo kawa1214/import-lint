@@ -26,8 +26,9 @@ import 'dart:io';
 ''');
     final context = buildContext();
 
-    final result = await context.currentSession
-        .getResolvedUnit('/lib/src/1.dart') as ResolvedUnitResult;
+    final result =
+        await context.currentSession.getResolvedUnit('/lib/src/1.dart')
+            as ResolvedUnitResult;
 
     final directives = result.unit.directives;
     final directive = directives[0] as ImportDirective;

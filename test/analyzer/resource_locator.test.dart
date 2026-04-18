@@ -33,11 +33,8 @@ class FilePathResourceLocatorTest {
     final directoryUri = Uri.directory('/users/project/');
 
     expect(
-      () => FilePathResourceLocator.fromUri(
-        _packageName,
-        fileUri,
-        directoryUri,
-      ),
+      () =>
+          FilePathResourceLocator.fromUri(_packageName, fileUri, directoryUri),
       throwsA(isA<BaseException>()),
     );
   }
@@ -47,11 +44,8 @@ class FilePathResourceLocatorTest {
     final directoryUri = Uri.http('example.com');
 
     expect(
-      () => FilePathResourceLocator.fromUri(
-        _packageName,
-        fileUri,
-        directoryUri,
-      ),
+      () =>
+          FilePathResourceLocator.fromUri(_packageName, fileUri, directoryUri),
       throwsA(isA<BaseException>()),
     );
   }
@@ -61,11 +55,8 @@ class FilePathResourceLocatorTest {
     final directoryUri = Uri.directory('/users/project/');
 
     expect(
-      () => FilePathResourceLocator.fromUri(
-        _packageName,
-        fileUri,
-        directoryUri,
-      ),
+      () =>
+          FilePathResourceLocator.fromUri(_packageName, fileUri, directoryUri),
       throwsA(isA<BaseException>()),
     );
   }
@@ -145,10 +136,8 @@ class ImportLineResourceLocatorTest {
     final importUri = Uri.http('example.com');
 
     expect(
-      () => ImportLineResourceLocator.fromUri(
-        importUri,
-        filePathResourceLocator,
-      ),
+      () =>
+          ImportLineResourceLocator.fromUri(importUri, filePathResourceLocator),
       throwsA(isA<BaseException>()),
     );
 

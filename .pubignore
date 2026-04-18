@@ -1,0 +1,24 @@
+# Files that pub would otherwise upload but that are not needed by
+# consumers. Pub treats `.pubignore` like `.gitignore`, but it
+# overrides `.gitignore` for publishing only — so we re-list the
+# `.gitignore` entries that should also stay out of the archive.
+
+# Dev tooling and docs
+.github/
+.tool-versions
+dart_test.yaml
+docs/
+tool/
+tools/
+
+# Build/coverage artifacts (also in .gitignore)
+.dart_tool/
+.fvm/
+.packages
+.vscode/
+build/
+coverage/
+example2/
+
+# Generated test helper (also in .gitignore)
+test/helper/coverage_test.dart
