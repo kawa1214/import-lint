@@ -14,8 +14,6 @@ import 'exceptions/base_exception.test.dart' as exception;
 import 'plugin/import_lint_rule.test.dart' as import_lint_rule;
 import 'plugin/plugin.test.dart' as plugin;
 
-export 'helper/coverage_test.dart';
-
 void main() {
   // exception
   exception.main();
